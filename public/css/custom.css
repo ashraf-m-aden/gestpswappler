@@ -21,7 +21,7 @@ html, body{height:100%;}
     border-top: solid 1px grey;
 }
 input{
-    size: 50px;
+    border: solid 1px gainsboro !important;
 }
 .heading-text{
     margin-bottom: 20px;

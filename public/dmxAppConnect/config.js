@@ -5816,6 +5816,64 @@ dmx.config({
         "type": "text",
         "name": "matricule"
       }
+    ],
+    "listModelTsp": [
+      {
+        "type": "array",
+        "name": "data",
+        "sub": [
+          {
+            "type": "number",
+            "name": "IdModele"
+          },
+          {
+            "type": "text",
+            "name": "Nom"
+          },
+          {
+            "type": "text",
+            "name": "DateCrea"
+          },
+          {
+            "type": "text",
+            "name": "UserCrea"
+          },
+          {
+            "type": "text",
+            "name": "Description"
+          },
+          {
+            "type": "text",
+            "name": "RefModel"
+          },
+          {
+            "type": "text",
+            "name": "Img"
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "name": "headers",
+        "sub": [
+          {
+            "type": "text",
+            "name": "content-length"
+          },
+          {
+            "type": "text",
+            "name": "content-type"
+          },
+          {
+            "type": "text",
+            "name": "date"
+          },
+          {
+            "type": "text",
+            "name": "server"
+          }
+        ]
+      }
     ]
   }
 });
