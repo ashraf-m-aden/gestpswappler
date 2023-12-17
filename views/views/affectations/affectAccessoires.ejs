@@ -1,0 +1,101 @@
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="affectAccessoires" appConnect="local" bootstrap5="local" components="{dmxStateManagement:{},dmxBootstrap5TableGenerator:{},dmxTyped:{},dmxFormatter:{},dmxDataTraversal:{}}" -->
+<small class="text-muted" dmx-text="selectedAccessories.items"
+  >With faded secondary text</small
+>
+<dmx-api-action
+  id="updateAffectation"
+  noload="true"
+  method="post"
+  url="http://localhost:5243/api/accessoire/affectationAccessoire"
+  dmx-data:ids="selectedAccessories.items"
+  dmx-header:authorization="'Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJub20iOiJBU0hSQUYgTU9IQU1FRCBBREVOIiwibWF0cmljdWxlIjoiNDc2OTgiLCJleHAiOjE3MDE2OTg4NzUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTIyNCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTIyNCJ9.bSjD9-3ekzKx6kpvdPaeuu1L5pBP_4vc0x8vBqsLiJs'"></dmx-api-action>
+<dmx-array id="selectedAccessories"></dmx-array>
+<dmx-api-datasource
+  id="existingAccessories"
+  is="dmx-fetch"
+  url="http://localhost:5243/api/accessoire/affectationByIdTsp"
+  dmx-header:authorization="'Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJub20iOiJBU0hSQUYgTU9IQU1FRCBBREVOIiwibWF0cmljdWxlIjoiNDc2OTgiLCJleHAiOjE3MDE2OTg4NzUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTIyNCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTIyNCJ9.bSjD9-3ekzKx6kpvdPaeuu1L5pBP_4vc0x8vBqsLiJs'"
+  dmx-param:id="374"></dmx-api-datasource>
+<dmx-api-datasource
+  id="availableAccessories"
+  is="dmx-fetch"
+  url="http://localhost:5243/api/accessoire/availableAccessories"
+  dmx-header:authorization="'Bearer eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJub20iOiJBU0hSQUYgTU9IQU1FRCBBREVOIiwibWF0cmljdWxlIjoiNDc2OTgiLCJleHAiOjE3MDE2OTg4NzUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTIyNCIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTIyNCJ9.bSjD9-3ekzKx6kpvdPaeuu1L5pBP_4vc0x8vBqsLiJs'"></dmx-api-datasource>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h6>L'appareil posséde les accessoires suivants:</h6>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover table-sm">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Type accessoire</th>
+              <th scope="row">Action</th>
+            </tr>
+          </thead>
+          <tbody
+            is="dmx-repeat"
+            dmx-generator="bs5table"
+            dmx-bind:repeat="existingAccessories.data"
+            id="tableRepeat1">
+            <tr>
+              <td dmx-text="Nom"></td>
+              <td dmx-text="TypeAccessoire.Nom"></td>
+              <td class="text-center">
+                <button id="delete" class="btn btn-danger">
+                  <i class="fa fa-trash-o"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-12">
+      <h6>Choisissez les accessoires à ajouter depuis ce tableau:</h6>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover table-sm">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Type accessoire</th>
+              <th scope="row">Selections</th>
+            </tr>
+          </thead>
+          <tbody
+            is="dmx-repeat"
+            dmx-generator="bs5table"
+            dmx-bind:repeat="availableAccessories.data"
+            id="tableRepeat3">
+            <tr>
+              <td dmx-text="Nom"></td>
+              <td dmx-text="TypeAccessoire.Nom"></td>
+              <td class="text-center">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="input1"
+                    name="input1"
+                    dmx-on:checked="selectedAccessories.addUniq(IdAccessoire)"
+                    dmx-on:unchecked="selectedAccessories.remove(IdAccessoire)" />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col text-center">
+      <button
+        id="btn1"
+        class="btn btn-primary"
+        dmx-on:click="updateAffectation.load({})">
+        Enregistrer
+      </button>
+    </div>
+  </div>
+</div>
+<meta name="ac:route" content="/views/affectations/affectAccessoires" />

@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "fieldName": "tokenValue",
+        "name": "tokenvalue"
+      }
+    ]
+  },
+  "exec": {}
+}

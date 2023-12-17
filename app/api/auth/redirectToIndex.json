@@ -1,0 +1,9 @@
+{
+  "name": "redirectToIndex",
+  "module": "core",
+  "action": "exec",
+  "options": {
+    "exec": "auth/redirectToIndex"
+  },
+  "output": true
+}

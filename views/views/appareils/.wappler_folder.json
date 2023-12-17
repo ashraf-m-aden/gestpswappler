@@ -1,0 +1,18 @@
+{
+  "addTsp.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "allAppareils.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "appareils.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "test.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  }
+}

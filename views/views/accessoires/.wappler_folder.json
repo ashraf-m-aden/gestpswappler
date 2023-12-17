@@ -1,0 +1,10 @@
+{
+  "allAccessoires.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "addAccessoires.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  }
+}

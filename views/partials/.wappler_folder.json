@@ -1,0 +1,14 @@
+{
+  "nouvelle-sim.ejs": {
+    "description": "",
+    "layoutPage": "main"
+  },
+  "AppareilsPartial.ejs": {
+    "description": "",
+    "layoutPage": "main"
+  },
+  "AppareilModelPartial.ejs": {
+    "description": "",
+    "layoutPage": "main"
+  }
+}

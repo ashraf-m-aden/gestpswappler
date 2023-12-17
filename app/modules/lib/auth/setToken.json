@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "fieldName": "tokenValue",
+        "name": "tokenvalue"
+      }
+    ],
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "tokenvalue",
+        "name": "tokenValue"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "Tsp",
+      "module": "core",
+      "action": "redirect",
+      "options": {
+        "url": "/"
+      }
+    }
+  }
+}

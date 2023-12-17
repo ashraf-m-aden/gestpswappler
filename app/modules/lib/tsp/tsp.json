@@ -1,0 +1,198 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "offset"
+      },
+      {
+        "type": "text",
+        "name": "limit"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "api",
+      "module": "api",
+      "action": "send",
+      "options": {
+        "url": "http://localhost:5243/api/tsp/firstLoad",
+        "schema": [
+          {
+            "type": "array",
+            "name": "data",
+            "sub": [
+              {
+                "type": "number",
+                "name": "IdTsp"
+              },
+              {
+                "type": "text",
+                "name": "Nom"
+              },
+              {
+                "type": "text",
+                "name": "CodeTsp"
+              },
+              {
+                "type": "text",
+                "name": "Description"
+              },
+              {
+                "type": "text",
+                "name": "DateCrea"
+              },
+              {
+                "type": "text",
+                "name": "Releveur"
+              },
+              {
+                "type": "text",
+                "name": "NumTel"
+              },
+              {
+                "type": "text",
+                "name": "ModeleId"
+              },
+              {
+                "type": "text",
+                "name": "EquipeName"
+              },
+              {
+                "type": "text",
+                "name": "EmployeName"
+              },
+              {
+                "type": "array",
+                "name": "logAffectation"
+              },
+              {
+                "type": "text",
+                "name": "affectation"
+              },
+              {
+                "type": "array",
+                "name": "suiviBorderau"
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "name": "headers",
+            "sub": [
+              {
+                "type": "text",
+                "name": "content-length"
+              },
+              {
+                "type": "text",
+                "name": "content-type"
+              },
+              {
+                "type": "text",
+                "name": "date"
+              },
+              {
+                "type": "text",
+                "name": "server"
+              }
+            ]
+          }
+        ]
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "array",
+          "name": "data",
+          "sub": [
+            {
+              "type": "number",
+              "name": "IdTsp"
+            },
+            {
+              "type": "text",
+              "name": "Nom"
+            },
+            {
+              "type": "text",
+              "name": "CodeTsp"
+            },
+            {
+              "type": "text",
+              "name": "Description"
+            },
+            {
+              "type": "text",
+              "name": "DateCrea"
+            },
+            {
+              "type": "text",
+              "name": "Releveur"
+            },
+            {
+              "type": "text",
+              "name": "NumTel"
+            },
+            {
+              "type": "text",
+              "name": "ModeleId"
+            },
+            {
+              "type": "text",
+              "name": "EquipeName"
+            },
+            {
+              "type": "text",
+              "name": "EmployeName"
+            },
+            {
+              "type": "array",
+              "name": "logAffectation"
+            },
+            {
+              "type": "text",
+              "name": "affectation"
+            },
+            {
+              "type": "array",
+              "name": "suiviBorderau"
+            }
+          ]
+        },
+        {
+          "type": "object",
+          "name": "headers",
+          "sub": [
+            {
+              "type": "text",
+              "name": "content-length"
+            },
+            {
+              "type": "text",
+              "name": "content-type"
+            },
+            {
+              "type": "text",
+              "name": "date"
+            },
+            {
+              "type": "text",
+              "name": "server"
+            }
+          ]
+        }
+      ],
+      "outputType": "object"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "token",
+        "name": "new"
+      }
+    ]
+  },
+  "exec": {}
+}

@@ -1,0 +1,29 @@
+<!-- Wappler include jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="navbar" appconnect="local" bootstrap5="local" components="{dmxBootstrap5Navigation:{},dmxStateManagement:{}}" head-page="layouts/main" -->
+<dmx-local-manager id="connectedUser"></dmx-local-manager>
+<header class="shadow-sm placeholder-glow bg-white fixed-top">
+    <nav class="cnavbar navbar navbar-expand-lg text-black-50 bg-body ps-2 pe-2">
+        <a class="navbar-brand ms-auto d-flex flex-column align-item-center" href="/"><img src="/assets/images/edd.png" loading="lazy" id="logo" class="small" width="50" height="50"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar1_collapse" aria-controls="navbar1_collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarnavges">
+
+            <div class="navbar-nav text-white nav-tabs">
+                <a class="nav-item nav-link active text-white text-center" href="/">
+                    <button id="btnAppareil" class="btn btn-light text-primary bg-white">Appareils</button>
+                </a>
+                <a class="nav-item nav-link active text-white text-center" href="/views/appareils/appareils">
+                    <button id="btnAppareilNew" class="btn btn-light text-primary bg-white">Nouveau</button>
+                </a>
+                <a class="nav-item nav-link text-white" href="/views/accessoires/allAccessoires"><button id="btnAccessoire" class="btn btn-light text-primary bg-white">Accessoires</button></a>
+                <a class="nav-item nav-link text-white" href="/views/sim/allsim"><button id="btnSim" class="btn btn-light text-primary bg-white">Sims</button></a>
+                <a class="nav-item nav-link text-white" href="/views/affectations/affectationTsp"><button id="btnAffectation" class="btn btn-light text-primary bg-white">Affectations</button></a>
+                <a class="nav-item nav-link text-white" href="/views/bordereaux/allBordereau"><button id="btnBordereau" class="btn btn-light text-primary bg-white">Bordereaux</button></a>
+                <a class="nav-item nav-link text-white" href="/views/tournee/allTournee"><button id="btnTourne" class="btn btn-light text-primary bg-white">Tournees</button></a>
+                <a class="nav-item nav-link" href="/auth/login"><button id="btnDeco" class="btn btn-danger text-white" dmx-show="connectedUser.data.nom" dmx-on:click="connectedUser.removeAll()">Deconnexion</button></a>
+
+            </div>
+
+        </div>
+    </nav>
+</header>

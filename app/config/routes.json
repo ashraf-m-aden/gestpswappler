@@ -1,0 +1,121 @@
+{
+  "routes": [
+    {
+      "path": "/auth/login",
+      "page": "auth/login",
+      "layout": "disconnected",
+      "exec": "",
+      "data": {
+        "title": "Se connecter"
+      }
+    },
+    {
+      "path": "/",
+      "page": "index",
+      "layout": "main",
+      "data": {
+        "title": "Liste des Tsps"
+      }
+    },
+    {
+      "path": "/views/sim/allsim",
+      "page": "views/sim/allsim",
+      "layout": "main",
+      "data": {
+        "title": "Toutes les sims",
+        "description": "La page de toute les cartes sims"
+      }
+    },
+    {
+      "path": "/views/sim/newSim",
+      "page": "views/sim/newSim",
+      "layout": "main",
+      "data": {
+        "title": "Nouvelle sim"
+      }
+    },
+    {
+      "path": "/views/affectations/affectationTsp",
+      "page": "views/affectations/affectationTsp",
+      "layout": "main",
+      "data": {
+        "title": "Affectation Tsp"
+      }
+    },
+    {
+      "path": "/views/bordereaux/allBordereau",
+      "page": "views/bordereaux/allBordereau",
+      "layout": "main",
+      "data": {
+        "title": "Suivie Bordereaux"
+      }
+    },
+    {
+      "path": "/views/tournee/addTournee",
+      "page": "views/tournee/addTournee",
+      "layout": "main",
+      "data": {
+        "title": "Ajout d'une tournee"
+      }
+    },
+    {
+      "path": "/views/tournee/allTournee",
+      "page": "views/tournee/allTournee",
+      "layout": "main",
+      "data": {
+        "title": "Toutes les tournées"
+      }
+    },
+    {
+      "path": "/views/accessoires/allAccessoires",
+      "page": "views/accessoires/allAccessoires",
+      "layout": "main",
+      "data": {
+        "title": "Tous les accessoires"
+      }
+    },
+    {
+      "path": "/views/accessoires/addAccessoires",
+      "page": "views/accessoires/addAccessoires",
+      "layout": "main",
+      "data": {
+        "title": "Ajout accessoire"
+      }
+    },
+    {
+      "path": "/views/affectations/affectAccessoires",
+      "page": "views/affectations/affectAccessoires",
+      "layout": "main"
+    },
+    {
+      "path": "/views/appareils/appareils",
+      "page": "views/appareils/appareils",
+      "layout": "main",
+      "data": {
+        "title": "Appareils"
+      }
+    }
+  ],
+  "layouts": {
+    "main": {
+      "meta": [
+        {
+          "type": "text",
+          "name": "title"
+        },
+        {
+          "type": "text",
+          "name": "description"
+        }
+      ]
+    },
+    "disconnected": {
+      "meta": [
+        {
+          "type": "text",
+          "name": "title"
+        }
+      ]
+    }
+  }
+}

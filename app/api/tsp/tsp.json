@@ -1,0 +1,9 @@
+{
+  "name": "api",
+  "module": "api",
+  "action": "send",
+  "options": {
+    "url": "http://localhost:5243/api/tsp/firstLoad"
+  },
+  "output": true
+}

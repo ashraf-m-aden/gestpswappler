@@ -1,0 +1,73 @@
+/* GENERAL */
+html, body{height:100%;}
+
+.clicked {
+    background: #dedaeb;
+    color: black;
+}
+.clicked:hover{
+    background: #dedaeb !important;
+
+}
+
+.cnavbar{
+    background: #dedaeb !important;
+}
+.cnavbar2{
+    background: #dedaeb !important;
+}
+.cnavbar2 > .nav-tabs{
+    font-weight: 500;
+    border-top: solid 1px grey;
+}
+input{
+    size: 50px;
+}
+.heading-text{
+    margin-bottom: 20px;
+    color:  #3B71CA
+}
+
+ /* APPAREILS */
+ .app-row{
+    height: 100%;
+
+ }
+ .app-sidebar{
+    border: solid 1px gainsboro;
+    background-color: white !important;
+    padding-top: 15px;
+    border-radius: 5px;
+  height: 100vh;
+ }
+ .app-col{
+    border: solid 1px gainsboro;
+    background-color: white;
+    padding-top: 15px;
+    border-radius: 5px;
+    margin-bottom: 5px ;
+ 
+ }
+ .app-nodata{
+    border: solid 1px gainsboro;
+    background-color: white;
+    border-radius: 5px;
+    height: 500px;
+    display: inline-block;
+    background-image:url('../assets/images/edd.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:100px;
+ }
+ .tab-pane {
+    background-color: white;
+    border: solid 1px grey;
+    padding: 20px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top: none;
+    border-top-right-radius: none;
+    border-top-left-radius: none;
+    position:static;
+    width: 100%;
+}

@@ -1,0 +1,10 @@
+{
+  "affectationTsp.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "affectAccessoires.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  }
+}

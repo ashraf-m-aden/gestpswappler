@@ -1,0 +1,120 @@
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="addAccessoires" appConnect="local" bootstrap5="local" components="{dmxBrowser:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxStateManagement:{}}" -->
+<meta name="ac:route" content="/views/accessoires/addAccessoires" />
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="addTsp" appConnect="local" bootstrap5="local" components="{dmxBrowser:{},dmxDatastore:{},dmxStripe:{},dmxNotifications:{},dmxScheduler:{},dmxPreloader:{},dmxStateManagement:{}}" -->
+<dmx-local-manager id="connectedUser"></dmx-local-manager>
+<dmx-value id="loading" dmx-bind:value="false"></dmx-value>
+<dmx-preloader
+  id="preloader1"
+  spinner="doubleBounce"
+  color="#FF011B"
+  bgcolor="#FFEAEA"
+  size="100"
+  preview="true"
+  dmx-show="loading.value==true"></dmx-preloader>
+<dmx-scheduler
+  id="scheduler1"
+  dmx-on:tick="browser1.goto('/views/accessoires/allAccessoires')"
+  delay="3"
+  noload="true"
+  norepeat="true"></dmx-scheduler>
+<dmx-notifications id="notifies1"></dmx-notifications>
+
+<dmx-datetime id="DateCreaValue"></dmx-datetime>
+<div is="dmx-browser" id="browser1"></div>
+
+<dmx-api-datasource
+  id="listModelAccesoires"
+  is="dmx-fetch"
+  url="http://localhost:5243/api/typeAccessoire/all"
+  dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
+<div class="container" dmx-show="loading.value==false">
+  <div class="row">
+    <div class="col">
+      <form
+        method="post"
+        is="dmx-api-form"
+        id="apiform1"
+        action="http://localhost:5243/api/accessoire"
+        dmx-on:success="notifies1.success('Nouvel accessoire enregistré');scheduler1.start()"
+        dmx-on:error="notifies1.danger(lastError.response+lastError.message);scheduler1.start();loading.setValue(false)"
+        dmx-header:authorization="connectedUser.data.token">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-8 col-lg-7 col-md-5 text-center">
+            <div class="fdb-box fdb-touch">
+              <div class="row">
+                <div class="col">
+                  <h1>Nouvel accessoire</h1>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col">
+                  <input
+                    id="DateCrea"
+                    name="DateCrea"
+                    class="form-control"
+                    dmx-bind:value="DateCreaValue.datetime"
+                    type="hidden" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group mb-3">
+                    <label for="selectModel" class="form-label"
+                      >Le model de l'accessoire</label
+                    >
+                    <input
+                      id="ModeleId"
+                      name="ModeleId"
+                      class="form-control"
+                      type="hidden" />
+                    <select
+                      id="selectModel"
+                      class="form-select form-select-lg form-control"
+                      dmx-bind:options="listModelAccesoires.data"
+                      optiontext="Nom"
+                      optionvalue="IdType"
+                      dmx-on:changed="ModeleId.setValue(value)"
+                      name="IdType">
+                      <option selected="" value=""></option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-group mb-3">
+                    <label for="input1" class="form-label"
+                      >Le nom de l'accessoire</label
+                    >
+                    <input id="nomAccessoire" name="Nom" class="form-control" />
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col">
+                  <div class="d-flex justify-content-around">
+                    <button
+                      id="submit"
+                      class="btn btn-primary"
+                      type="submit"
+                      dmx-bind:disabled='(!nomAccessoire.value)||(selectModel.value=="")'
+                      dmx-on:click="loading.setValue(true)">
+                      Enregistrer
+                    </button>
+
+                    <button
+                      id="cancel"
+                      class="btn btn-warning"
+                      dmx-on:click="browser1.goto('/views/accessoires/allAccessoires')">
+                      Annuler
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

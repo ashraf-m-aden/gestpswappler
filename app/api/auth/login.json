@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "options": {
+      "linkedFile": "/views/auth/login.ejs",
+      "linkedForm": "loginform"
+    },
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "matricule",
+        "name": "matricule"
+      },
+      {
+        "type": "text",
+        "fieldName": "motdepasse",
+        "name": "motdepasse"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "login",
+      "module": "api",
+      "action": "send",
+      "options": {
+        "url": "http://localhost:5243/employe/login",
+        "method": "POST",
+        "dataType": "json",
+        "schema": [
+          {
+            "type": "object",
+            "name": "data"
+          },
+          {
+            "type": "object",
+            "name": "headers"
+          }
+        ]
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "object",
+          "name": "data"
+        },
+        {
+          "type": "object",
+          "name": "headers"
+        }
+      ],
+      "outputType": "object"
+    }
+  }
+}

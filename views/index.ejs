@@ -1,0 +1,32 @@
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="index" appConnect="local" bootstrap5="local" components="{dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxDataTraversal:{},dmxDatastore:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Navigation:{},dmxBootstrap5Offcanvas:{},dmxRouting:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxGooglePlaces:{},dmxVideo:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{}}" -->
+
+
+
+<dmx-value id="showAppareil" dmx-bind:value="true"></dmx-value>
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col">
+      <div class="d-flex">
+        <button id="toPage1" class="btn" dmx-on:click="showAppareil.setValue(true)" dmx-class:border-bottom="showAppareil.value==true">
+          Tous les appareils
+        </button>
+        <h4>|</h4>
+
+        <button id="toPage2" class="btn" dmx-class:border-bottom="showAppareil.value==true" dmx-on:click="showAppareil.setValue(false)">
+          Tous les models
+        </button>
+      </div>
+      <hr />
+    </div>
+  </div>
+</div>
+<div class="container-fluid" dmx-show="showAppareil.value">
+  <%- await include('/partials/AppareilsPartial', Object.assign({}, locals)) %>
+</div>
+<div class="container-fluid" dmx-show="!showAppareil.value">
+  <%- await include('/partials/AppareilModelPartial', Object.assign({}, locals)) %>
+</div>
+
+
+<meta name="ac:route" content="/" />

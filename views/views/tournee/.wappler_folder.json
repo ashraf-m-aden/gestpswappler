@@ -1,0 +1,10 @@
+{
+  "addTournee.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "allTournee.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  }
+}

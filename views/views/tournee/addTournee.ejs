@@ -1,0 +1,155 @@
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="addTournee" appConnect="local" bootstrap5="local" components="{dmxStateManagement:{},dmxNotifications:{},dmxBrowser:{},dmxScheduler:{}}" -->
+<dmx-scheduler
+  id="scheduler1"
+  dmx-on:tick="browser1.goto('/views/tournee/allTournee')"
+  noload="true"
+  delay="3"></dmx-scheduler>
+<div is="dmx-browser" id="browser1"></div>
+<dmx-value id="loading" dmx-bind:value="false"></dmx-value>
+<dmx-notifications id="notifies1"></dmx-notifications>
+
+<dmx-value id="lotfacValue"></dmx-value>
+<dmx-value id="selectedCelluleNum"></dmx-value>
+
+<dmx-value id="selectedLieuGeoId"></dmx-value>
+<dmx-local-manager id="local1"></dmx-local-manager>
+<dmx-api-datasource
+  id="tournePropose"
+  is="dmx-fetch"
+  dmx-param:numlotfac="newtourneForm.xlotfac.value"
+  dmx-header:authorization="connectedUser.data.token"
+  dmx-param:numzone="newtourneForm.xlozoneGeotfac.value"
+  url="http://localhost:5243/api/tournee/proposeTournee"
+  noload="true"></dmx-api-datasource>
+<dmx-api-datasource
+  id="listZoneGeo"
+  is="dmx-fetch"
+  url="http://localhost:5243/api/tournee/zoneGeo/"
+  noload="true"
+  dmx-param:numlotfac="newtourneForm.xlotfac.value"
+  dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
+<dmx-api-datasource
+  id="lotfacList"
+  is="dmx-fetch"
+  noload="true"
+  dmx-header:authorization="connectedUser.data.token"
+  dmx-param:idlieugeo="selectedLieuGeoId.value"
+  url="http://localhost:5243/api/tournee/lotFac/"
+  dmx-on:error=""></dmx-api-datasource>
+<dmx-api-datasource
+  id="listLieuGeo"
+  is="dmx-fetch"
+  url="http://localhost:5243/api/tournee/lieuGeo"
+  dmx-header:authorization="local1.data.token"></dmx-api-datasource>
+<meta name="ac:route" content="/views/tournee/addTournee" />
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <h4
+        class="fw-bolder text-center shadow-sm lh-base fst-italic mark"
+        style="text-decoration: underline">
+        Ajout d'une nouvelle tournée
+      </h4>
+      <form
+        id="newtourneForm"
+        is="dmx-api-form"
+        method="post"
+        action="http://localhost:5243/api/tournee/addTournee"
+        dmx-header:authorization="connectedUser.data.token"
+        dmx-on:success="notifies1.success('Nouvelle tournee crée');scheduler1.start()"
+        dmx-on:error="notifies1.danger(lastError.response);loading.setValue(false)">
+        <div class="row">
+          <small class="text-muted" dmx-text=""></small>
+          <div class="col mt-4 col-12">
+            <div class="form-group mb-3">
+              <label for="xlieugeographique" class="form-label"
+                >Lieu géographique</label
+              >
+              <select
+                id="xlieugeographique"
+                class="form-select form-control"
+                dmx-bind:options="listLieuGeo.data"
+                optiontext="Libelle"
+                optionvalue="NumLieugeo"
+                dmx-on:changed="selectedLieuGeoId.setValue(value);lotfacList.load({})"
+                name="LieuGeo">
+                <option selected="" value="">Aucun Lieu</option>
+              </select>
+              <button id="xbtn1" class="btn" dmx-show="periodeLoading.value">
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"></span>
+              </button>
+            </div>
+            <div class="form-group mb-3">
+              <label for="xlotfac" class="form-label">Cellule</label>
+              <select
+                id="xlotfac"
+                class="form-select"
+                dmx-bind:options="lotfacList.data"
+                optiontext="Libelle"
+                optionvalue="NumLotFac"
+                dmx-on:changed="selectedCelluleNum.setValue(value);listZoneGeo.load({});lotfacValue.setValue(lotfacList.data[selectedIndex].NumLotFac)"
+                name="numLotFac">
+                <option selected="" value="">Aucune cellule</option>
+              </select>
+              <button id="xbtn2" class="btn" dmx-show="lotfacLoading.value">
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"></span>
+              </button>
+            </div>
+            <div class="form-group mb-3">
+              <label for="zoneGeo" class="form-label">Zone géographique</label>
+              <select
+                id="xlozoneGeotfac"
+                class="form-select"
+                dmx-bind:options="listZoneGeo.data"
+                optiontext="NumZone+' -- '+NomZone"
+                optionvalue="NumZone"
+                dmx-on:changed="tournePropose.load({})"
+                name="ZoneGeo">
+                <option selected="" value="">Aucune zone</option>
+              </select>
+              <button id="zbtn2" class="btn" dmx-show="lotfacLoading.value">
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"></span>
+              </button>
+            </div>
+            <div class="form-group md-3">
+              <label for="NumTourne" class="form-label"
+                >Numero de tournée generé<br
+              /></label>
+              <input
+                type="text"
+                class="form-control"
+                id="NumTourne"
+                name="NumTourne"
+                aria-describedby="input1_help"
+                placeholder="Enter some text"
+                readonly="true"
+                dmx-bind:value="tournePropose.data" />
+            </div>
+            <button
+              id="btn3"
+              class="btn btn-success w-100"
+              type="submit"
+              dmx-hide="loading.value==true">
+              Enregistrer
+            </button>
+            <button
+              id="btn1"
+              class="btn btn-warning"
+              dmx-show="loading.value==true">
+              <span
+                class="spinner-border spinner-border-sm text-danger"
+                role="status"></span
+              >Chargement..
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+{
+  "bootstrap4": {
+    "basic": {
+      "headings-font-family": "Allerta Stencil:400",
+      "font-family-base": "Arial:400",
+      "font-family-sans-serif": "ABeeZee:400",
+      "font-family-monospace": "ABeeZee:400",
+      "enable-responsive-font-sizes": true
+    },
+    "advanced": {}
+  }
+}

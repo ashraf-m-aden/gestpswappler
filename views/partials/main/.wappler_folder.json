@@ -1,0 +1,10 @@
+{
+  "navbar.ejs": {
+    "description": "",
+    "layoutPage": "main"
+  },
+  "footer.ejs": {
+    "description": "",
+    "layoutPage": "main"
+  }
+}

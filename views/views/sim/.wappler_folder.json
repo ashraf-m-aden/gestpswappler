@@ -1,0 +1,10 @@
+{
+  "allsim.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "newSim.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  }
+}
