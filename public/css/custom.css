@@ -71,3 +71,16 @@ input{
     position:static;
     width: 100%;
 }
+
+
+/* MODEL */
+
+.model-sidebar{
+    border: solid 1px gainsboro;
+    background-color: white ;
+    padding-top: 15px;
+    border-radius: 5px;
+ }
+.model-img{
+    width: 500px;
+}

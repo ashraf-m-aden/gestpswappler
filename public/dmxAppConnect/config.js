@@ -752,8 +752,139 @@ dmx.config({
       "outputType": "array"
     },
     "data_view1": {
-      "meta": null,
-      "outputType": "number"
+      "meta": [
+        {
+          "type": "number",
+          "name": "IdModele"
+        },
+        {
+          "type": "text",
+          "name": "Nom"
+        },
+        {
+          "type": "text",
+          "name": "DateCrea"
+        },
+        {
+          "type": "object",
+          "name": "UserCrea",
+          "sub": [
+            {
+              "type": "number",
+              "name": "Matricule"
+            },
+            {
+              "type": "text",
+              "name": "Nom"
+            },
+            {
+              "type": "text",
+              "name": "IdClient"
+            },
+            {
+              "type": "text",
+              "name": "AInit"
+            },
+            {
+              "type": "text",
+              "name": "IdMachine"
+            },
+            {
+              "type": "text",
+              "name": "PosteMobile"
+            },
+            {
+              "type": "text",
+              "name": "Connecte"
+            },
+            {
+              "type": "text",
+              "name": "PosteEncours"
+            },
+            {
+              "type": "text",
+              "name": "DernConn"
+            },
+            {
+              "type": "text",
+              "name": "DernDeconn"
+            },
+            {
+              "type": "text",
+              "name": "Mess"
+            },
+            {
+              "type": "text",
+              "name": "DateMess"
+            },
+            {
+              "type": "text",
+              "name": "MessLu"
+            },
+            {
+              "type": "text",
+              "name": "InstVers"
+            },
+            {
+              "type": "text",
+              "name": "InstUrgence"
+            },
+            {
+              "type": "number",
+              "name": "Statut"
+            },
+            {
+              "type": "text",
+              "name": "DroitAuQuota"
+            },
+            {
+              "type": "text",
+              "name": "Equipe"
+            },
+            {
+              "type": "text",
+              "name": "AppVersion"
+            },
+            {
+              "type": "text",
+              "name": "DateVisite"
+            },
+            {
+              "type": "text",
+              "name": "PersonVisite"
+            },
+            {
+              "type": "text",
+              "name": "UserTsptest"
+            },
+            {
+              "type": "text",
+              "name": "PasswordSalt"
+            },
+            {
+              "type": "text",
+              "name": "PasswordHash"
+            },
+            {
+              "type": "text",
+              "name": "Motpasse"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "Description"
+        },
+        {
+          "type": "text",
+          "name": "RefModel"
+        },
+        {
+          "type": "text",
+          "name": "Img"
+        }
+      ],
+      "outputType": "array"
     },
     "datastore1": [
       {
@@ -1427,6 +1558,166 @@ dmx.config({
       {
         "type": "text",
         "name": "token"
+      }
+    ],
+    "listModelAccesoires": [
+      {
+        "type": "array",
+        "name": "data",
+        "sub": [
+          {
+            "type": "number",
+            "name": "IdModele"
+          },
+          {
+            "type": "text",
+            "name": "Nom"
+          },
+          {
+            "type": "text",
+            "name": "DateCrea"
+          },
+          {
+            "type": "object",
+            "name": "UserCrea",
+            "sub": [
+              {
+                "type": "number",
+                "name": "Matricule"
+              },
+              {
+                "type": "text",
+                "name": "Nom"
+              },
+              {
+                "type": "text",
+                "name": "IdClient"
+              },
+              {
+                "type": "text",
+                "name": "AInit"
+              },
+              {
+                "type": "text",
+                "name": "IdMachine"
+              },
+              {
+                "type": "text",
+                "name": "PosteMobile"
+              },
+              {
+                "type": "text",
+                "name": "Connecte"
+              },
+              {
+                "type": "text",
+                "name": "PosteEncours"
+              },
+              {
+                "type": "text",
+                "name": "DernConn"
+              },
+              {
+                "type": "text",
+                "name": "DernDeconn"
+              },
+              {
+                "type": "text",
+                "name": "Mess"
+              },
+              {
+                "type": "text",
+                "name": "DateMess"
+              },
+              {
+                "type": "text",
+                "name": "MessLu"
+              },
+              {
+                "type": "text",
+                "name": "InstVers"
+              },
+              {
+                "type": "text",
+                "name": "InstUrgence"
+              },
+              {
+                "type": "number",
+                "name": "Statut"
+              },
+              {
+                "type": "text",
+                "name": "DroitAuQuota"
+              },
+              {
+                "type": "text",
+                "name": "Equipe"
+              },
+              {
+                "type": "text",
+                "name": "AppVersion"
+              },
+              {
+                "type": "text",
+                "name": "DateVisite"
+              },
+              {
+                "type": "text",
+                "name": "PersonVisite"
+              },
+              {
+                "type": "text",
+                "name": "UserTsptest"
+              },
+              {
+                "type": "text",
+                "name": "PasswordSalt"
+              },
+              {
+                "type": "text",
+                "name": "PasswordHash"
+              },
+              {
+                "type": "text",
+                "name": "Motpasse"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "name": "Description"
+          },
+          {
+            "type": "text",
+            "name": "RefModel"
+          },
+          {
+            "type": "text",
+            "name": "Img"
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "name": "headers",
+        "sub": [
+          {
+            "type": "text",
+            "name": "content-length"
+          },
+          {
+            "type": "text",
+            "name": "content-type"
+          },
+          {
+            "type": "text",
+            "name": "date"
+          },
+          {
+            "type": "text",
+            "name": "server"
+          }
+        ]
       }
     ]
   },
@@ -5875,5 +6166,104 @@ dmx.config({
         ]
       }
     ]
+  },
+  "models": {
+    "localStorage": [
+      {
+        "type": "text",
+        "name": "token"
+      }
+    ],
+    "models": [
+      {
+        "type": "array",
+        "name": "data",
+        "sub": [
+          {
+            "type": "number",
+            "name": "IdModele"
+          },
+          {
+            "type": "text",
+            "name": "Nom"
+          },
+          {
+            "type": "text",
+            "name": "DateCrea"
+          },
+          {
+            "type": "text",
+            "name": "UserCrea"
+          },
+          {
+            "type": "text",
+            "name": "Description"
+          },
+          {
+            "type": "text",
+            "name": "RefModel"
+          },
+          {
+            "type": "text",
+            "name": "Img"
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "name": "headers",
+        "sub": [
+          {
+            "type": "text",
+            "name": "content-length"
+          },
+          {
+            "type": "text",
+            "name": "content-type"
+          },
+          {
+            "type": "text",
+            "name": "date"
+          },
+          {
+            "type": "text",
+            "name": "server"
+          }
+        ]
+      }
+    ],
+    "ModelViewData": {
+      "meta": [
+        {
+          "type": "number",
+          "name": "IdModele"
+        },
+        {
+          "type": "text",
+          "name": "Nom"
+        },
+        {
+          "type": "text",
+          "name": "DateCrea"
+        },
+        {
+          "type": "text",
+          "name": "UserCrea"
+        },
+        {
+          "type": "text",
+          "name": "Description"
+        },
+        {
+          "type": "text",
+          "name": "RefModel"
+        },
+        {
+          "type": "text",
+          "name": "Img"
+        }
+      ],
+      "outputType": "array"
+    }
   }
 });

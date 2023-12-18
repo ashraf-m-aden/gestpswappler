@@ -94,6 +94,11 @@
       "data": {
         "title": "Appareils"
       }
+    },
+    {
+      "path": "/views/appareils/models",
+      "page": "views/appareils/models",
+      "layout": "main"
     }
   ],
   "layouts": {
