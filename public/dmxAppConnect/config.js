@@ -1558,6 +1558,10 @@ dmx.config({
       {
         "type": "text",
         "name": "token"
+      },
+      {
+        "type": "number",
+        "name": "matricule"
       }
     ],
     "listModelAccesoires": [
@@ -1719,7 +1723,348 @@ dmx.config({
           }
         ]
       }
-    ]
+    ],
+    "data_view_accessory": {
+      "meta": [
+        {
+          "type": "number",
+          "name": "IdAccessoire"
+        },
+        {
+          "type": "text",
+          "name": "Nom"
+        },
+        {
+          "type": "object",
+          "name": "TypeAccessoire",
+          "sub": [
+            {
+              "type": "number",
+              "name": "IdType"
+            },
+            {
+              "type": "text",
+              "name": "Nom"
+            }
+          ]
+        },
+        {
+          "type": "object",
+          "name": "affectationAccessoire",
+          "sub": [
+            {
+              "type": "number",
+              "name": "IdAffect"
+            },
+            {
+              "type": "object",
+              "name": "Accessoire",
+              "sub": [
+                {
+                  "type": "number",
+                  "name": "IdAccessoire"
+                },
+                {
+                  "type": "text",
+                  "name": "Nom"
+                },
+                {
+                  "type": "number",
+                  "name": "IdType"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "TypeAccessoire"
+            },
+            {
+              "type": "object",
+              "name": "Tsp",
+              "sub": [
+                {
+                  "type": "number",
+                  "name": "IdTsp"
+                },
+                {
+                  "type": "text",
+                  "name": "Nom"
+                },
+                {
+                  "type": "text",
+                  "name": "CodeTsp"
+                },
+                {
+                  "type": "text",
+                  "name": "Description"
+                },
+                {
+                  "type": "text",
+                  "name": "DateCrea"
+                },
+                {
+                  "type": "text",
+                  "name": "Releveur"
+                },
+                {
+                  "type": "text",
+                  "name": "SynsPath"
+                },
+                {
+                  "type": "text",
+                  "name": "ArchivePath"
+                },
+                {
+                  "type": "text",
+                  "name": "SynsPathWin7"
+                },
+                {
+                  "type": "text",
+                  "name": "Pin"
+                },
+                {
+                  "type": "text",
+                  "name": "Puk"
+                },
+                {
+                  "type": "text",
+                  "name": "NumTel"
+                },
+                {
+                  "type": "text",
+                  "name": "ModeleId"
+                },
+                {
+                  "type": "text",
+                  "name": "EquipeId"
+                },
+                {
+                  "type": "text",
+                  "name": "SectEmp"
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "name": "Employe",
+              "sub": [
+                {
+                  "type": "number",
+                  "name": "Matricule"
+                },
+                {
+                  "type": "text",
+                  "name": "Nom"
+                },
+                {
+                  "type": "text",
+                  "name": "IdClient"
+                },
+                {
+                  "type": "text",
+                  "name": "AInit"
+                },
+                {
+                  "type": "text",
+                  "name": "IdMachine"
+                },
+                {
+                  "type": "text",
+                  "name": "PosteMobile"
+                },
+                {
+                  "type": "text",
+                  "name": "Connecte"
+                },
+                {
+                  "type": "text",
+                  "name": "PosteEncours"
+                },
+                {
+                  "type": "text",
+                  "name": "DernConn"
+                },
+                {
+                  "type": "text",
+                  "name": "DernDeconn"
+                },
+                {
+                  "type": "text",
+                  "name": "Mess"
+                },
+                {
+                  "type": "text",
+                  "name": "DateMess"
+                },
+                {
+                  "type": "text",
+                  "name": "MessLu"
+                },
+                {
+                  "type": "text",
+                  "name": "InstVers"
+                },
+                {
+                  "type": "text",
+                  "name": "InstUrgence"
+                },
+                {
+                  "type": "number",
+                  "name": "Statut"
+                },
+                {
+                  "type": "text",
+                  "name": "DroitAuQuota"
+                },
+                {
+                  "type": "text",
+                  "name": "Equipe"
+                },
+                {
+                  "type": "text",
+                  "name": "AppVersion"
+                },
+                {
+                  "type": "text",
+                  "name": "DateVisite"
+                },
+                {
+                  "type": "text",
+                  "name": "PersonVisite"
+                },
+                {
+                  "type": "text",
+                  "name": "UserTsptest"
+                },
+                {
+                  "type": "text",
+                  "name": "PasswordSalt"
+                },
+                {
+                  "type": "text",
+                  "name": "PasswordHash"
+                },
+                {
+                  "type": "text",
+                  "name": "Motpasse"
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "name": "UserCrea",
+              "sub": [
+                {
+                  "type": "number",
+                  "name": "Matricule"
+                },
+                {
+                  "type": "text",
+                  "name": "Nom"
+                },
+                {
+                  "type": "text",
+                  "name": "IdClient"
+                },
+                {
+                  "type": "text",
+                  "name": "AInit"
+                },
+                {
+                  "type": "text",
+                  "name": "IdMachine"
+                },
+                {
+                  "type": "text",
+                  "name": "PosteMobile"
+                },
+                {
+                  "type": "text",
+                  "name": "Connecte"
+                },
+                {
+                  "type": "text",
+                  "name": "PosteEncours"
+                },
+                {
+                  "type": "text",
+                  "name": "DernConn"
+                },
+                {
+                  "type": "text",
+                  "name": "DernDeconn"
+                },
+                {
+                  "type": "text",
+                  "name": "Mess"
+                },
+                {
+                  "type": "text",
+                  "name": "DateMess"
+                },
+                {
+                  "type": "text",
+                  "name": "MessLu"
+                },
+                {
+                  "type": "text",
+                  "name": "InstVers"
+                },
+                {
+                  "type": "text",
+                  "name": "InstUrgence"
+                },
+                {
+                  "type": "number",
+                  "name": "Statut"
+                },
+                {
+                  "type": "text",
+                  "name": "DroitAuQuota"
+                },
+                {
+                  "type": "text",
+                  "name": "Equipe"
+                },
+                {
+                  "type": "text",
+                  "name": "AppVersion"
+                },
+                {
+                  "type": "text",
+                  "name": "DateVisite"
+                },
+                {
+                  "type": "text",
+                  "name": "PersonVisite"
+                },
+                {
+                  "type": "text",
+                  "name": "UserTsptest"
+                },
+                {
+                  "type": "text",
+                  "name": "PasswordSalt"
+                },
+                {
+                  "type": "text",
+                  "name": "PasswordHash"
+                },
+                {
+                  "type": "text",
+                  "name": "Motpasse"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "name": "DateCrea"
+            }
+          ]
+        }
+      ],
+      "outputType": "array"
+    }
   },
   "index": {
     "tsp": [
