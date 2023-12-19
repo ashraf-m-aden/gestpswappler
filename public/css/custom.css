@@ -82,5 +82,6 @@ input{
     border-radius: 5px;
  }
 .model-img{
-    width: 500px;
+    max-width: 300px;
+    max-height: 200px;
 }

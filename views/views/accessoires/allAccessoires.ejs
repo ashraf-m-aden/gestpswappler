@@ -1,4 +1,6 @@
-<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="accessoires" appconnect="local" bootstrap5="local" components="{dmxStateManagement:{},dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxBootstrap5Modal:{},dmxBootstrap5Navigation:{},dmxDataTraversal:{}}" -->
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="accessoires" appconnect="local" bootstrap5="local" components="{dmxStateManagement:{},dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxBootstrap5Modal:{},dmxBootstrap5Navigation:{},dmxDataTraversal:{},dmxFormatter:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Collapse:{}}" -->
+
+
 
 
 <div is="dmx-browser" id="browser1"></div>
@@ -96,10 +98,10 @@
                   <input type="text" class="form-control" id="modelDescription2" name="Description" aria-describedby="input1_help" placeholder="Description du model" dmx-bind:value="selectedModel.value.Description">
                 </div>
                 <div class="form-group md-3"> <label for="modelDescription2" class="form-label">Model Année</label>
-                  <input type="text" class="form-control" id="modelDescription2" name="ModelAnnee1" aria-describedby="input1_help" placeholder="L'année du model" dmx-bind:value="selectedModel.value.ModelAnnee">
+                  <input type="text" class="form-control" id="modelDescription2" name="ModelAnnee" aria-describedby="input1_help" placeholder="L'année du model" dmx-bind:value="selectedModel.value.ModelAnnee">
                 </div>
                 <div class="form-group md-3"> <label for="ReferenceModel1" class="form-label">Reference</label>
-                  <input type="text" class="form-control" id="ReferenceModel1" name="RefModel1" aria-describedby="input1_help" placeholder="Description du model" dmx-bind:value="selectedModel.value.RefModel">
+                  <input type="text" class="form-control" id="ReferenceModel1" name="RefModel" aria-describedby="input1_help" placeholder="Description du model" dmx-bind:value="selectedModel.value.RefModel">
                 </div>
                 <img width="100" dmx-bind:src="UploadModel1.value?UploadModel1.file.dataUrl:(selectedModel.value.Img?'data:image/jpeg;base64,'+selectedModel.value.Img:'/assets/images/no image.png')">
                 <div class="form-group md-3">
@@ -124,10 +126,13 @@
 
 <meta name="ac:route" content="/views/accessoires/allAccessoires" />
 <dmx-value id="actualAffectation" dmx-bind:value="tableRepeat1[0].affectationAccessoire"></dmx-value>
+<dmx-value id="tspLoadDto"></dmx-value>
+<dmx-value id="selectedAccessory"></dmx-value>
 <dmx-value id="selectedModel"></dmx-value>
 <dmx-data-view id="data_view_accessory" dmx-bind:data="accessoires.data" pageSize="5"></dmx-data-view>
-<dmx-data-view id="data_viewModel" dmx-bind:data="listModelAccesoires.data" pageSize="5"></dmx-data-view>
+<dmx-data-view id="data_viewModel" dmx-bind:data="listModelAccesoires.data" pagesize="5"></dmx-data-view>
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
+<dmx-api-datasource id="tspLoadData" is="dmx-fetch" url="http://localhost:5243/api/accessoire/byId" dmx-header:authorization="connectedUser.data.token" dmx-param:id=""></dmx-api-datasource>
 <dmx-api-datasource id="accessoires" is="dmx-fetch" url="http://localhost:5243/api/accessoire/byTypeAccessoire" dmx-header:authorization="connectedUser.data.token" dmx-on:unauthorized="connectedUser.removeAll();browser1.goto('/auth/login')" dmx-on:done="loadingData.setValue(false)" noload="true" dmx-param:id="selectedModel.value.IdType"></dmx-api-datasource>
 <dmx-api-datasource id="listModelAccesoires" is="dmx-fetch" url="http://localhost:5243/api/typeAccessoire/all" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 
@@ -197,7 +202,7 @@
               </tr>
             </thead>
             <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="data_viewModel.data" id="tableRepeat2">
-              <tr dmx-on:click="selectedModel.setValue($value);accessoires.load({})">
+              <tr dmx-on:click="selectedModel.setValue($value);accessoires.load({id: IdType})" class="clicked">
                 <td dmx-text="Nom"></td>
                 <td>
                   <img dmx-bind:src="Img?'data:image/jpeg;base64,'+Img:'/assets/images/no image.png'" width="50">
@@ -206,21 +211,21 @@
             </tbody>
           </table>
         </div>
-        <ul class="pagination pagination-sm flex-wrap" dmx-dataview="searchData" dmx-generator="bs5paging">
-          <li class="page-item" dmx-class:disabled="searchData.page == 1" aria-label="First">
-            <a href="javascript:void(0)" class="page-link" dmx-on:click="searchData.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
+        <ul class="pagination pagination-sm" dmx-dataview="data_viewModel" dmx-generator="bs5paging">
+          <li class="page-item" dmx-class:disabled="data_viewModel.page == 1" aria-label="First">
+            <a href="javascript:void(0)" class="page-link" dmx-on:click="data_viewModel.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
           </li>
-          <li class="page-item" dmx-class:disabled="searchData.page == 1" aria-label="Previous">
-            <a href="javascript:void(0)" class="page-link" dmx-on:click="searchData.prev()"><span aria-hidden="true">&lsaquo;</span></a>
+          <li class="page-item" dmx-class:disabled="data_viewModel.page == 1" aria-label="Previous">
+            <a href="javascript:void(0)" class="page-link" dmx-on:click="data_viewModel.prev()"><span aria-hidden="true">&lsaquo;</span></a>
           </li>
-          <li class="page-item" dmx-class:active="title == searchData.page" dmx-class:disabled="!active" dmx-repeat="searchData.getDataViewPagination(2,1,'...')">
-            <a href="javascript:void(0)" class="page-link" dmx-on:click="searchData.select(page)">{{title)}}</a>
+          <li class="page-item" dmx-class:active="title == data_viewModel.page" dmx-class:disabled="!active" dmx-repeat="data_viewModel.getDataViewPagination(2,1,'...')">
+            <a href="javascript:void(0)" class="page-link" dmx-on:click="data_viewModel.select(page)">{{title)}}</a>
           </li>
-          <li class="page-item" dmx-class:disabled="searchData.page == searchData.pages" aria-label="Next">
-            <a href="javascript:void(0)" class="page-link" dmx-on:click="searchData.next()"><span aria-hidden="true">&rsaquo;</span></a>
+          <li class="page-item" dmx-class:disabled="data_viewModel.page == data_viewModel.pages" aria-label="Next">
+            <a href="javascript:void(0)" class="page-link" dmx-on:click="data_viewModel.next()"><span aria-hidden="true">&rsaquo;</span></a>
           </li>
-          <li class="page-item" dmx-class:disabled="searchData.page == searchData.pages" aria-label="Last">
-            <a href="javascript:void(0)" class="page-link" dmx-on:click="searchData.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
+          <li class="page-item" dmx-class:disabled="data_viewModel.page == data_viewModel.pages" aria-label="Last">
+            <a href="javascript:void(0)" class="page-link" dmx-on:click="data_viewModel.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
           </li>
         </ul>
       </div><button id="btn1" class="btn btn-primary btn-sm w-100" data-bs-target="#newModel" data-bs-toggle="modal" dmx-on:click="nomNouveauAppareil.load({})">Ajouter&nbsp;<i class="fa fa-plus"></i></button>
@@ -230,142 +235,157 @@
     <div class="col-10" id="data">
       <div class="row">
 
-        <div class="col-12 col-md-6  app-col">
-          <div class="d-flex flex-row justify-content-between mb-1">
-            <h5 class="heading-text">Details du model</h5><button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModelModal">Modifier&nbsp;<i class="fa fa-pencil"></i></button>
-          </div>
+
+        <div class="col-12 col-md-6 ">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex flex-row justify-content-between mb-1">
+                <h5 class="heading-text">Details du model</h5><button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModelModal">Modifier&nbsp;<i class="fa fa-pencil"></i></button>
+              </div>
+              <div class="d-flex justify-content-between" style="">
+                <dl>
+                  <dt>Identifiant</dt>
+                  <dd>{{selectedModel.value.IdType}}</dd>
+                  <dt>Nom</dt>
+                  <dd>{{selectedModel.value.Nom}}</dd>
+                  <dt>Réference</dt>
+                  <dd>{{selectedModel.value.RefModel}}</dd>
+                  <dt>Description</dt>
+
+                  <dd>{{selectedModel.value.Description}}</dd>
+                  <dt>Model Année</dt>
+                  <dd>{{selectedModel.value.ModelAnnee}}</dd>
+                  <dt>Nombre d'appareils</dt>
+                  <dd>{{selectedModel.value.Accessoires.length}}</dd>
+                  <dt>Prix</dt>
+                  <dd>50</dd>
 
 
-          <div class="d-flex flex-row justify-content-start" style="">
-            <div class="d-flex flex-column align-items-center justify-content-around">
-              <a><img dmx-bind:src="selectedModel.value.Img?'data:image/jpeg;base64,'+selectedModel.value.Img:'/assets/images/no image.png'" class="model-img"></a>
+
+
+                </dl><a><img dmx-bind:src="selectedModel.value.Img?'data:image/jpeg;base64,'+selectedModel.value.Img:'/assets/images/no image.png'" class="model-img"></a>
+
+
+              </div>
             </div>
-
-            <dl>
-              <dt>Identifiant</dt>
-              <dd>{{selectedModel.value.IdType}}</dd>
-              <dt>Nom</dt>
-              <dd>{{selectedModel.value.Nom}}</dd>
-              <dt>Réference</dt>
-              <dd>{{selectedModel.value.RefModel}}</dd>
-              <dt>Description</dt>
-
-              <dd>{{selectedModel.value.Description}}</dd>
-              <dt>Model Année</dt>
-              <dd>{{selectedModel.value.ModelAnnee}}</dd>
-              <dt>Nombre d'appareils</dt>
-              <dd>{{selectedModel.value.Accessoires.length}}</dd>
-              <dt>Prix</dt>
-              <dd>50</dd>
-
-
-
-
-            </dl>
           </div>
+
+
+
+
 
 
 
         </div>
-        <div class="col-12 col-md-6 app-col ps-1 pe-1">
-          <div class="d-flex justify-content-between">
-            <h5 class="heading-text">Liste des accessoires du models</h5><button id="btn4" class="btn btn-primary btn-sm" data-bs-target="#addAccessoryModal" data-bs-toggle="modal" dmx-on:click="nomNouveauAppareil.load({})">Ajouter&nbsp;<i class="fa fa-plus"></i></button>
-          </div>
+        <div class="col-12 col-md-6 ps-1 pe-1">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between">
+                    <h5 class="heading-text">Liste des accessoires du models</h5><button id="btn4" class="btn btn-primary btn-sm" data-bs-target="#addAccessoryModal" data-bs-toggle="modal" dmx-on:click="nomNouveauAppareil.load({})">Ajouter&nbsp;<i class="fa fa-plus"></i></button>
+                  </div>
+                  <div class="d-flex align-items-start justify-content-between ps-1 pe-1">
+                    <form id="form1">
+                      <div class="form-group mb-3 row">
+                        <div class="d-flex align-items-start justify-content-center align-self-start ">
+                          <input type="text" class="form-control form-control-sm" id="recherche1" name="code1" aria-describedby="input1_help" placeholder="Recherche">
 
+                        </div>
+                      </div>
+                    </form>
 
-
-          <div class="d-flex align-items-start justify-content-between ps-1 pe-1">
-            <form id="form1">
-              <div class="form-group mb-3 row">
-                <div class="d-flex align-items-start justify-content-center align-self-start ">
-                  <input type="text" class="form-control form-control-sm" id="recherche1" name="code1" aria-describedby="input1_help" placeholder="Recherche">
-
+                  </div><button id="btn4" class="btn disabled" dmx-show="loadingTsp.value">
+                    <span class="spinner-border spinner-border-sm" role="status"></span>chargement...
+                  </button>
+                  <div class="d-flex flex-column" dmx-show="form2.recherche.value!==null">
+                    <div class="table-responsive">
+                      <table class="table table-hover table-sm">
+                        <thead>
+                          <tr>
+                            <th>Numero de serie</th>
+                          </tr>
+                        </thead>
+                        <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="data_view_accessory.data" id="tableRepeat1">
+                          <tr class="clicked" dmx-on:click="selectedAccessory.setValue($value);tspLoadData.load({id: affectationAccessoire.Tsp.IdTsp})">
+                            <td dmx-text="NumSerie"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <ul class="pagination pagination-sm" dmx-dataview="data_view_accessory" dmx-generator="bs5paging">
+                      <li class="page-item" dmx-class:disabled="data_view_accessory.page == 1" aria-label="First">
+                        <a href="javascript:void(0)" class="page-link" dmx-on:click="data_view_accessory.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
+                      </li>
+                      <li class="page-item" dmx-class:disabled="data_view_accessory.page == 1" aria-label="Previous">
+                        <a href="javascript:void(0)" class="page-link" dmx-on:click="data_view_accessory.prev()"><span aria-hidden="true">&lsaquo;</span></a>
+                      </li>
+                      <li class="page-item" dmx-class:active="title == data_view_accessory.page" dmx-class:disabled="!active" dmx-repeat="data_view_accessory.getDataViewPagination(2,1,'...')">
+                        <a href="javascript:void(0)" class="page-link" dmx-on:click="data_view_accessory.select(page)">{{title)}}</a>
+                      </li>
+                      <li class="page-item" dmx-class:disabled="data_view_accessory.page == data_view_accessory.pages" aria-label="Next">
+                        <a href="javascript:void(0)" class="page-link" dmx-on:click="data_view_accessory.next()"><span aria-hidden="true">&rsaquo;</span></a>
+                      </li>
+                      <li class="page-item" dmx-class:disabled="data_view_accessory.page == data_view_accessory.pages" aria-label="Last">
+                        <a href="javascript:void(0)" class="page-link" dmx-on:click="data_view_accessory.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </form>
-
-          </div><button id="btn4" class="btn disabled" dmx-show="loadingTsp.value">
-            <span class="spinner-border spinner-border-sm" role="status"></span>chargement...
-          </button>
-
-          <div class="d-flex flex-column" dmx-show="form2.recherche.value==null">
-            <div class="table-responsive">
-              <table class="table table-hover table-sm">
-                <thead>
-                  <tr>
-                    <th>Id accessoire</th>
-                    <th>Nom</th>
-                    <th>Type accessoire</th>
-                    <th>Affectation accessoire</th>
-                  </tr>
-                </thead>
-                <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="data_view_accessory.data" id="tableRepeat3">
-                  <tr>
-                    <td dmx-text="IdAccessoire"></td>
-                    <td dmx-text="Nom"></td>
-                    <td dmx-text="TypeAccessoire"></td>
-                    <td dmx-text="affectationAccessoire"></td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
-            <ul class="pagination pagination-sm" dmx-dataview="tspViewData" dmx-generator="bs5paging">
-              <li class="page-item" dmx-class:disabled="tspViewData.page == 1" aria-label="First">
-                <a href="javascript:void(0)" class="page-link" dmx-on:click="tspViewData.first()"><span aria-hidden="true">‹‹</span></a>
-              </li>
-              <li class="page-item" dmx-class:disabled="tspViewData.page == 1" aria-label="Previous">
-                <a href="javascript:void(0)" class="page-link" dmx-on:click="tspViewData.prev()"><span aria-hidden="true">‹</span></a>
-              </li>
-              <li class="page-item" dmx-class:active="title == tspViewData.page" dmx-class:disabled="!active" dmx-repeat="tspViewData.getDataViewPagination(2,1,'...')">
-                <a href="javascript:void(0)" class="page-link" dmx-on:click="tspViewData.select(page)">{{title)}}</a>
-              </li>
-              <li class="page-item" dmx-class:disabled="tspViewData.page == tspViewData.pages" aria-label="Next">
-                <a href="javascript:void(0)" class="page-link" dmx-on:click="tspViewData.next()"><span aria-hidden="true">›</span></a>
-              </li>
-              <li class="page-item" dmx-class:disabled="tspViewData.page == tspViewData.pages" aria-label="Last">
-                <a href="javascript:void(0)" class="page-link" dmx-on:click="tspViewData.last()"><span aria-hidden="true">››</span></a>
-              </li>
-            </ul>
-          </div>
-          <div class="d-flex flex-column" dmx-show="form2.recherche.value!==null">
-            <div class="table-responsive">
-              <table class="table table-hover table-sm">
-                <thead>
-                  <tr>
-                    <th>Numero de serie</th>
-                  </tr>
-                </thead>
-                <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="data_view_accessory.data" id="tableRepeat1">
-                  <tr>
-                    <td dmx-text="NumSerie"></td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <small class="text-muted">Numero de serie: </small>
+                    </li>
+                    <li class="list-group-item"><small class="text-muted">Date d'achat:</small></li>
+                    <li class="list-group-item"><small class="text-muted">Date d'enregistrement:</small></li>
+                    <li class="list-group-item">
+                      <small class="text-muted">Enregistré par:</small>
+                    </li>
+
+                  </ul>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body">
+
+                  <h6 class="card-title heading-text">Affectation de l'accessoire</h6>
+                  <div class="row">
+                    <div class="col"></div>
+                    <div class="col"></div>
+                    <div class="col"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col text-end">
+                      <button id="btn5" class="btn btn-primary btn-sm">Affecté&nbsp;<i class="fa fa-plus"></i></button>
+                      <div class="d-flex flex-column align-items-center">
+                        <i class="fa fa-mobile fa-5x heading-text"></i>
+                        <h4>Aucun appareil affecté</h4>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <ul class="pagination pagination-sm flex-wrap" dmx-dataview="searchData" dmx-generator="bs5paging">
-              <li class="page-item" dmx-class:disabled="searchData.page == 1" aria-label="First">
-                <a href="javascript:void(0)" class="page-link" dmx-on:click="searchData.first()"><span aria-hidden="true">‹‹</span></a>
-              </li>
-              <li class="page-item" dmx-class:disabled="searchData.page == 1" aria-label="Previous">
-                <a href="javascript:void(0)" class="page-link" dmx-on:click="searchData.prev()"><span aria-hidden="true">‹</span></a>
-              </li>
-              <li class="page-item" dmx-class:active="title == searchData.page" dmx-class:disabled="!active" dmx-repeat="searchData.getDataViewPagination(2,1,'...')">
-                <a href="javascript:void(0)" class="page-link" dmx-on:click="searchData.select(page)">{{title)}}</a>
-              </li>
-              <li class="page-item" dmx-class:disabled="searchData.page == searchData.pages" aria-label="Next">
-                <a href="javascript:void(0)" class="page-link" dmx-on:click="searchData.next()"><span aria-hidden="true">›</span></a>
-              </li>
-              <li class="page-item" dmx-class:disabled="searchData.page == searchData.pages" aria-label="Last">
-                <a href="javascript:void(0)" class="page-link" dmx-on:click="searchData.last()"><span aria-hidden="true">››</span></a>
-              </li>
-            </ul>
           </div>
+
+
+
+
+
+
+
+
 
         </div>
       </div>
 
 
     </div>
-    <div class="col-12 col-md-10 app-nodata" id="nodata" dmx-hide="selectedModel.value"></div>
   </div>
 </div>

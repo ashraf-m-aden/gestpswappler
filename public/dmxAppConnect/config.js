@@ -1571,7 +1571,7 @@ dmx.config({
         "sub": [
           {
             "type": "number",
-            "name": "IdModele"
+            "name": "IdType"
           },
           {
             "type": "text",
@@ -1698,6 +1698,28 @@ dmx.config({
           {
             "type": "text",
             "name": "Img"
+          },
+          {
+            "type": "array",
+            "name": "Accessoires",
+            "sub": [
+              {
+                "type": "text",
+                "name": "NumSerie"
+              },
+              {
+                "type": "number",
+                "name": "IdType"
+              },
+              {
+                "type": "number",
+                "name": "UserCrea"
+              },
+              {
+                "type": "text",
+                "name": "DateCrea"
+              }
+            ]
           }
         ]
       },
@@ -2055,6 +2077,163 @@ dmx.config({
                   "name": "Motpasse"
                 }
               ]
+            },
+            {
+              "type": "text",
+              "name": "DateCrea"
+            }
+          ]
+        }
+      ],
+      "outputType": "array"
+    },
+    "data_viewModel": {
+      "meta": [
+        {
+          "type": "number",
+          "name": "IdType"
+        },
+        {
+          "type": "text",
+          "name": "Nom"
+        },
+        {
+          "type": "text",
+          "name": "DateCrea"
+        },
+        {
+          "type": "object",
+          "name": "UserCrea",
+          "sub": [
+            {
+              "type": "number",
+              "name": "Matricule"
+            },
+            {
+              "type": "text",
+              "name": "Nom"
+            },
+            {
+              "type": "text",
+              "name": "IdClient"
+            },
+            {
+              "type": "text",
+              "name": "AInit"
+            },
+            {
+              "type": "text",
+              "name": "IdMachine"
+            },
+            {
+              "type": "text",
+              "name": "PosteMobile"
+            },
+            {
+              "type": "text",
+              "name": "Connecte"
+            },
+            {
+              "type": "text",
+              "name": "PosteEncours"
+            },
+            {
+              "type": "text",
+              "name": "DernConn"
+            },
+            {
+              "type": "text",
+              "name": "DernDeconn"
+            },
+            {
+              "type": "text",
+              "name": "Mess"
+            },
+            {
+              "type": "text",
+              "name": "DateMess"
+            },
+            {
+              "type": "text",
+              "name": "MessLu"
+            },
+            {
+              "type": "text",
+              "name": "InstVers"
+            },
+            {
+              "type": "text",
+              "name": "InstUrgence"
+            },
+            {
+              "type": "number",
+              "name": "Statut"
+            },
+            {
+              "type": "text",
+              "name": "DroitAuQuota"
+            },
+            {
+              "type": "text",
+              "name": "Equipe"
+            },
+            {
+              "type": "text",
+              "name": "AppVersion"
+            },
+            {
+              "type": "text",
+              "name": "DateVisite"
+            },
+            {
+              "type": "text",
+              "name": "PersonVisite"
+            },
+            {
+              "type": "text",
+              "name": "UserTsptest"
+            },
+            {
+              "type": "text",
+              "name": "PasswordSalt"
+            },
+            {
+              "type": "text",
+              "name": "PasswordHash"
+            },
+            {
+              "type": "text",
+              "name": "Motpasse"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "name": "Description"
+        },
+        {
+          "type": "text",
+          "name": "RefModel"
+        },
+        {
+          "type": "text",
+          "name": "Img"
+        },
+        {
+          "type": "array",
+          "name": "Accessoires",
+          "sub": [
+            {
+              "type": "text",
+              "name": "NumSerie"
+            },
+            {
+              "type": "number",
+              "name": "IdType"
+            },
+            {
+              "type": "number",
+              "name": "UserCrea"
             },
             {
               "type": "text",
