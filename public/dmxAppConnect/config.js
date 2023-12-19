@@ -2243,7 +2243,127 @@ dmx.config({
         }
       ],
       "outputType": "array"
-    }
+    },
+    "allTsp": [
+      {
+        "type": "array",
+        "name": "data",
+        "sub": [
+          {
+            "type": "number",
+            "name": "IdTsp"
+          },
+          {
+            "type": "text",
+            "name": "Nom"
+          },
+          {
+            "type": "text",
+            "name": "CodeTsp"
+          },
+          {
+            "type": "text",
+            "name": "Description"
+          },
+          {
+            "type": "text",
+            "name": "DateCrea"
+          },
+          {
+            "type": "number",
+            "name": "Releveur"
+          },
+          {
+            "type": "text",
+            "name": "NumTel"
+          },
+          {
+            "type": "text",
+            "name": "ModeleId"
+          },
+          {
+            "type": "text",
+            "name": "EquipeName"
+          },
+          {
+            "type": "text",
+            "name": "EmployeName"
+          },
+          {
+            "type": "array",
+            "name": "LogAffectation"
+          },
+          {
+            "type": "text",
+            "name": "Affectation"
+          },
+          {
+            "type": "array",
+            "name": "ListAccessoire"
+          },
+          {
+            "type": "array",
+            "name": "ListProbleme"
+          },
+          {
+            "type": "object",
+            "name": "Model",
+            "sub": [
+              {
+                "type": "number",
+                "name": "IdModele"
+              },
+              {
+                "type": "text",
+                "name": "Nom"
+              },
+              {
+                "type": "text",
+                "name": "DateCrea"
+              },
+              {
+                "type": "number",
+                "name": "UserCrea"
+              },
+              {
+                "type": "text",
+                "name": "Description"
+              },
+              {
+                "type": "text",
+                "name": "RefModel"
+              },
+              {
+                "type": "text",
+                "name": "Img"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "name": "headers",
+        "sub": [
+          {
+            "type": "text",
+            "name": "content-length"
+          },
+          {
+            "type": "text",
+            "name": "content-type"
+          },
+          {
+            "type": "text",
+            "name": "date"
+          },
+          {
+            "type": "text",
+            "name": "server"
+          }
+        ]
+      }
+    ]
   },
   "index": {
     "tsp": [

@@ -3,7 +3,34 @@
 
 
 
+
+
 <div is="dmx-browser" id="browser1"></div>
+<div class="modal" id="affectAccessoryModal" is="dmx-bs5-modal" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title heading-text">Affecter un accessoire à un appareil</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="form3">
+          <input id="UserCreaAffect" name="UserCrea" type="text" class="form-control" dmx-bind:value="connectedUser.data.matricule">
+          <input id="AccessoryAffect" name="id" type="text" class="form-control" dmx-bind:value="selectedAccessory.value.NumSerie">
+          <input id="idEmployeAffect" name="id1" type="text" class="form-control">
+          <input id="idTspAffect" name="idTspAffect" type="text" class="form-control">
+          <select id="tspChoice" class="form-select" name="tspChoice" dmx-bind:options="allTsp.data" optiontext="Nom" optionvalue="$value" dmx-on:updated="idEmployeAffect.setValue(value.Affectation.EmployeId);idTspAffect.setValue(value.IdTsp)">
+            <option selected="" value="">Aucun Appareil</option>
+          </select>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="modal" id="addAccessoryModal" is="dmx-bs5-modal" tabindex="-1">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -132,7 +159,8 @@
 <dmx-data-view id="data_view_accessory" dmx-bind:data="accessoires.data" pageSize="5"></dmx-data-view>
 <dmx-data-view id="data_viewModel" dmx-bind:data="listModelAccesoires.data" pagesize="5"></dmx-data-view>
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
-<dmx-api-datasource id="tspLoadData" is="dmx-fetch" url="http://localhost:5243/api/accessoire/byId" dmx-header:authorization="connectedUser.data.token" dmx-param:id=""></dmx-api-datasource>
+<dmx-api-datasource id="allTsp" is="dmx-fetch" url="http://localhost:5243/api/tsp/firstLoad" noload="true" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
+<dmx-api-datasource id="tspLoadData" is="dmx-fetch" url="http://localhost:5243/api/tsp/GetbyId/" dmx-header:authorization="connectedUser.data.token" dmx-param:id="" noload="true"></dmx-api-datasource>
 <dmx-api-datasource id="accessoires" is="dmx-fetch" url="http://localhost:5243/api/accessoire/byTypeAccessoire" dmx-header:authorization="connectedUser.data.token" dmx-on:unauthorized="connectedUser.removeAll();browser1.goto('/auth/login')" dmx-on:done="loadingData.setValue(false)" noload="true" dmx-param:id="selectedModel.value.IdType"></dmx-api-datasource>
 <dmx-api-datasource id="listModelAccesoires" is="dmx-fetch" url="http://localhost:5243/api/typeAccessoire/all" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 
@@ -202,7 +230,7 @@
               </tr>
             </thead>
             <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="data_viewModel.data" id="tableRepeat2">
-              <tr dmx-on:click="selectedModel.setValue($value);accessoires.load({id: IdType})" class="clicked">
+              <tr dmx-on:click="selectedModel.setValue($value);accessoires.load({id: IdType})" dmx-class:clicked="selectedModel.value==$value">
                 <td dmx-text="Nom"></td>
                 <td>
                   <img dmx-bind:src="Img?'data:image/jpeg;base64,'+Img:'/assets/images/no image.png'" width="50">
@@ -307,7 +335,7 @@
                           </tr>
                         </thead>
                         <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="data_view_accessory.data" id="tableRepeat1">
-                          <tr class="clicked" dmx-on:click="selectedAccessory.setValue($value);tspLoadData.load({id: affectationAccessoire.Tsp.IdTsp})">
+                          <tr dmx-on:click="selectedAccessory.setValue($value);tspLoadData.load({id: affectationAccessoire.Tsp.IdTsp})" dmx-class:clicked="selectedAccessory.value==$value">
                             <td dmx-text="NumSerie"></td>
                           </tr>
                         </tbody>
@@ -340,12 +368,21 @@
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                       <small class="text-muted">Numero de serie: </small>
+                      <h5>{{selectedAccessory.value.NumSerie}}</h5>
                     </li>
-                    <li class="list-group-item"><small class="text-muted">Date d'achat:</small></li>
-                    <li class="list-group-item"><small class="text-muted">Date d'enregistrement:</small></li>
                     <li class="list-group-item">
-                      <small class="text-muted">Enregistré par:</small>
+                      <small class="text-muted">Date d'achat: </small>
+                      <h5>{{selectedAccessory.value.DateCrea}}</h5>
                     </li>
+                    <li class="list-group-item">
+                      <small class="text-muted">Date d'enregistrement: </small>
+                      <h5>XXXX</h5>
+                    </li>
+                    <li class="list-group-item">
+                      <small class="text-muted">Enregistré par: </small>
+                      <h5>{{selectedAccessory.value.UserCrea.Nom}}</h5>
+                    </li>
+
 
                   </ul>
                 </div>
@@ -355,13 +392,17 @@
 
                   <h6 class="card-title heading-text">Affectation de l'accessoire</h6>
                   <div class="row">
-                    <div class="col"></div>
+                    <div class="col">
+                      <div class="d-flex">
+                        <h5>{{tspLoadData.data.Nom}}</h5>
+                      </div>
+                    </div>
                     <div class="col"></div>
                     <div class="col"></div>
                   </div>
                   <div class="row">
                     <div class="col text-end">
-                      <button id="btn5" class="btn btn-primary btn-sm">Affecté&nbsp;<i class="fa fa-plus"></i></button>
+                      <button id="btn5" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#affectAccessoryModal">Affecté&nbsp;<i class="fa fa-plus"></i></button>
                       <div class="d-flex flex-column align-items-center">
                         <i class="fa fa-mobile fa-5x heading-text"></i>
                         <h4>Aucun appareil affecté</h4>
