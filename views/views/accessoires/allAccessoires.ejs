@@ -363,26 +363,25 @@
             <div class="col-12" dmx-show="selectedAccessory.value">
               <div class="card">
                 <div class="card-body">
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                      <small class="text-muted">Numero de serie: </small>
-                      <h5>{{selectedAccessory.value.NumSerie}}</h5>
-                    </li>
-                    <li class="list-group-item">
-                      <small class="text-muted">Date d'achat: </small>
-                      <h5>{{selectedAccessory.value.DateCrea}}</h5>
-                    </li>
-                    <li class="list-group-item">
-                      <small class="text-muted">Date d'enregistrement: </small>
-                      <h5>XXXX</h5>
-                    </li>
-                    <li class="list-group-item">
-                      <small class="text-muted">Enregistré par: </small>
-                      <h5>{{selectedAccessory.value.UserCrea.Nom}}</h5>
-                    </li>
+                  <div class="d-flex justify-content-between flex-wrap">
+                    <dl>
+                      <dt>Numero de serie</dt>
+                      <dd>{{selectedAccessory.value.NumSerie}}</dd>
+                    </dl>
+                    <dl>
+                      <dt>Date d'achat</dt>
+                      <dd>{{selectedAccessory.value.DateAchat}}</dd>
+                    </dl>
+                    <dl>
+                      <dt>Date d'enregistrement</dt>
+                      <dd>{{selectedAccessory.value.DateCrea}}</dd>
+                    </dl>
+                    <dl>
+                      <dt>Enregistré par</dt>
+                      <dd>{{selectedAccessory.value.UserCrea.Nom}}</dd>
+                    </dl>
+                  </div>
 
-
-                  </ul>
                 </div>
               </div>
               <div class="card">
