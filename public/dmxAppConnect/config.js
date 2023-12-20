@@ -4437,6 +4437,111 @@ dmx.config({
     "data_view1": {
       "meta": null,
       "outputType": "object"
+    },
+    "searchData": {
+      "meta": [
+        {
+          "type": "number",
+          "name": "IdSim"
+        },
+        {
+          "type": "number",
+          "name": "NumTel"
+        },
+        {
+          "type": "text",
+          "name": "Pin"
+        },
+        {
+          "type": "text",
+          "name": "Puk"
+        },
+        {
+          "type": "text",
+          "name": "CreatedBy"
+        },
+        {
+          "type": "text",
+          "name": "DateCrea"
+        },
+        {
+          "type": "object",
+          "name": "affectation",
+          "sub": [
+            {
+              "type": "number",
+              "name": "IdAffect"
+            },
+            {
+              "type": "number",
+              "name": "UserCrea"
+            },
+            {
+              "type": "text",
+              "name": "NomTsp"
+            },
+            {
+              "type": "text",
+              "name": "NomEmploye"
+            },
+            {
+              "type": "text",
+              "name": "affectedBy"
+            },
+            {
+              "type": "text",
+              "name": "Tsp"
+            },
+            {
+              "type": "text",
+              "name": "SimMobile"
+            },
+            {
+              "type": "text",
+              "name": "Employe"
+            },
+            {
+              "type": "text",
+              "name": "DateCreation"
+            }
+          ]
+        },
+        {
+          "type": "array",
+          "name": "logAffectationList",
+          "sub": [
+            {
+              "type": "number",
+              "name": "IdLog"
+            },
+            {
+              "type": "text",
+              "name": "DateCrea"
+            },
+            {
+              "type": "text",
+              "name": "TspName"
+            },
+            {
+              "type": "text",
+              "name": "EmployeName"
+            },
+            {
+              "type": "text",
+              "name": "SimNumber"
+            },
+            {
+              "type": "text",
+              "name": "affectedBy"
+            },
+            {
+              "type": "text",
+              "name": "Deleted"
+            }
+          ]
+        }
+      ],
+      "outputType": "array"
     }
   },
   "navbar": {
