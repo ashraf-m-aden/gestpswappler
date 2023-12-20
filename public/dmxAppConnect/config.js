@@ -2363,6 +2363,420 @@ dmx.config({
           }
         ]
       }
+    ],
+    "affectedTsp": [
+      {
+        "type": "array",
+        "name": "data",
+        "sub": [
+          {
+            "type": "number",
+            "name": "IdAffect"
+          },
+          {
+            "type": "number",
+            "name": "UserCrea"
+          },
+          {
+            "type": "text",
+            "name": "NomTsp"
+          },
+          {
+            "type": "text",
+            "name": "NomEmploye"
+          },
+          {
+            "type": "text",
+            "name": "affectedBy"
+          },
+          {
+            "type": "object",
+            "name": "Tsp",
+            "sub": [
+              {
+                "type": "number",
+                "name": "IdTsp"
+              },
+              {
+                "type": "text",
+                "name": "Nom"
+              },
+              {
+                "type": "text",
+                "name": "CodeTsp"
+              },
+              {
+                "type": "text",
+                "name": "Description"
+              },
+              {
+                "type": "text",
+                "name": "DateCrea"
+              },
+              {
+                "type": "number",
+                "name": "Releveur"
+              },
+              {
+                "type": "text",
+                "name": "SynsPath"
+              },
+              {
+                "type": "text",
+                "name": "ArchivePath"
+              },
+              {
+                "type": "text",
+                "name": "SynsPathWin7"
+              },
+              {
+                "type": "text",
+                "name": "Pin"
+              },
+              {
+                "type": "text",
+                "name": "Puk"
+              },
+              {
+                "type": "number",
+                "name": "NumTel"
+              },
+              {
+                "type": "text",
+                "name": "ModeleId"
+              },
+              {
+                "type": "text",
+                "name": "EquipeId"
+              },
+              {
+                "type": "text",
+                "name": "SectEmp"
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "name": "SimMobile",
+            "sub": [
+              {
+                "type": "number",
+                "name": "IdSim"
+              },
+              {
+                "type": "number",
+                "name": "NumTel"
+              },
+              {
+                "type": "text",
+                "name": "Pin"
+              },
+              {
+                "type": "text",
+                "name": "Puk"
+              },
+              {
+                "type": "text",
+                "name": "DateCrea"
+              },
+              {
+                "type": "number",
+                "name": "UserCrea"
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "name": "Employe",
+            "sub": [
+              {
+                "type": "number",
+                "name": "Matricule"
+              },
+              {
+                "type": "text",
+                "name": "Nom"
+              },
+              {
+                "type": "number",
+                "name": "IdClient"
+              },
+              {
+                "type": "text",
+                "name": "AInit"
+              },
+              {
+                "type": "text",
+                "name": "IdMachine"
+              },
+              {
+                "type": "text",
+                "name": "PosteMobile"
+              },
+              {
+                "type": "text",
+                "name": "Connecte"
+              },
+              {
+                "type": "number",
+                "name": "PosteEncours"
+              },
+              {
+                "type": "text",
+                "name": "DernConn"
+              },
+              {
+                "type": "text",
+                "name": "DernDeconn"
+              },
+              {
+                "type": "text",
+                "name": "Mess"
+              },
+              {
+                "type": "text",
+                "name": "DateMess"
+              },
+              {
+                "type": "text",
+                "name": "MessLu"
+              },
+              {
+                "type": "number",
+                "name": "InstVers"
+              },
+              {
+                "type": "text",
+                "name": "InstUrgence"
+              },
+              {
+                "type": "number",
+                "name": "Statut"
+              },
+              {
+                "type": "text",
+                "name": "DroitAuQuota"
+              },
+              {
+                "type": "text",
+                "name": "Equipe"
+              },
+              {
+                "type": "text",
+                "name": "AppVersion"
+              },
+              {
+                "type": "text",
+                "name": "DateVisite"
+              },
+              {
+                "type": "text",
+                "name": "PersonVisite"
+              },
+              {
+                "type": "text",
+                "name": "UserTsptest"
+              },
+              {
+                "type": "text",
+                "name": "PasswordSalt"
+              },
+              {
+                "type": "text",
+                "name": "PasswordHash"
+              },
+              {
+                "type": "text",
+                "name": "Motpasse"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "name": "DateCreation"
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "name": "headers",
+        "sub": [
+          {
+            "type": "text",
+            "name": "content-length"
+          },
+          {
+            "type": "text",
+            "name": "content-type"
+          },
+          {
+            "type": "text",
+            "name": "date"
+          },
+          {
+            "type": "text",
+            "name": "server"
+          }
+        ]
+      }
+    ],
+    "tspLoadData": [
+      {
+        "type": "object",
+        "name": "data",
+        "sub": [
+          {
+            "type": "number",
+            "name": "IdTsp"
+          },
+          {
+            "type": "text",
+            "name": "Nom"
+          },
+          {
+            "type": "text",
+            "name": "CodeTsp"
+          },
+          {
+            "type": "text",
+            "name": "Description"
+          },
+          {
+            "type": "text",
+            "name": "DateCrea"
+          },
+          {
+            "type": "text",
+            "name": "Releveur"
+          },
+          {
+            "type": "text",
+            "name": "NumTel"
+          },
+          {
+            "type": "text",
+            "name": "ModeleId"
+          },
+          {
+            "type": "text",
+            "name": "EquipeName"
+          },
+          {
+            "type": "text",
+            "name": "EmployeName"
+          },
+          {
+            "type": "array",
+            "name": "LogAffectation"
+          },
+          {
+            "type": "object",
+            "name": "Affectation",
+            "sub": [
+              {
+                "type": "number",
+                "name": "IdAffect"
+              },
+              {
+                "type": "number",
+                "name": "UserCrea"
+              },
+              {
+                "type": "text",
+                "name": "NomTsp"
+              },
+              {
+                "type": "text",
+                "name": "NomEmploye"
+              },
+              {
+                "type": "text",
+                "name": "affectedBy"
+              },
+              {
+                "type": "text",
+                "name": "Tsp"
+              },
+              {
+                "type": "text",
+                "name": "SimMobile"
+              },
+              {
+                "type": "text",
+                "name": "Employe"
+              },
+              {
+                "type": "text",
+                "name": "DateCreation"
+              }
+            ]
+          },
+          {
+            "type": "array",
+            "name": "ListAccessoire"
+          },
+          {
+            "type": "array",
+            "name": "ListProbleme"
+          },
+          {
+            "type": "object",
+            "name": "Model",
+            "sub": [
+              {
+                "type": "number",
+                "name": "IdModele"
+              },
+              {
+                "type": "text",
+                "name": "Nom"
+              },
+              {
+                "type": "text",
+                "name": "DateCrea"
+              },
+              {
+                "type": "number",
+                "name": "UserCrea"
+              },
+              {
+                "type": "text",
+                "name": "Description"
+              },
+              {
+                "type": "text",
+                "name": "RefModel"
+              },
+              {
+                "type": "text",
+                "name": "Img"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "name": "headers",
+        "sub": [
+          {
+            "type": "text",
+            "name": "content-length"
+          },
+          {
+            "type": "text",
+            "name": "content-type"
+          },
+          {
+            "type": "text",
+            "name": "date"
+          },
+          {
+            "type": "text",
+            "name": "server"
+          }
+        ]
+      }
     ]
   },
   "index": {
@@ -6672,8 +7086,46 @@ dmx.config({
             "name": "LogAffectation"
           },
           {
-            "type": "text",
-            "name": "Affectation"
+            "type": "object",
+            "name": "Affectation",
+            "sub": [
+              {
+                "type": "number",
+                "name": "IdAffect"
+              },
+              {
+                "type": "number",
+                "name": "UserCrea"
+              },
+              {
+                "type": "text",
+                "name": "NomTsp"
+              },
+              {
+                "type": "text",
+                "name": "NomEmploye"
+              },
+              {
+                "type": "text",
+                "name": "affectedBy"
+              },
+              {
+                "type": "text",
+                "name": "Tsp"
+              },
+              {
+                "type": "text",
+                "name": "SimMobile"
+              },
+              {
+                "type": "text",
+                "name": "Employe"
+              },
+              {
+                "type": "text",
+                "name": "DateCreation"
+              }
+            ]
           },
           {
             "type": "array",
@@ -6784,6 +7236,136 @@ dmx.config({
           {
             "type": "text",
             "name": "Img"
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "name": "headers",
+        "sub": [
+          {
+            "type": "text",
+            "name": "content-length"
+          },
+          {
+            "type": "text",
+            "name": "content-type"
+          },
+          {
+            "type": "text",
+            "name": "date"
+          },
+          {
+            "type": "text",
+            "name": "server"
+          }
+        ]
+      }
+    ],
+    "getEmployeByIdSection": [
+      {
+        "type": "array",
+        "name": "data",
+        "sub": [
+          {
+            "type": "number",
+            "name": "Matricule"
+          },
+          {
+            "type": "text",
+            "name": "Nom"
+          },
+          {
+            "type": "number",
+            "name": "IdClient"
+          },
+          {
+            "type": "text",
+            "name": "AInit"
+          },
+          {
+            "type": "text",
+            "name": "IdMachine"
+          },
+          {
+            "type": "text",
+            "name": "PosteMobile"
+          },
+          {
+            "type": "text",
+            "name": "Connecte"
+          },
+          {
+            "type": "number",
+            "name": "PosteEncours"
+          },
+          {
+            "type": "text",
+            "name": "DernConn"
+          },
+          {
+            "type": "text",
+            "name": "DernDeconn"
+          },
+          {
+            "type": "text",
+            "name": "Mess"
+          },
+          {
+            "type": "text",
+            "name": "DateMess"
+          },
+          {
+            "type": "text",
+            "name": "MessLu"
+          },
+          {
+            "type": "text",
+            "name": "InstVers"
+          },
+          {
+            "type": "text",
+            "name": "InstUrgence"
+          },
+          {
+            "type": "number",
+            "name": "Statut"
+          },
+          {
+            "type": "text",
+            "name": "DroitAuQuota"
+          },
+          {
+            "type": "text",
+            "name": "Equipe"
+          },
+          {
+            "type": "text",
+            "name": "AppVersion"
+          },
+          {
+            "type": "text",
+            "name": "DateVisite"
+          },
+          {
+            "type": "text",
+            "name": "PersonVisite"
+          },
+          {
+            "type": "text",
+            "name": "UserTsptest"
+          },
+          {
+            "type": "text",
+            "name": "PasswordSalt"
+          },
+          {
+            "type": "text",
+            "name": "PasswordHash"
+          },
+          {
+            "type": "text",
+            "name": "Motpasse"
           }
         ]
       },

@@ -1,11 +1,40 @@
 <!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="appareils" appConnect="local" bootstrap5="local" components="{dmxBootstrap5Navigation:{},dmxDataTraversal:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxVideo:{},dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxBootstrap5PagingGenerator:{},dmxFormatter:{},dmxDatePicker:{}}" moment_2="cdn" -->
 
+
+
 <div is="dmx-browser" id="browser1"></div>
 
 <meta name="ac:route" content="/views/appareils/appareils">
 
 <dmx-scheduler id="scheduler1" dmx-on:tick="browser1.goto('/')" delay="3" noload="true" norepeat="true"></dmx-scheduler>
 <dmx-notifications id="notifies1"></dmx-notifications>
+<div class="modal" id="affecterUserModal" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title heading-text">Affecter un agent à l'appareil: {{selectedTsp.value.Nom}}</h5>
+            </div>
+            <div class="modal-body">
+                <form is="dmx-api-form" id="affectationForm" method="post" action="http://localhost:5243/api/affectationAm" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('L\'appareil a été affecté avec succés');tsp.load({});selectedTsp.setValue(tsp.data.where(`IdTsp`, selectedTsp.value, '=='));affecterUserModal.toggle()" dmx-on:error="notifies1.danger(lastError.response)">
+                    <input id="IdTspAffect" name="IdTsp" type="hidden" class="form-control" dmx-bind:value="selectedTsp.value.IdTsp">
+                    <input id="UserCreaAffect" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule">
+
+                    <div class="form-group mb-3 row">
+                        <label for="select2" class="col-sm-2 col-form-label">Agent</label>
+                        <div class="col-sm-10">
+                            <select id="select2" class="form-select form-select-sm" dmx-bind:options="getEmployeByIdSection.data" optiontext="Nom" optionvalue="Matricule" name="IdEmploye">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-around">
+                        <button id="btn5" class="btn btn-sm btn-primary" type="submit">Enregistrer</button>
+                        <button id="btn6" class="btn btn-sm btn-warning" data-bs-dismiss="modal">Annuler</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal" id="addModelModal" is="dmx-bs5-modal" tabindex="-1">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -17,13 +46,13 @@
                 <form id="form1">
 
                     <div class="form-group md-3"> <label for="modelName" class="form-label">Nom du model</label>
-                        <input type="text" class="form-control" id="modelName" name="Nom" aria-describedby="input1_help" placeholder="Nom du model">
+                        <input type="text" class="form-control form-control-sm" id="modelName" name="Nom" aria-describedby="input1_help" placeholder="Nom du model">
                     </div>
                     <div class="form-group md-3"> <label for="modelDescription" class="form-label">Description</label>
-                        <input type="text" class="form-control" id="modelDescription" name="Description" aria-describedby="input1_help" placeholder="Description du model">
+                        <input type="text" class="form-control form-control-sm" id="modelDescription" name="Description" aria-describedby="input1_help" placeholder="Description du model">
                     </div>
                     <div class="form-group md-3"> <label for="ReferenceModel" class="form-label">Reference</label>
-                        <input type="text" class="form-control" id="ReferenceModel" name="RefModel" aria-describedby="input1_help" placeholder="Description du model">
+                        <input type="text" class="form-control form-control-sm" id="ReferenceModel" name="RefModel" aria-describedby="input1_help" placeholder="Description du model">
                     </div>
                     <div class="form-group md-3">
                         <label for="ImgModel" class="form-label">Image</label><input id="UploadModel" name="Img" type="file" class="form-control">
@@ -102,11 +131,11 @@
 
                         <div class="col-10">
                             <div class="d-flex justify-content-around">
-                                <button id="submit" class="btn btn-primary" type="submit" dmx-bind:disabled="!ModeleId.value||!SectEmp.value" dmx-on:click="loading.setValue(true)">
+                                <button id="submit" class="btn btn-primary btn-sm" type="submit" dmx-bind:disabled="!ModeleId.value||!SectEmp.value" dmx-on:click="loading.setValue(true)">
                                     Enregistrer
                                 </button>
 
-                                <button id="cancel" class="btn btn-warning" data-bs-dismiss="modal">
+                                <button id="cancel" class="btn btn-warning btn-sm" data-bs-dismiss="modal">
                                     Annuler
                                 </button>
                             </div>
@@ -184,7 +213,7 @@
                         </div>
 
                         <div class="col-10">
-                            <div class="d-flex justify-content-start mt-5">
+                            <div class="d-flex mt-5 justify-content-around">
                                 <button id="submit1" class="btn btn-primary" type="submit" dmx-bind:disabled="!ModeleId.value||!SectEmp.value" dmx-on:click="loading.setValue(true)">
                                     Enregistrer
                                 </button>
@@ -218,6 +247,7 @@
 
 
 <dmx-api-action id="deleteApi" noload="true" method="delete" data-type="json" dmx-data:id="selectedAffecation.value.IdAffect" dmx-on:success="affecationList.load({});tspNonAffectList.load({});simNonAffecteList.load({});selectedAffecation.setValue(null);affecationList.load({});loadingEdit.setValue(false);deleteModal.hide()" dmx-bind:url="'http://localhost:5243/api/affectationAM/'+selectedAffecation.value.IdAffect" dmx-header:authorization="connectedUser.data.token" dmx-on:done="affecationList.load({});newAfffId.load({});simNonAffecteList.load({});tspNonAffectList.load({});employeNonAffecteList.load({});deleteModal.hide();loadingEdit.setValue(false);notifies1.info(lastError.status+lastError.message)"></dmx-api-action>
+<dmx-api-datasource id="getEmployeByIdSection" is="dmx-fetch" url="http://localhost:5243/api/employe/nonAffecte" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 <dmx-api-datasource id="newAfffId" is="dmx-fetch"></dmx-api-datasource>
 <dmx-api-datasource id="sectionsList" is="dmx-fetch" url="http://localhost:5243/api/tableValeur/newAffectation"></dmx-api-datasource>
 <dmx-api-datasource id="simNonAffecteList" is="dmx-fetch" url="http://localhost:5243/api/simMobile/simNonAffecte" dmx-header:authorization="connectedUser.data.token" dmx-on:start="loadingSim.setValue(true)" dmx-on:done="loadingSim.setValue(false)" noload="true"></dmx-api-datasource>
@@ -323,7 +353,7 @@
             </div><button id="btn1" class="btn btn-primary btn-sm w-100" data-bs-target="#addTspModal" data-bs-toggle="modal" dmx-on:click="nomNouveauAppareil.load({})">Ajouter&nbsp;<i class="fa fa-plus"></i></button>
 
         </div>
-        <div class="col-10" id="data" dmx-show="selectedTsp.value">
+        <div class="col-10" id="data">
             <div class="row">
 
                 <div class="col-12 col-md-6 app-col">
@@ -369,24 +399,26 @@
                 </div>
                 <div class="col-12 col-md-3 app-col">
                     <h5 class="heading-text">Agent</h5>
-                    <div class="d-flex justify-content-between flex-row" style="" dmx-hide="!selectedTsp.value||!ActualAffectation.value||ActualAffectation.value.Deleted=='O'">
+                    <div class="d-flex justify-content-between flex-row" style="" dmx-show="selectedTsp.value.Affectation.IdAffect!=0&amp;&amp;selectedTsp.value.Affectation!=null">
                         <i class="fa fa-user"></i>
                         <dl>
                             <dt>Nom</dt>
-                            <dd>{{ActualAffectation.value.EmployeName}}</dd>
+                            <dd>{{selectedTsp.value.Affectation.Employe.Nom}}</dd>
                             <dt>Date d'affectation</dt>
-                            <dd>{{ActualAffectation.value.DateCrea}}</dd>
+                            <dd>{{selectedTsp.value.Affectation.DateCreation}}</dd>
                             <dt>Numéro de la carte sim</dt>
-                            <dd>{{ActualAffectation.value.SimNumber}}</dd>
+                            <dd>{{selectedTsp.value.Affectation.SimMobile.Num}}</dd>
                         </dl>
                         <dl>
                             <dt>Affecté par</dt>
-                            <dd>{{ActualAffectation.value.affectedBy}}</dd>
+                            <dd>{{selectedTsp.value.Affectation.affectedBy}}</dd>
                         </dl>
                     </div>
-                    <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-show="selectedTsp.value&amp;&amp;( !ActualAffectation.value || ActualAffectation.value.Deleted=='O')">
+                    <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-show="selectedTsp.value&amp;&amp;(selectedTsp.value.Affectation.IdAffect==0||selectedTsp.value.Affectation==null || ActualAffectation.value.Deleted=='O')">
+
                         <i class="fa fa-user-times fa-2x"></i>
-                        <small class="text-muted">Aucun agent n'est affecté à cet appareil</small>
+                        <small class="text-muted">Aucun agent n'est affecté à cet appareil</small><button id="btn4" class="btn btn-sm btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#affecterUserModal">
+                            Affecter <i class="fa fa-plus"></i></button>
                     </div>
 
 

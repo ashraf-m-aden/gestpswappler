@@ -5,6 +5,7 @@
 
 
 
+
 <div is="dmx-browser" id="browser1"></div>
 <div class="modal" id="affectAccessoryModal" is="dmx-bs5-modal" tabindex="-1">
   <div class="modal-dialog" role="document">
@@ -14,19 +15,15 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="form3">
-          <input id="UserCreaAffect" name="UserCrea" type="text" class="form-control" dmx-bind:value="connectedUser.data.matricule">
-          <input id="AccessoryAffect" name="id" type="text" class="form-control" dmx-bind:value="selectedAccessory.value.NumSerie">
-          <input id="idEmployeAffect" name="id1" type="text" class="form-control">
-          <input id="idTspAffect" name="idTspAffect" type="text" class="form-control">
-          <select id="tspChoice" class="form-select" name="tspChoice" dmx-bind:options="allTsp.data" optiontext="Nom" optionvalue="$value" dmx-on:updated="idEmployeAffect.setValue(value.Affectation.EmployeId);idTspAffect.setValue(value.IdTsp)">
+        <form id="affectAccessoryForm" method="post" is="dmx-api-form" action="http://localhost:5243/api/accessoire/affectationAccessoireToTsp" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Accessoire affecté avec succés');accessoires.load({});affectAccessoryModal.toggle()" dmx-on:error="notifies1.danger(lastError.response)">
+
+          <input id="UserCreaAffect" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule">
+          <input id="AccessoryAffect" name="NumSerie" type="hidden" class="form-control" dmx-bind:value="selectedAccessory.value.NumSerie">
+          <select id="tspChoice" class="form-select form-select-sm" name="idAffect" dmx-bind:options="affectedTsp.data" optiontext="Tsp.Nom" optionvalue="IdAffect" dmx-on:updated="idEmployeAffect.setValue(value.Affectation.EmployeId);idTspAffect.setValue(value.IdTsp)">
             <option selected="" value="">Aucun Appareil</option>
           </select>
+          <div class="d-flex justify-content-around mt-5"><button type="submit" class="btn btn-primary btn-sm">Enregistrer</button><button type="button" class="btn btn-warning btn-sm" data-bs-dismiss="modal">Annuler</button></div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
@@ -159,6 +156,7 @@
 <dmx-data-view id="data_view_accessory" dmx-bind:data="accessoires.data" pageSize="5"></dmx-data-view>
 <dmx-data-view id="data_viewModel" dmx-bind:data="listModelAccesoires.data" pagesize="5"></dmx-data-view>
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
+<dmx-api-datasource id="affectedTsp" is="dmx-fetch" url="http://localhost:5243/api/affectationAM/firstLoad" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 <dmx-api-datasource id="allTsp" is="dmx-fetch" url="http://localhost:5243/api/tsp/firstLoad" noload="true" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 <dmx-api-datasource id="tspLoadData" is="dmx-fetch" url="http://localhost:5243/api/tsp/GetbyId/" dmx-header:authorization="connectedUser.data.token" dmx-param:id="" noload="true"></dmx-api-datasource>
 <dmx-api-datasource id="accessoires" is="dmx-fetch" url="http://localhost:5243/api/accessoire/byTypeAccessoire" dmx-header:authorization="connectedUser.data.token" dmx-on:unauthorized="connectedUser.removeAll();browser1.goto('/auth/login')" dmx-on:done="loadingData.setValue(false)" noload="true" dmx-param:id="selectedModel.value.IdType"></dmx-api-datasource>
@@ -393,8 +391,9 @@
                   <h6 class="card-title heading-text">Affectation de l'accessoire</h6>
                   <div class="row">
                     <div class="col">
-                      <div class="d-flex">
-                        <h5>{{tspLoadData.data.Nom}}</h5>
+                      <div class="d-flex flex-column justify-content-around align-items-center">
+                        <h5 dmx-text="tspLoadData.data.Nom"></h5>
+                        <img dmx-bind:src="tspLoadData.data.Model.Img?'data:image/jpeg;base64,'+tspLoadDto.data.Model.Img:'/assets/images/no image.png'" width="200">
                       </div>
                     </div>
                     <div class="col"></div>
