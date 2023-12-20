@@ -122,7 +122,7 @@
 <dmx-api-action id="deleteModel" noload="true" url="http://localhost:5243/api/modelTsp/" method="delete" dmx-param:id="selectedModel.value.IdModele" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Model supprimé');deleteModal.toggle();models.load({});selectedModel.setValue(null)" dmx-on:error="notifies1.danger(lastError.response)"></dmx-api-action>
 <dmx-api-datasource id="accessoiresData" is="dmx-fetch" noload="true" dmx-header:authorization="tokenValue.data.token" url="http://localhost:5243/api/accessoire/affectationByIdTsp"></dmx-api-datasource>
 <dmx-api-datasource id="logAffectationTspData" is="dmx-fetch" noload="true" dmx-header:authorization="tokenValue.data.token" url="http://localhost:5243/api/logAffectationAM/getLogAffectationTsp"></dmx-api-datasource>
-<dmx-api-datasource id="models" is="dmx-fetch" url="http://localhost:5243/api/modelTsp/all" dmx-on:success="tspViewList.add(data);loadingTsp.setValue(false)" dmx-on:unauthorized="tokenValue.removeAll();browser1.goto('/auth/login')" dmx-header:authorization=""></dmx-api-datasource>
+<dmx-api-datasource id="models" is="dmx-fetch" url="http://localhost:5243/api/modelTsp/all" dmx-on:success="tspViewList.add(data);loadingTsp.setValue(false)" dmx-on:unauthorized="tokenValue.removeAll();browser1.goto('/auth/login')" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 
 
 
@@ -223,36 +223,44 @@
         <div class="col-10" id="data" dmx-show="selectedModel.value">
             <div class="row">
 
-                <div class="col-12 col-md-6  app-col">
-                    <div class="d-flex flex-row justify-content-between mb-1">
-                        <h5 class="heading-text">Details du model</h5><button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" dmx-on:click="listModelTsp.load({});nomNouveauAppareil.load({})">Modifier&nbsp;<i class="fa fa-pencil"></i></button>
-                    </div>
+                <div class="col-12 col-md-6 ">
+                    <div class="card app-col">
 
-                    <div class="d-flex flex-row justify-content-start" style="">
-                        <div class="d-flex flex-column align-items-center justify-content-around">
-                            <a><img dmx-bind:src="selectedModel.value.Img?'data:image/jpeg;base64,'+selectedModel.value.Img:'/assets/images/no image.png'" class="model-img"></a>
+                        <div class="card-body">
+                            <div class="d-flex flex-row justify-content-between mb-1">
+                                <h5 class="heading-text">Details du model</h5><button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" dmx-on:click="listModelTsp.load({});nomNouveauAppareil.load({})">Modifier&nbsp;<i class="fa fa-pencil"></i></button>
+                            </div>
+                            <div class="d-flex flex-row justify-content-start" style="">
+                                <div class="d-flex flex-column align-items-center justify-content-around">
+                                    <a><img dmx-bind:src="selectedModel.value.Img?'data:image/jpeg;base64,'+selectedModel.value.Img:'/assets/images/no image.png'" class="model-img"></a>
+                                </div>
+
+                                <dl>
+                                    <dt>Nom</dt>
+                                    <dd>{{selectedModel.value.Nom}}</dd>
+                                    <dt>Réference</dt>
+                                    <dd>{{selectedModel.value.RefModel}}</dd>
+                                    <dt>Description</dt>
+
+                                    <dd>50</dd>
+                                    <dt>Model Année</dt>
+                                    <dd>2018</dd>
+                                    <dt>Nombre d'appareils</dt>
+                                    <dd>50</dd>
+                                    <dt>Prix</dt>
+                                    <dd>50</dd>
+
+
+
+
+                                </dl>
+                            </div>
+
                         </div>
-
-                        <dl>
-                            <dt>Nom</dt>
-                            <dd>{{selectedModel.value.Nom}}</dd>
-                            <dt>Réference</dt>
-                            <dd>{{selectedModel.value.RefModel}}</dd>
-                            <dt>Description</dt>
-
-                            <dd>50</dd>
-                            <dt>Model Année</dt>
-                            <dd>2018</dd>
-                            <dt>Nombre d'appareils</dt>
-                            <dd>50</dd>
-                            <dt>Prix</dt>
-                            <dd>50</dd>
-
-
-
-
-                        </dl>
                     </div>
+
+
+
 
 
 

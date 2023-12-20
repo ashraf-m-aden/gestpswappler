@@ -262,7 +262,7 @@
       <div class="row">
 
 
-        <div class="col-12 col-md-6 ">
+        <div class="col-12 col-md-6 " dmx-show="selectedModel.value">
           <div class="card">
             <div class="card-body">
               <div class="d-flex flex-row justify-content-between mb-1">
@@ -305,7 +305,7 @@
         </div>
         <div class="col-12 col-md-6 ps-1 pe-1">
           <div class="row">
-            <div class="col-12">
+            <div class="col-12" dmx-show="selectedModel.value">
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex justify-content-between">
@@ -360,7 +360,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" dmx-show="selectedAccessory.value">
               <div class="card">
                 <div class="card-body">
                   <ul class="list-group list-group-flush">
@@ -389,17 +389,45 @@
                 <div class="card-body">
 
                   <h6 class="card-title heading-text">Affectation de l'accessoire</h6>
-                  <div class="row">
+                  <div class="row" dmx-show="tspLoadData.data&amp;&amp;tspLoadData.data.Affectation&amp;&amp;tspLoadData.data.Affectation.IdAffect!=0">
                     <div class="col">
                       <div class="d-flex flex-column justify-content-around align-items-center">
+                        <small class="text-muted">Détails de l'appareil</small>
                         <h5 dmx-text="tspLoadData.data.Nom"></h5>
-                        <img dmx-bind:src="tspLoadData.data.Model.Img?'data:image/jpeg;base64,'+tspLoadDto.data.Model.Img:'/assets/images/no image.png'" width="200">
+                        <img dmx-bind:src="tspLoadData.data.Model.Img?'data:image/jpeg;base64,'+tspLoadDto.data.Model.Img:'/assets/images/no image.png'" width="150">
                       </div>
                     </div>
-                    <div class="col"></div>
-                    <div class="col"></div>
+                    <div class="col">
+                      <small class="text-muted">Détails de l'agent</small>
+                      <dl>
+                        <dt>Affecté à:</dt>
+                        <dd>{{tspLoadData.data.Affectation.Employe.Nom}}</dd>
+                        <dt>Affecté par:</dt>
+                        <dd>{{tspLoadData.data.Affectation.affectedBy}}</dd>
+                        <dt>Date:</dt>
+
+
+                        <dd>{{tspLoadData.data.Affectation.DateCreation}}</dd>
+                      </dl>
+                    </div>
+                    <div class="col">
+
+                      <small class="text-muted">Liste des accessoires</small>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Numero de serie</th>
+                          </tr>
+                        </thead>
+                        <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="tspLoadData.data.ListAccessoire" id="tableRepeat3">
+                          <tr>
+                            <td dmx-text="Accessoire.NumSerie"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                  <div class="row">
+                  <div class="row" dmx-show="tspLoadData.data&amp;&amp;tspLoadData.data.Affectation&amp;&amp;tspLoadData.data.Affectation.IdAffect==0">
                     <div class="col text-end">
                       <button id="btn5" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#affectAccessoryModal">Affecté&nbsp;<i class="fa fa-plus"></i></button>
                       <div class="d-flex flex-column align-items-center">

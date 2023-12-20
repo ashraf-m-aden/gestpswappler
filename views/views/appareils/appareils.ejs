@@ -356,70 +356,83 @@
         <div class="col-10" id="data">
             <div class="row">
 
-                <div class="col-12 col-md-6 app-col">
-                    <div class="d-flex flex-row justify-content-between mb-1">
-                        <h5 class="heading-text">Details de l'appareil
-                        </h5><button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editTspModal" dmx-on:click="listModelTsp.load({});nomNouveauAppareil.load({})">Modifier&nbsp;<i class="fa fa-pencil"></i></button>
-                    </div>
+                <div class="col-12 col-md-6 ">
+                    <div class="card app-col">
+                        <div class="card-body">
+                            <div class="d-flex flex-row justify-content-between mb-1">
+                                <h5 class="heading-text">Details de l'appareil
+                                </h5><button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editTspModal" dmx-on:click="listModelTsp.load({});nomNouveauAppareil.load({})">Modifier&nbsp;<i class="fa fa-pencil"></i></button>
+                            </div>
+                            <div class="d-flex justify-content-between flex-row" style="">
+                                <div class="d-flex flex-column align-items-center justify-content-around">
+                                    <h6>{{selectedTsp.value.Model.Nom}}</h6>
+                                    <a><img dmx-bind:src="selectedTsp.value.Model.Img?'data:image/jpeg;base64,'+selectedTsp.value.Model.Img:'/assets/images/no image.png'" class="img-fluid app-img"></a>
+                                </div>
 
-                    <div class="d-flex justify-content-between flex-row" style="">
-                        <div class="d-flex flex-column align-items-center justify-content-around">
-                            <h6>{{selectedTsp.value.Model.Nom}}</h6>
-                            <a><img dmx-bind:src="selectedTsp.value.Model.Img?'data:image/jpeg;base64,'+selectedTsp.value.Model.Img:'/assets/images/no image.png'" class="img-fluid app-img"></a>
+                                <dl>
+                                    <dt>Nom</dt>
+                                    <dd>{{selectedTsp.value.Nom}}</dd>
+                                    <dt>Identifiant</dt>
+                                    <dd>{{selectedTsp.value.IdTsp}}</dd>
+                                    <dt>Description</dt>
+                                    <dd>{{selectedTsp.value.Description}}</dd>
+                                </dl>
+                                <dl>
+                                    <dt>Numéro de Serie</dt>
+                                    <dd>{{selectedTsp.value.NumSerie}}</dd>
+                                    <dt>Année de production</dt>
+                                    <dd>{{selectedTsp.value.CodeTsp}}</dd>
+                                    <dt>Date d'achat</dt>
+                                    <dd>{{selectedTsp.value.Description}}</dd>
+                                </dl>
+                                <dl>
+                                    <dt>Date de mise en service</dt>
+                                    <dd>{{selectedTsp.value.NumSerie}}</dd>
+                                    <dt>Agent actuelle</dt>
+                                    <dd>{{selectedTsp.value.CodeTsp}}</dd>
+                                    <dt>Date d'achat</dt>
+                                    <dd>{{selectedTsp.value.Description}}</dd>
+                                </dl>
+                            </div>
                         </div>
-
-                        <dl>
-                            <dt>Nom</dt>
-                            <dd>{{selectedTsp.value.Nom}}</dd>
-                            <dt>Identifiant</dt>
-                            <dd>{{selectedTsp.value.IdTsp}}</dd>
-                            <dt>Description</dt>
-                            <dd>{{selectedTsp.value.Description}}</dd>
-                        </dl>
-                        <dl>
-                            <dt>Numéro de Serie</dt>
-                            <dd>{{selectedTsp.value.NumSerie}}</dd>
-                            <dt>Année de production</dt>
-                            <dd>{{selectedTsp.value.CodeTsp}}</dd>
-                            <dt>Date d'achat</dt>
-                            <dd>{{selectedTsp.value.Description}}</dd>
-                        </dl>
-                        <dl>
-                            <dt>Date de mise en service</dt>
-                            <dd>{{selectedTsp.value.NumSerie}}</dd>
-                            <dt>Agent actuelle</dt>
-                            <dd>{{selectedTsp.value.CodeTsp}}</dd>
-                            <dt>Date d'achat</dt>
-                            <dd>{{selectedTsp.value.Description}}</dd>
-                        </dl>
                     </div>
+
+
+
 
 
 
                 </div>
-                <div class="col-12 col-md-3 app-col">
-                    <h5 class="heading-text">Agent</h5>
-                    <div class="d-flex justify-content-between flex-row" style="" dmx-show="selectedTsp.value.Affectation.IdAffect!=0&amp;&amp;selectedTsp.value.Affectation!=null">
-                        <i class="fa fa-user"></i>
-                        <dl>
-                            <dt>Nom</dt>
-                            <dd>{{selectedTsp.value.Affectation.Employe.Nom}}</dd>
-                            <dt>Date d'affectation</dt>
-                            <dd>{{selectedTsp.value.Affectation.DateCreation}}</dd>
-                            <dt>Numéro de la carte sim</dt>
-                            <dd>{{selectedTsp.value.Affectation.SimMobile.Num}}</dd>
-                        </dl>
-                        <dl>
-                            <dt>Affecté par</dt>
-                            <dd>{{selectedTsp.value.Affectation.affectedBy}}</dd>
-                        </dl>
-                    </div>
-                    <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-show="selectedTsp.value&amp;&amp;(selectedTsp.value.Affectation.IdAffect==0||selectedTsp.value.Affectation==null || ActualAffectation.value.Deleted=='O')">
+                <div class="col-12 col-md-3 ">
+                    <div class="card app-col">
+                        <div class="card-body">
+                            <h5 class="heading-text">Agent</h5>
+                            <div class="d-flex justify-content-between flex-row" style="" dmx-show="selectedTsp.value.Affectation.IdAffect!=0&amp;&amp;selectedTsp.value.Affectation!=null">
+                                <i class="fa fa-user"></i>
+                                <dl>
+                                    <dt>Nom</dt>
+                                    <dd>{{selectedTsp.value.Affectation.Employe.Nom}}</dd>
+                                    <dt>Date d'affectation</dt>
+                                    <dd>{{selectedTsp.value.Affectation.DateCreation}}</dd>
+                                    <dt>Numéro de la carte sim</dt>
+                                    <dd>{{selectedTsp.value.Affectation.SimMobile.Num}}</dd>
+                                </dl>
+                                <dl>
+                                    <dt>Affecté par</dt>
+                                    <dd>{{selectedTsp.value.Affectation.affectedBy}}</dd>
+                                </dl>
+                            </div>
+                            <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-show="selectedTsp.value&amp;&amp;(selectedTsp.value.Affectation.IdAffect==0||selectedTsp.value.Affectation==null || ActualAffectation.value.Deleted=='O')">
 
-                        <i class="fa fa-user-times fa-2x"></i>
-                        <small class="text-muted">Aucun agent n'est affecté à cet appareil</small><button id="btn4" class="btn btn-sm btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#affecterUserModal">
-                            Affecter <i class="fa fa-plus"></i></button>
+                                <i class="fa fa-user-times fa-2x"></i>
+                                <small class="text-muted">Aucun agent n'est affecté à cet appareil</small><button id="btn4" class="btn btn-sm btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#affecterUserModal">
+                                    Affecter <i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
                     </div>
+
+
+
 
 
 
