@@ -69,7 +69,6 @@
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
 
 <div is="dmx-browser" id="browser1"></div>
-<dmx-value id="selectedSim"></dmx-value>
 
 <meta name="ac:route" content="/views/sim/allsim" />
 
@@ -197,11 +196,11 @@
 
             <div class="col-10">
               <div class="d-flex justify-content-around">
-                <button id="submit" class="btn btn-primary btn-sm" type="submit" dmx-bind:disabled="!ModeleId.value||!SectEmp.value" dmx-on:click="loading.setValue(true)">
+                <button id="submit1" class="btn btn-primary btn-sm" type="submit" dmx-bind:disabled="!ModeleId.value||!SectEmp.value" dmx-on:click="loading.setValue(true)">
                   Enregistrer
                 </button>
 
-                <button id="cancel" class="btn btn-warning btn-sm" data-bs-dismiss="modal">
+                <button id="cancel1" class="btn btn-warning btn-sm" data-bs-dismiss="modal">
                   Annuler
                 </button>
               </div>
@@ -270,11 +269,11 @@
 
             <div class="col-10">
               <div class="d-flex mt-5 justify-content-around">
-                <button id="submit1" class="btn btn-primary" type="submit" dmx-bind:disabled="!ModeleId.value||!SectEmp.value" dmx-on:click="loading.setValue(true)">
+                <button id="submit12" class="btn btn-primary" type="submit" dmx-bind:disabled="!ModeleId.value||!SectEmp.value" dmx-on:click="loading.setValue(true)">
                   Enregistrer
                 </button>
 
-                <button id="cancel1" class="btn btn-warning" data-bs-dismiss="modal">
+                <button id="cancel12" class="btn btn-warning" data-bs-dismiss="modal">
                   Annuler
                 </button>
               </div>
@@ -287,7 +286,7 @@
 </div>
 
 <dmx-datetime id="DateCreaValue"></dmx-datetime>
-<dmx-value id="ActualAffectation" dmx-bind:value="selectedTsp.value.logAffectation.first()"></dmx-value>
+<dmx-value id="ActualAffectation" dmx-bind:value="selectedSim.value.logAffectationList.first()"></dmx-value>
 <dmx-value id="selectedSim"></dmx-value>
 <dmx-data-view id="searchData" dmx-bind:data="sims.data.where(`NumTel`, form2.recherche.value, 'contains')" dmx-bind:page="tsp.paging.pages" dmx-bind:pagesize="10" sortdir="desc"></dmx-data-view>
 <dmx-data-view id="logDataView" dmx-bind:page="tsp.paging.pages" dmx-bind:pagesize="10" sortdir="desc" dmx-bind:data="selectedSim.value.logAffectationList" pageSize="5"></dmx-data-view>
@@ -387,11 +386,11 @@
             </div>
           </div>
         </div>
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-4">
           <div class="card app-col">
             <div class="card-body">
               <h5 class="heading-text">Agent</h5>
-              <div class="d-flex justify-content-between flex-row" style="" dmx-show="selectedSim.value.affectation.IdAffect!=0&amp;&amp;selectedSim.value.affectation!=null">
+              <div class="d-flex justify-content-between flex-row" style="" dmx-show="selectedSim.value.affectation!=null">
                 <i class="fa fa-user"></i>
                 <dl>
                   <dt>Nom</dt>
@@ -399,16 +398,16 @@
                   <dt>Date d'affectation</dt>
                   <dd>{{ selectedSim.value.affectation.DateCreation }}</dd>
                   <dt>Nom de l'appareil</dt>
-                  <dd>{{selectedSim.value.affectation.Tsp.Nom}}</dd>
+                  <dd>{{ selectedSim.value.affectation.Tsp.Nom }}</dd>
                 </dl>
                 <dl>
                   <dt>Affecté par</dt>
                   <dd>{{ selectedSim.value.affectation.UserCrea.Nom }}</dd>
                 </dl>
               </div>
-              <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-show="selectedSim.value&amp;&amp;(selectedSim.value.affectation.IdAffect==0||selectedSim.value.affectation==null || ActualAffectation.value.Deleted=='O')">
+              <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-show="selectedSim.value.affectation==null||ActualAffectation.value.Deleted=='O'">
                 <i class="fa fa-user-times fa-2x"></i>
-                <small class="text-muted">Aucun agent n'est affecté à cette carte sim</small><button id="btn4" class="btn btn-sm btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#affecterUserModal">
+                <small class="text-muted">Aucun agent n'est affecté à cet appareil</small><button id="btn4" class="btn btn-sm btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#affecterUserModal">
                   Affecter <i class="fa fa-plus"></i>
                 </button>
               </div>

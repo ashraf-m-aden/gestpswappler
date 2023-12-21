@@ -4542,6 +4542,10 @@ dmx.config({
         }
       ],
       "outputType": "array"
+    },
+    "logDataView": {
+      "meta": null,
+      "outputType": "object"
     }
   },
   "navbar": {

@@ -6,9 +6,9 @@
 
 <dmx-data-view id="dataViewAffectation" dmx-bind:data="affecationList.data.where(`Employe.Nom.capitalize()`, form2.recherche.value.capitalize(), 'contains')" dmx-bind:page="affecationList.paging.pages" dmx-bind:pagesize="10"></dmx-data-view>
 
-<dmx-value id="sectionId" dmx-bind:value="0"></dmx-value>
 
-<dmx-value id="selectedAffectation"></dmx-value>
+
+
 
 <div class="modal" id="newAffect" is="dmx-bs5-modal" tabindex="-1">
   <div class="modal-dialog" role="document">
@@ -22,7 +22,7 @@
         <div class="col-12">
           <div class="card border-primary">
             <div class="card-body">
-              <form id="NewAffectationForm" method="post" is="dmx-api-form" action="http://localhost:5243/api/affectationAM" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Affectation modifiée');scheduler1.start();affecationList.load({});tspNonAffectList.load({});simNonAffecteList.load({});newAffect.toggle();loadingEdit.setValue(false);newAffect.update();NewAffectationForm.reset();sectionId.setValue(0)" dmx-on:error="loadingEdit.setValue(false);notifies1.danger(lastError.message)" post-data="json">
+              <form id="NewAffectationForm" method="post" is="dmx-api-form" action="http://localhost:5243/api/affectationAM" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Affectation modifiée');scheduler1.start();affecationList.load({});tspNonAffectList.load({});simNonAffecteList.load({});newAffect.toggle();newAffect.update();NewAffectationForm.reset();sectionId.setValue(0)" dmx-on:error="notifies1.danger(lastError.message)" post-data="json">
                 <div class="row">
                   <div class="col-12 text-start">
                     <div class="row">
@@ -104,138 +104,65 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="d-flex flex-column justify-content-start">
+          <h5 class="modal-title heading-text">
+            Mis à jour d'une affectation
+          </h5><small class="text-muted" dmx-text="selectedAffectation.value.Employe.Nom"></small>
+        </div>
+
+
       </div>
       <div class="modal-body">
         <!-- Wappler include jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="editAffectation" appConnect="local" bootstrap5="local" -->
-        <div class="col-12">
-          <div class="card border-primary">
-            <div class="card-body">
-              <form id="affectationForm" method="post" is="dmx-api-form" action="http://localhost:5243/api/affectationAM/updateAffectation" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Affectation modifiée');scheduler1.start();editModal.toggle();affecationList.load({});tspNonAffectList.load({});simNonAffecteList.load({});loadingEdit.setValue(false);selectedAffectation.setValue(null)" dmx-on:error="loadingEdit.setValue(false);notifies1.danger(lastError.message)" post-data="json">
-                <div class="row">
-                  <div class="col-12 text-start">
-                    <div class="row">
-                      <div class="col">
-                        <input id="DateCrea" name="DateCrea" class="form-control" dmx-bind:value="date.datetime" type="hidden" />
-                        <input id="UserCrea" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" />
-                        <input id="IdAffect" name="IdAffect" type="hidden" class="form-control" dmx-bind:value="selectedAffectation.value.IdAffect" />
-                        <input id="EmployeId" name="EmployeId" type="hidden" class="form-control" dmx-bind:value="selectedAffectation.value.Employe.Matricule" />
-                        <h1>Mise à jour</h1>
-                        <p class="text-h3 w-100" dmx-text="'Affecté à : '+selectedAffectation.value.Employe.Nom">
-                          Enter your details below.
-                        </p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col mt-4">
-                        <select id="simSelect" class="form-select" dmx-bind:options="simNonAffecteList.data" optiontext="NumTel" optionvalue="IdSim" name="SimMobileId">
-                          <option selected="" value="null">
-                            {{ selectedAffectation.value.SimMobile.NumTel }}
-                          </option>
-                          <option value="">Enlever la carte sim</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="row mt-4">
-                      <div class="col">
-                        <select id="TspSelect" class="form-select" dmx-bind:options="tspNonAffectList.data" optiontext="Nom" optionvalue="IdTsp" name="TspId">
-                          <option value="null">
-                            {{ selectedAffectation.value.Tsp.Nom }}
-                          </option>
-                          <option value="">Enlever l'appareil</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="row mt-4">
-                      <div class="col">
-                        <button id="loadingbtn" class="btn btn-light" dmx-show="loadingEdit.value">
-                          <span class="spinner-border spinner-border-sm text-danger" role="status"></span>
-                        </button>
-                        <button id="submit" class="btn btn-primary" type="submit" dmx-hide="loadingEdit.value||(simSelect.value == selectedAffectation.value.SimMobile.IdSim &amp;&amp; TspSelect.value == selectedAffectation.value.Tsp.IdTsp)" dmx-on:click="loadingEdit.setValue(true);loadingList.setValue(true)">
-                          Modifier
-                        </button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancel" dmx-hide="loadingEdit.value">
-                          Annuler
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal" id="editAccessoire" is="dmx-bs5-modal" tabindex="-1">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="container">
+        <form id="affectationForm" method="post" is="dmx-api-form" action="http://localhost:5243/api/affectationAM/updateAffectation" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Affectation modifiée');scheduler1.start();editModal.toggle();affecationList.load({});tspNonAffectList.load({});simNonAffecteList.load({});selectedAffectation.setValue(null)" dmx-on:error="notifies1.danger(lastError.message)" post-data="json">
           <div class="row">
             <div class="col-12">
-              <h6>L'appareil posséde les accessoires suivants:</h6>
-              <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover table-sm">
-                  <thead>
-                    <tr>
-                      <th>Nom</th>
-                      <th>Type accessoire</th>
-                    </tr>
-                  </thead>
-                  <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="existingAccessories.data" id="tableRepeat1">
-                    <tr>
-                      <td dmx-text="Nom"></td>
-                      <td dmx-text="TypeAccessoire.Nom"></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+
+              <input id="UserCrea" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" />
+              <input id="IdAffect" name="IdAffect" type="hidden" class="form-control" dmx-bind:value="selectedAffectation.value.IdAffect" />
+              <input id="EmployeId" name="EmployeId" type="hidden" class="form-control" dmx-bind:value="selectedAffectation.value.Employe.Matricule" />
+              <p class="text-h3 w-100">
+                Veuillez attribuer à l'agent un appareil et une carte sim:
+              </p>
             </div>
-            <div class="col-12">
-              <h6>Choisissez les accessoires à ajouter depuis ce tableau:</h6>
-              <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover table-sm">
-                  <thead>
-                    <tr>
-                      <th>Nom</th>
-                      <th>Type accessoire</th>
-                      <th scope="row">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="availableAccessories.data" id="tableRepeat3">
-                    <tr>
-                      <td dmx-text="Nom"></td>
-                      <td dmx-text="TypeAccessoire.Nom"></td>
-                      <td class="text-center">
-                        <form id="form1">
-                          <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="input1" name="input1" dmx-on:checked="selectedAccessories.addUniq(IdAccessoire)" dmx-on:unchecked="selectedAccessories.remove(IdAccessoire)" />
-                          </div>
-                        </form>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+            <div class="col">
+              <div class="form-group mb-3 row">
+                <label for="input1" class="col-sm-2 col-form-label">Modifier l'appareil</label>
+                <div class="col-sm-10">
+                  <select id="TspSelect" class="form-select" dmx-bind:options="tspNonAffectList.data" optiontext="Nom" optionvalue="IdTsp" name="TspId">
+                    <option value="null">
+                      {{ selectedAffectation.value.Tsp.Nom }}
+                    </option>
+                    <option value="">Enlever l'appareil</option>
+                  </select>
+                </div>
               </div>
+              <div class="form-group mb-3 row">
+                <label for="input1" class="col-sm-2 col-form-label">Modifier la carte sim</label>
+                <div class="col-sm-10">
+                  <select id="simSelect" class="form-select mb-5" dmx-bind:options="simNonAffecteList.data" optiontext="NumTel" optionvalue="IdSim" name="SimMobileId">
+                    <option selected="" value="null">
+                      {{ selectedAffectation.value.SimMobile.NumTel }}
+                    </option>
+                    <option value="">Enlever la carte sim</option>
+                  </select>
+                </div>
+              </div>
+
             </div>
-            <div class="col text-center">
-              <button id="btn1" class="btn btn-primary" dmx-on:click="updateAffectation.load({}) " data-bs-dismiss="modal">
-                Enregistrer
+          </div>
+          <div class="row">
+            <div class="col">
+              <button id="loadingbtn" class="btn btn-light" dmx-show="state.processing">
+                <span class="spinner-border spinner-border-sm text-danger" role="status"></span>
               </button>
-              <button id="cancelAcc" class="btn btn-secondary" data-bs-dismiss="modal" dmx-on:click="form1.reset()">
+              <button id="submit" class="btn btn-primary" type="submit" dmx-hide="loadingEdit.value||(simSelect.value == selectedAffectation.value.SimMobile.IdSim &amp;&amp; TspSelect.value == selectedAffectation.value.Tsp.IdTsp)" dmx-on:click="loadingEdit.setValue(true);loadingList.setValue(true)">Enregistrer</button>
+              <button type="button" class="btn btn-warning" data-bs-dismiss="modal" id="cancel">
                 Annuler
               </button>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -251,12 +178,12 @@
         <p>Etes vous sûr de vouloir supprimer cette affectation?</p>
       </div>
       <div class="modal-footer">
-        <form is="dmx-api-form" id="apiform1" method="post" dmx-bind:action="'http://localhost:5243/api/affectationAM/deleteAffectation/'+selectedAffectation.value.IdAffect" dmx-on:success="affecationList.load({});employeNonAffecteList.load({});tspNonAffectList.load({});simNonAffecteList.load({});newAfffId.load({});notifies1.success('Affectation supprimée');loadingEdit.setValue(false);deleteModal.hide()" dmx-on:error="loadingEdit.setValue(false);notifies1.warning(lastError.response+lastError.message+lastError.status)" dmx-header:authorization="connectedUser.data.token" post-data="json">
+        <form is="dmx-api-form" id="apiform1" method="post" dmx-bind:action="'http://localhost:5243/api/affectationAM/deleteAffectation/'+selectedAffectation.value.IdAffect" dmx-on:success="affecationList.load({});employeNonAffecteList.load({});tspNonAffectList.load({});simNonAffecteList.load({});newAfffId.load({});notifies1.success('Affectation supprimée');deleteModal.hide()" dmx-on:error="notifies1.warning(lastError.response+lastError.message+lastError.status)" dmx-header:authorization="connectedUser.data.token" post-data="json">
           <button type="submit" class="btn btn-danger" dmx-hide="loadingEdit.value" dmx-on:click="loadingEdit.setValue(true);loadingList.setValue(true)">
             Supprimer
           </button>
         </form>
-        <button id="deleteloading" class="btn" dmx-show="loadingEdit.value">
+        <button id="deleteloading" class="btn" dmx-show="apiform1.state.executing">
           <span class="spinner-border spinner-border-sm" role="status"></span>
         </button>
 
@@ -271,6 +198,8 @@
 <dmx-notifications id="notifies1"></dmx-notifications>
 
 <div is="dmx-browser" id="browser1"></div>
+<dmx-value id="selectedAffectation"></dmx-value>
+<dmx-value id="sectionId" dmx-bind:value="0"></dmx-value>
 <dmx-api-datasource id="availableAccessories" is="dmx-fetch" url="http://localhost:5243/api/accessoire/availableAccessories" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 <dmx-api-action id="updateAffectation" noload="true" method="post" url="http://localhost:5243/api/accessoire/affectationAccessoire" dmx-data:ids="selectedAccessories.items" dmx-header:authorization="connectedUser.data.token" dmx-data:idtsp="selectedAffectation.value.Tsp.IdTsp" dmx-data:idemploye="selectedAffectation.value.Employe.Matricule" dmx-data:usercrea="connectedUser.data.matricule" dmx-data:datecrea="date.datetime" dmx-on:success="notifies1.success('Affectation des accessoires mise à jours');existingAccessories.load({});availableAccessories.load({});editAccessoire.input1.select(false)" dmx-on:error="notifies1.danger(lastError.message)"></dmx-api-action>
 <dmx-api-action id="deleteApi" noload="true" method="delete" data-type="json" dmx-data:id="selectedAffectation.value.IdAffect" dmx-on:success="affecationList.load({});tspNonAffectList.load({});simNonAffecteList.load({});selectedAffectation.setValue(null);affecationList.load({});loadingEdit.setValue(false);deleteModal.hide()" dmx-bind:url="'http://localhost:5243/api/affectationAM/'+selectedAffectation.value.IdAffect" dmx-header:authorization="connectedUser.data.token" dmx-on:done="affecationList.load({});newAfffId.load({});simNonAffecteList.load({});tspNonAffectList.load({});employeNonAffecteList.load({});deleteModal.hide();loadingEdit.setValue(false);notifies1.info(lastError.status+lastError.message)"></dmx-api-action>
@@ -307,19 +236,17 @@
             <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
           </button>
           <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover table-sm">
+            <table class="table table-hover table-sm">
               <thead>
                 <tr>
                   <th>#</th>
                   <th>Agent</th>
-
                 </tr>
               </thead>
-              <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="dataViewAffectation.data" id="tableRepeat4">
-                <tr dmx-on:click="selectedAffectation.setValue($value)">
+              <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="dataViewAffectation.data" id="tableRepeat1">
+                <tr dmx-class:clicked="selectedAffectation.value.IdAffect==IdAffect" dmx-on:click="selectedAffectation.setValue($value)">
                   <td>{{IdAffect}}</td>
                   <td>{{Employe.Nom}}</td>
-
                 </tr>
               </tbody>
             </table>
@@ -356,9 +283,6 @@
 
             <button id="edit" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal" dmx-show="selectedAffectation.value!=null">
               <i class="fa fa-pencil"></i> Modifier
-            </button>
-            <button id="access" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editAccessoire" dmx-show="selectedAffectation.value!=null">
-              <i class="fa fa-exchange"></i> Accessoire
             </button>
           </div>
         </div>
