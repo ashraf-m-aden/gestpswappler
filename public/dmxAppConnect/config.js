@@ -4853,22 +4853,6 @@ dmx.config({
             "name": "IdAffect"
           },
           {
-            "type": "number",
-            "name": "UserCrea"
-          },
-          {
-            "type": "text",
-            "name": "NomTsp"
-          },
-          {
-            "type": "text",
-            "name": "NomEmploye"
-          },
-          {
-            "type": "text",
-            "name": "affectedBy"
-          },
-          {
             "type": "object",
             "name": "Tsp",
             "sub": [
@@ -4893,7 +4877,7 @@ dmx.config({
                 "name": "DateCrea"
               },
               {
-                "type": "text",
+                "type": "number",
                 "name": "Releveur"
               },
               {
@@ -4917,11 +4901,11 @@ dmx.config({
                 "name": "Puk"
               },
               {
-                "type": "text",
+                "type": "number",
                 "name": "NumTel"
               },
               {
-                "type": "number",
+                "type": "text",
                 "name": "ModeleId"
               },
               {
@@ -4929,8 +4913,42 @@ dmx.config({
                 "name": "EquipeId"
               },
               {
-                "type": "number",
+                "type": "text",
                 "name": "SectEmp"
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "name": "ModelTsp",
+            "sub": [
+              {
+                "type": "number",
+                "name": "IdModele"
+              },
+              {
+                "type": "text",
+                "name": "Nom"
+              },
+              {
+                "type": "text",
+                "name": "DateCrea"
+              },
+              {
+                "type": "number",
+                "name": "UserCrea"
+              },
+              {
+                "type": "text",
+                "name": "Description"
+              },
+              {
+                "type": "text",
+                "name": "RefModel"
+              },
+              {
+                "type": "text",
+                "name": "Img"
               }
             ]
           },
@@ -5022,6 +5040,112 @@ dmx.config({
               },
               {
                 "type": "number",
+                "name": "InstVers"
+              },
+              {
+                "type": "text",
+                "name": "InstUrgence"
+              },
+              {
+                "type": "number",
+                "name": "Statut"
+              },
+              {
+                "type": "text",
+                "name": "DroitAuQuota"
+              },
+              {
+                "type": "text",
+                "name": "Equipe"
+              },
+              {
+                "type": "text",
+                "name": "AppVersion"
+              },
+              {
+                "type": "text",
+                "name": "DateVisite"
+              },
+              {
+                "type": "text",
+                "name": "PersonVisite"
+              },
+              {
+                "type": "text",
+                "name": "UserTsptest"
+              },
+              {
+                "type": "text",
+                "name": "PasswordSalt"
+              },
+              {
+                "type": "text",
+                "name": "PasswordHash"
+              },
+              {
+                "type": "text",
+                "name": "Motpasse"
+              }
+            ]
+          },
+          {
+            "type": "object",
+            "name": "UserCrea",
+            "sub": [
+              {
+                "type": "number",
+                "name": "Matricule"
+              },
+              {
+                "type": "text",
+                "name": "Nom"
+              },
+              {
+                "type": "text",
+                "name": "IdClient"
+              },
+              {
+                "type": "text",
+                "name": "AInit"
+              },
+              {
+                "type": "text",
+                "name": "IdMachine"
+              },
+              {
+                "type": "text",
+                "name": "PosteMobile"
+              },
+              {
+                "type": "text",
+                "name": "Connecte"
+              },
+              {
+                "type": "text",
+                "name": "PosteEncours"
+              },
+              {
+                "type": "text",
+                "name": "DernConn"
+              },
+              {
+                "type": "text",
+                "name": "DernDeconn"
+              },
+              {
+                "type": "text",
+                "name": "Mess"
+              },
+              {
+                "type": "text",
+                "name": "DateMess"
+              },
+              {
+                "type": "text",
+                "name": "MessLu"
+              },
+              {
+                "type": "text",
                 "name": "InstVers"
               },
               {
