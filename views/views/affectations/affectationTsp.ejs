@@ -273,7 +273,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12 col-md-10">
+    <div class="col-12 col-md-10" dmx-show="selectedAffectation.value">
       <div class="row">
         <div class="col-12">
           <div class="d-flex justify-content-start">
@@ -286,7 +286,7 @@
             </button>
           </div>
         </div>
-        <div class="col-12">
+        <div class="col-12" dmx-show="selectedAffectation.value">
           <div class="row">
             <div class="col">
               <div class="card">
@@ -388,5 +388,6 @@
         </div>
       </div>
     </div>
+    <div class="col-12 col-md-10 app-nodata" id="nodata" dmx-hide="selectedAffectation.value"></div>
   </div>
 </div>

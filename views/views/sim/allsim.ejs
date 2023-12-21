@@ -352,16 +352,16 @@
         Ajouter&nbsp;<i class="fa fa-plus"></i>
       </button>
     </div>
-    <div class="col-10" id="data">
+    <div class="col-10" id="data" dmx-show="selectedSim.value!=null">
       <div class="row">
         <div class="col-12 col-md-4">
           <div class="card app-col">
             <div class="card-body">
               <div class="d-flex flex-row justify-content-between mb-1">
                 <h5 class="heading-text">Details de la carte sim</h5>
-                <button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editTspModal" dmx-on:click="listModelTsp.load({});nomNouveauAppareil.load({})">
+                <!-- <button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editTspModal" dmx-on:click="listModelTsp.load({});nomNouveauAppareil.load({})">
                   Modifier&nbsp;<i class="fa fa-pencil"></i>
-                </button>
+                </button> -->
               </div>
               <div class="d-flex justify-content-between flex-row" style="">
                 <div class="d-flex flex-column align-items-center justify-content-around">
