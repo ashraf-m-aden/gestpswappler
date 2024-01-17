@@ -5,65 +5,23 @@
 <dmx-notifications id="notifies1"></dmx-notifications>
 <dmx-local-manager id="token"></dmx-local-manager>
 <meta name="ac:route" content="/auth/login" />
-<div
-  class="container shadow-sm border border-2 rounded rounded-1 border-primary mt-auto mb-auto ms-auto me-auto pt-5 pb-5 ps-3 pe-3">
+<div class="container shadow-sm mt-auto mb-auto ms-auto me-auto pt-5 pb-5 ps-3 pe-3 bg-primary text-white rounded border-1 border">
   <div class="row">
+    <div class="col-12 text-center">
+      <h1>Connection</h1>
+      <p class="text-h3">
+        Veuillez entrer vos identifiants de connections.
+      </p>
+    </div>
     <div class="col">
-      <form
-        is="dmx-api-form"
-        id="loginform"
-        method="post"
-        action="http://localhost:5243/api/employe/login"
-        post-data="json"
-        dmx-on:success="notifies1.success('Utilisateur connecté');token.set('token','Bearer '+data.Token);browser1.goto('/');token.set('nom',data.Nom);token.set('matricule',data.Matricule)"
-        dmx-on:error="notifies1.danger('Une erreur est survenue');loading.setValue(false)"
-        dmx-on:invalid="notifies1.warning('bad request');loading.setValue(false)">
+      <form is="dmx-api-form" id="loginform" method="post" action="http://localhost:5243/api/employe/login" post-data="json" dmx-on:success="notifies1.success('Utilisateur connecté');token.set('token','Bearer '+data.Token);browser1.goto('/');token.set('nom',data.Nom);token.set('matricule',data.Matricule)" dmx-on:error="notifies1.danger('Une erreur est survenue');loading.setValue(false)" dmx-on:invalid="notifies1.warning('bad request');loading.setValue(false)">
         <div class="row justify-content-center">
-          <div class="col-12 col-lg-10 col-xl-8 text-center">
-            <div class="row">
-              <div class="col mb-5 border rounded">
-                <h1>Connection</h1>
-                <p class="text-h3">
-                  Veuillez entrer vos identifiants de connections.
-                </p>
-              </div>
-            </div>
-            <div class="row align-items-center">
-              <div class="col-12 col-md-5 mt-4">
-                <input
-                  type="text"
-                  id="matricule"
-                  name="matricule"
-                  class="form-control"
-                  placeholder="matricule" />
-              </div>
-              <div class="col-12 col-md-5 mt-4">
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  class="form-control"
-                  placeholder="Mot de passe" />
-              </div>
-              <div class="col-12 col-md-2 mt-4">
-                <button
-                  id="loadingBtn"
-                  class="btn btn-warning btn-sm text-danger"
-                  dmx-show="loading.value">
-                  <span
-                    class="spinner-border spinner-border-sm"
-                    role="status"></span>
-                </button>
-                <button
-                  id="submit"
-                  class="btn btn-secondary"
-                  type="submit"
-                  dmx-on:click="loading.setValue(true)"
-                  dmx-hide="loading.value">
-                  Connection
-                </button>
-              </div>
-            </div>
+          <div class="col-12 col-md-5 mt-4 text-center">
+            <input type="text" id="matricule" name="matricule" class="form-control mb-3" placeholder="Matricule"><input type="password" id="password" name="password" class="form-control mb-3" placeholder="Mot de passe"><button id="loadingBtn" class="btn btn-warning btn-sm text-danger" dmx-show="loading.value">
+              <span class="spinner-border spinner-border-sm" role="status"></span>
+            </button><button id="submit" class="btn w-100 bg-white" type="submit" dmx-on:click="loading.setValue(true)" dmx-hide="loading.value">
+              Connection
+            </button>
           </div>
         </div>
       </form>

@@ -1,31 +1,30 @@
 <!-- Wappler include jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="navbar" appconnect="local" bootstrap5="local" components="{dmxBootstrap5Navigation:{},dmxStateManagement:{}}" head-page="layouts/main" -->
-<dmx-local-manager id="connectedUser"></dmx-local-manager>
-<header class="shadow-sm placeholder-glow bg-white fixed-top">
-    <nav class="navbar navbar-expand-lg text-black-50 bg-body ps-2 pe-2">
-        <a class="navbar-brand ms-auto d-flex flex-column align-item-center" href="/"><img src="/assets/images/edd.png" loading="lazy" id="logo" class="small" width="50" height="50"></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar1_collapse" aria-controls="navbar1_collapse" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarnavges">
+<nav class="navbar navbar-expand-lg d-flex text-black-50 bg-body ps-2 pe-2 justify-content-between">
+    <div class="d-flex"><a class="navbar-brand ms-auto d-flex flex-column align-item-center" href="/"><img src="/assets/images/edd.png" loading="lazy" id="logo" class="small" width="50" height="50"></a></div>
 
-            <div class="navbar-nav text-white nav-tabs">
-                <a class="nav-item nav-link active text-white text-center" href="/views/appareils/appareils">
-                    Appareils
-                </a><a class="nav-item nav-link active text-white text-center" href="/views/appareils/models">
-                    Models
-                </a>
+    <button class="navbar-toggler text-black" type="button" data-bs-toggle="collapse" data-bs-target="#navbarnavges" aria-controls="navbar1_collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarnavges">
 
-                <a class="nav-item nav-link text-white" href="/views/accessoires/allAccessoires">
-                    Accessoires </a>
-                <a class="nav-item nav-link text-white" href="/views/sim/allsim">
-                    Sims </a>
-                <a class="nav-item nav-link text-white" href="/views/affectations/affectationTsp">
-                    Affectations
-                </a>
-                <a class="nav-item nav-link btn-danger" href="/auth/login"><button id="btnDeco" class="btn btn-danger text-white" dmx-show="connectedUser.data.nom" dmx-on:click="connectedUser.removeAll()">Deconnexion</button></a>
+        <div class="navbar-nav nav-tabs">
+            <a class="nav-item nav-link text-white text-start" href="/">
+                Appareils
+            </a><a class="nav-item nav-link text-white text-start" href="/views/appareils/models">
+                Models
+            </a>
 
-            </div>
+            <a class="nav-item nav-link text-white" href="/views/accessoires/allAccessoires">
+                Accessoires </a>
+            <a class="nav-item nav-link text-white" href="/views/sim/allsim">
+                Sims </a>
+            <a class="nav-item nav-link text-white" href="/views/affectations/affectationTsp">
+                Affectations
+            </a>
+            <a class="nav-item nav-link btn-danger" href="/auth/login"><button id="btnDeco" class="btn btn-danger text-white" dmx-show="connectedUser.data.nom" dmx-on:click="connectedUser.removeAll()">Deconnexion</button></a>
 
         </div>
-    </nav>
-</header>
+
+    </div>
+</nav>
+<dmx-local-manager id="connectedUser"></dmx-local-manager>

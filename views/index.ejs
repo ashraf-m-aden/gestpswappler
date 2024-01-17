@@ -331,11 +331,11 @@
             <div class="card-body">
               <div class="d-flex flex-row justify-content-between mb-1">
                 <h5 class="heading-text">Details de l'appareil</h5>
-                <button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editTspModal" dmx-on:click="listModelTsp.load({});nomNouveauAppareil.load({})">
+                <button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editTspModal" dmx-on:click="listModelTsp.load({});nomNouveauAppareil.load({})" dmx-show="selectedTsp.value">
                   Modifier&nbsp;<i class="fa fa-pencil"></i>
                 </button>
               </div>
-              <div class="d-flex justify-content-between flex-row" style="">
+              <div class="d-flex justify-content-between flex-row" style="" dmx-show="selectedTsp.value">
                 <div class="d-flex flex-column align-items-center justify-content-around">
                   <h6>{{ selectedTsp.value.Model.Nom }}</h6>
                   <a><img dmx-bind:src="selectedTsp.value.Model.Img?'data:image/jpeg;base64,'+selectedTsp.value.Model.Img:'/assets/mobile.png'" class="img-fluid app-img" /></a>
@@ -366,6 +366,9 @@
                   <dd>{{ selectedTsp.value.Description }}</dd>
                 </dl>
               </div>
+              <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-show="!selectedTsp.value">
+                <small class="text-muted">Pas de données</small>
+              </div>
             </div>
           </div>
         </div>
@@ -373,6 +376,9 @@
           <div class="card app-col">
             <div class="card-body">
               <h5 class="heading-text">Agent</h5>
+              <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-show="!selectedTsp.value">
+                <small class="text-muted">Pas de données</small>
+              </div>
               <div class="d-flex justify-content-between flex-row" style="" dmx-show="selectedTsp.value.Affectation.IdAffect!=0&amp;&amp;selectedTsp.value.Affectation!=null">
                 <i class="fa fa-user"></i>
                 <dl>
@@ -436,6 +442,13 @@
                         </tr>
                       </tbody>
                     </table>
+                    <table class="table" id="aucunedonnhistorique">
+                      <tbody>
+                        <tr>
+                          <td colspan="4">Aucunes données</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
                 <div class="tab-pane show fade" id="accessoireTab" role="tabpanel" aria-labelledby="accessoire">
@@ -459,6 +472,13 @@
                           <td dmx-text="Employe.Nom"></td>
                           <td dmx-text="UserCrea.Nom"></td>
                           <td dmx-text="DateCrea"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table class="table" id="aucunedonnaccessoire">
+                      <tbody>
+                        <tr>
+                          <td colspan="4">Aucunes données</td>
                         </tr>
                       </tbody>
                     </table>
@@ -502,6 +522,13 @@
                         </tr>
                       </tbody>
                     </table>
+                    <table class="table" id="aucunedonnincident">
+                      <tbody>
+                        <tr>
+                          <td colspan="4">Aucunes données</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                   <div class="col-6" dmx-hide="selectedTsp.value.ListProbleme.length&gt;0">
                     <i class="fa fa-check-circle" dmx-class:text-success="true"></i>
@@ -514,7 +541,6 @@
         </div>
       </div>
     </div>
-    <div class="col-12 col-md-10 app-nodata" id="nodata" dmx-hide="selectedTsp.value"></div>
   </div>
 </div>
 

@@ -22,13 +22,13 @@
         <div class="col-12">
           <div class="card border-primary">
             <div class="card-body">
-              <form id="NewAffectationForm" method="post" is="dmx-api-form" action="http://localhost:5243/api/affectationAM" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Affectation modifiée');scheduler1.start();affecationList.load({});tspNonAffectList.load({});simNonAffecteList.load({});newAffect.toggle();newAffect.update();NewAffectationForm.reset();sectionId.setValue(0)" dmx-on:error="notifies1.danger(lastError.message)" post-data="json">
+              <form id="NewAffectationForm" method="post" is="dmx-api-form" action="http://localhost:5243/api/affectationAM" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Affectation modifiée');scheduler1.start();affecationList.load({});tspNonAffectList.load({});simNonAffecteList.load({});newAffect.toggle();newAffect.update();NewAffectationForm.reset();sectionId.setValue(0)" dmx-on:error="notifies1.danger(lastError.message)">
                 <div class="row">
                   <div class="col-12 text-start">
                     <div class="row">
                       <div class="col">
                         <div class="form-group mb-3">
-                          <label for="select1" class="form-label" id="sectionlabel">Choisissez la section</label><select id="section" class="form-select" dmx-bind:options="sectionsList.data" optiontext="LibCourt" optionvalue="IdLigne" dmx-on:changed="sectionId.setValue(value);employeNonAffecteList.load({});tspNonAffectList.load({});simNonAffecteList.load({})">
+                          <label for="select1" class="form-label" id="sectionlabel">Choisissez la section</label><select id="section" class="form-select" dmx-bind:options="sectionsList.data" optiontext="LibCourt" optionvalue="IdLigne" dmx-on:changed="sectionId.setValue(value);employeNonAffecteList.load({section: value});tspNonAffectList.load({});simNonAffecteList.load({})">
                             <option value="0"></option>
                           </select>
                         </div>
@@ -46,9 +46,7 @@
                           </button>
                         </div>
 
-                        <input id="newDateCrea" name="DateCrea" class="form-control" dmx-bind:value="date.datetime" type="hidden" />
                         <input id="newUserCrea" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" />
-                        <input id="newIdAffect" name="IdAffect" type="hidden" class="form-control" value="0" />
                       </div>
                     </div>
                     <div class="row" dmx-hide="sectionId.value==0">
@@ -130,9 +128,7 @@
                 <label for="input1" class="col-sm-2 col-form-label">Modifier l'appareil</label>
                 <div class="col-sm-10">
                   <select id="TspSelect" class="form-select" dmx-bind:options="tspNonAffectList.data" optiontext="Nom" optionvalue="IdTsp" name="TspId">
-                    <option value="null">
-                      {{ selectedAffectation.value.Tsp.Nom }}
-                    </option>
+                    <option dmx-bind:value="selectedAffectation.value.Tsp.IdTsp">{{ selectedAffectation.value.Tsp.Nom }}</option>
                     <option value="">Enlever l'appareil</option>
                   </select>
                 </div>
@@ -208,7 +204,7 @@
 <dmx-api-datasource id="sectionsList" is="dmx-fetch" url="http://localhost:5243/api/tableValeur/newAffectation"></dmx-api-datasource>
 <dmx-api-datasource id="simNonAffecteList" is="dmx-fetch" url="http://localhost:5243/api/simMobile/simNonAffecte" dmx-header:authorization="connectedUser.data.token" dmx-on:start="loadingSim.setValue(true)" dmx-on:done="loadingSim.setValue(false)"></dmx-api-datasource>
 <dmx-api-datasource id="tspNonAffectList" is="dmx-fetch" url="http://localhost:5243/api/tsp/nonAffecte/all" dmx-header:authorization="connectedUser.data.token" dmx-on:start="loadingTsp.setValue(true)" dmx-on:done="loadingTsp.setValue(false)"></dmx-api-datasource>
-<dmx-api-datasource id="employeNonAffecteList" is="dmx-fetch" dmx-header:authorization="connectedUser.data.token" dmx-bind:url="'http://localhost:5243/api/employe/nonAffecte/'+sectionId.value" dmx-on:start="loadingEmp.setValue(true)" dmx-on:done="loadingEmp.setValue(false)"></dmx-api-datasource>
+<dmx-api-datasource id="employeNonAffecteList" is="dmx-fetch" dmx-header:authorization="connectedUser.data.token" dmx-on:start="loadingEmp.setValue(true)" dmx-on:done="loadingEmp.setValue(false)" dmx-param:section="sectionId.value" url="http://localhost:5243/api/employe/nonAffecte"></dmx-api-datasource>
 <dmx-api-datasource id="affecationList" is="dmx-fetch" url="http://localhost:5243/api/affectationAM/firstLoad" dmx-header:authorization="connectedUser.data.token" dmx-on:unauthorized="browser1.goto('/auth/login');connectedUser.removeAll()" dmx-on:success="loadingList.setValue(false)" dmx-on:error="notifies1.warning('Une erreur est survenue, veuillez rafraichir la page');loadingList.setValue(false)"></dmx-api-datasource>
 
 <meta name="ac:route" content="/views/affectations/affectationTsp" />
@@ -273,7 +269,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12 col-md-10" dmx-show="selectedAffectation.value">
+    <div class="col-12 col-md-10">
       <div class="row">
         <div class="col-12">
           <div class="d-flex justify-content-start">
@@ -286,7 +282,7 @@
             </button>
           </div>
         </div>
-        <div class="col-12" dmx-show="selectedAffectation.value">
+        <div class="col-12">
           <div class="row">
             <div class="col">
               <div class="card">
@@ -388,6 +384,5 @@
         </div>
       </div>
     </div>
-    <div class="col-12 col-md-10 app-nodata" id="nodata" dmx-hide="selectedAffectation.value"></div>
   </div>
 </div>

@@ -52,12 +52,11 @@
   <link rel="stylesheet" href="/dmxAppConnect/dmxDatePicker/dmxDatePicker.css" />
   <script src="/dmxAppConnect/dmxDatePicker/dmxDatePicker.js" defer></script>
 
-  <link rel="stylesheet" href="Connect/dmxDatePicker/themes/blue.css" />
   <script src="/dmxAppConnect/dmxBootstrap5Collapse/dmxBootstrap5Collapse.js" defer></script>
 </head>
 
 <body is="dmx-app" id="main" dmx-style:background-color="'#ecf2f4'">
-  <header class="navbar-light container-fluid ">
+  <header class="navbar-light container-fluid fixed-top">
     <%- await include('/partials/main/navbar', Object.assign({}, locals)) %>
   </header>
   <main class="container-fluid bg-container mt-5 mb-5 pb-5">

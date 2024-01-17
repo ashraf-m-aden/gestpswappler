@@ -5898,7 +5898,137 @@ dmx.config({
         }
       ],
       "outputType": "array"
-    }
+    },
+    "employeNonAffecteList": [
+      {
+        "type": "array",
+        "name": "data",
+        "sub": [
+          {
+            "type": "number",
+            "name": "Matricule"
+          },
+          {
+            "type": "text",
+            "name": "Nom"
+          },
+          {
+            "type": "number",
+            "name": "IdClient"
+          },
+          {
+            "type": "text",
+            "name": "AInit"
+          },
+          {
+            "type": "text",
+            "name": "IdMachine"
+          },
+          {
+            "type": "text",
+            "name": "PosteMobile"
+          },
+          {
+            "type": "text",
+            "name": "Connecte"
+          },
+          {
+            "type": "number",
+            "name": "PosteEncours"
+          },
+          {
+            "type": "text",
+            "name": "DernConn"
+          },
+          {
+            "type": "text",
+            "name": "DernDeconn"
+          },
+          {
+            "type": "text",
+            "name": "Mess"
+          },
+          {
+            "type": "text",
+            "name": "DateMess"
+          },
+          {
+            "type": "text",
+            "name": "MessLu"
+          },
+          {
+            "type": "text",
+            "name": "InstVers"
+          },
+          {
+            "type": "text",
+            "name": "InstUrgence"
+          },
+          {
+            "type": "number",
+            "name": "Statut"
+          },
+          {
+            "type": "text",
+            "name": "DroitAuQuota"
+          },
+          {
+            "type": "text",
+            "name": "Equipe"
+          },
+          {
+            "type": "text",
+            "name": "AppVersion"
+          },
+          {
+            "type": "text",
+            "name": "DateVisite"
+          },
+          {
+            "type": "text",
+            "name": "PersonVisite"
+          },
+          {
+            "type": "text",
+            "name": "UserTsptest"
+          },
+          {
+            "type": "text",
+            "name": "PasswordSalt"
+          },
+          {
+            "type": "text",
+            "name": "PasswordHash"
+          },
+          {
+            "type": "text",
+            "name": "Motpasse"
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "name": "headers",
+        "sub": [
+          {
+            "type": "text",
+            "name": "content-length"
+          },
+          {
+            "type": "text",
+            "name": "content-type"
+          },
+          {
+            "type": "text",
+            "name": "date"
+          },
+          {
+            "type": "text",
+            "name": "server"
+          }
+        ]
+      }
+    ]
   },
   "allBordereau": {
     "periodeApi": [
@@ -7599,6 +7729,68 @@ dmx.config({
           {
             "type": "text",
             "name": "Motpasse"
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "name": "headers",
+        "sub": [
+          {
+            "type": "text",
+            "name": "content-length"
+          },
+          {
+            "type": "text",
+            "name": "content-type"
+          },
+          {
+            "type": "text",
+            "name": "date"
+          },
+          {
+            "type": "text",
+            "name": "server"
+          }
+        ]
+      }
+    ],
+    "sectionsList": [
+      {
+        "type": "array",
+        "name": "data",
+        "sub": [
+          {
+            "type": "text",
+            "name": "CodeTable"
+          },
+          {
+            "type": "number",
+            "name": "IdLigne"
+          },
+          {
+            "type": "text",
+            "name": "LibCourt"
+          },
+          {
+            "type": "text",
+            "name": "LibLong"
+          },
+          {
+            "type": "text",
+            "name": "NomTable"
+          },
+          {
+            "type": "number",
+            "name": "CodeLigne"
+          },
+          {
+            "type": "text",
+            "name": "CodeSuppr"
+          },
+          {
+            "type": "number",
+            "name": "IdParent"
           }
         ]
       },

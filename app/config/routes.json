@@ -27,14 +27,6 @@
       }
     },
     {
-      "path": "/views/sim/newSim",
-      "page": "views/sim/newSim",
-      "layout": "main",
-      "data": {
-        "title": "Nouvelle sim"
-      }
-    },
-    {
       "path": "/views/affectations/affectationTsp",
       "page": "views/affectations/affectationTsp",
       "layout": "main",
@@ -72,27 +64,6 @@
       "layout": "main",
       "data": {
         "title": "Tous les accessoires"
-      }
-    },
-    {
-      "path": "/views/accessoires/addAccessoires",
-      "page": "views/accessoires/addAccessoires",
-      "layout": "main",
-      "data": {
-        "title": "Ajout accessoire"
-      }
-    },
-    {
-      "path": "/views/affectations/affectAccessoires",
-      "page": "views/affectations/affectAccessoires",
-      "layout": "main"
-    },
-    {
-      "path": "/views/appareils/appareils",
-      "page": "views/appareils/appareils",
-      "layout": "main",
-      "data": {
-        "title": "Appareils"
       }
     },
     {

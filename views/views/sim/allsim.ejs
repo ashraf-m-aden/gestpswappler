@@ -3,64 +3,117 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <div class="container-fluid" dmx-show="loading.value==false">
-          <div class="row">
-            <div class="col">
-              <form method="post" is="dmx-api-form" id="postNewSim" action="http://localhost:5243/api/simMobile" post-data="json" dmx-on:success="notifies1.success('Nouvelle sim enregistrée');scheduler1.start();newSim.toggle()" dmx-on:error="notifies1.danger('Cette sim existe deja');scheduler1.start();loading.setValue(false)" dmx-on:start="loading.setValue(true)" dmx-header:authorization="connectedUser.data.token">
-                <div class="row justify-content-center">
-                  <div class="col-12 col-md-8 col-lg-7 col-md-5 text-center">
-                    <div class="fdb-box fdb-touch">
-                      <div class="row">
-                        <div class="col">
-                          <h1>Enregistrement sim</h1>
-                        </div>
-                      </div>
-                      <div class="row mt-4">
-                        <div class="col">
-                          <input id="connectedUserData" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule " />
-                          <input id="DateCrea" name="DateCrea" type="hidden" class="form-control" dmx-bind:value="DateCreaValue.datetime" />
-                          <div class="form-group mb-3">
-                            <label for="input1" class="form-label" id="numsimlabel">Numero de la nouvelle sim</label>
-                            <input id="NumTel" name="NumTel" class="form-control" type="number" />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col">
-                          <div class="form-group mb-3">
-                            <label for="selectModel" class="form-label" id="pinsimlabel">Code Pin</label>
-                            <input id="Pin" name="Pin" class="form-control" type="number" />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col">
-                          <div class="form-group mb-3">
-                            <label for="selectEquipe" class="form-label" id="puklabel">Code Puk</label>
-                            <input id="Puk" name="Puk" class="form-control" type="number" />
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row mt-4">
-                        <div class="col">
-                          <div class="d-flex justify-content-around">
-                            <button id="submit" class="btn btn-primary" type="submit" dmx-bind:disabled="!Pin.value||! NumTel.value||!Puk.value" dmx-on:click="loading.setValue(true)">
-                              Enregistrer
-                            </button>
-
-                            <button id="cancel" class="btn btn-warning" data-bs-dismiss="modal">
-                              Annuler
-                            </button>
-                          </div>
-                        </div>
-                      </div>
+        <form method="post" is="dmx-api-form" id="postNewSim" action="http://localhost:5243/api/simMobile" post-data="json" dmx-on:success="notifies1.success('Nouvelle sim enregistrée');sims.load({});newSim.toggle();simNonAffecteList.load({})" dmx-on:error="notifies1.danger('Cette sim existe deja');loading.setValue(false)" dmx-header:authorization="connectedUser.data.token">
+          <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-7 col-md-5 text-center">
+              <div class="fdb-box fdb-touch">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="heading-text">Enregistrement d'une nouvelle carte sim</h5>
+                  </div>
+                </div>
+                <div class="row mt-4">
+                  <div class="col">
+                    <input id="connectedUserData" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule " />
+                    <input id="DateCrea" name="DateCrea" type="hidden" class="form-control" dmx-bind:value="DateCreaValue.datetime" />
+                    <div class="form-group mb-3">
+                      <label for="input1" class="form-label" id="numsimlabel">Numero de la nouvelle sim</label>
+                      <input id="NumTel" name="NumTel" class="form-control" type="number" />
                     </div>
                   </div>
                 </div>
-              </form>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group mb-3">
+                      <label for="selectModel" class="form-label" id="pinsimlabel">Code Pin</label>
+                      <input id="Pin" name="Pin" class="form-control" type="number" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group mb-3">
+                      <label for="selectEquipe" class="form-label" id="puklabel">Code Puk</label>
+                      <input id="Puk" name="Puk" class="form-control" type="number" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-4">
+                  <div class="col">
+                    <div class="d-flex justify-content-around">
+                      <button id="submit" class="btn btn-primary" type="submit" dmx-bind:disabled="!Pin.value||! NumTel.value||!Puk.value" dmx-on:click="loading.setValue(true)">
+                        Enregistrer
+                      </button>
+
+                      <button id="cancel" class="btn btn-warning" data-bs-dismiss="modal">
+                        Annuler
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="editSim" is="dmx-bs5-modal" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form method="post" is="dmx-api-form" id="postNewSim1" action="http://localhost:5243/api/simMobile/update" post-data="json" dmx-on:success="notifies1.success('Nouvelle sim enregistrée');scheduler1.start();newSim.toggle()" dmx-on:error="notifies1.danger('Cette sim existe deja');scheduler1.start();loading.setValue(false)" dmx-on:start="loading.setValue(true)" dmx-header:authorization="connectedUser.data.token">
+          <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-7 col-md-5 text-center">
+              <div class="fdb-box fdb-touch">
+                <div class="row">
+                  <div class="col">
+                    <h5 class="heading-text">Modification de la carte sim</h5>
+                  </div>
+                </div>
+                <div class="row mt-4">
+                  <div class="col">
+                    <input id="connectedUserData1" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule ">
+                    <div class="form-group mb-3">
+                      <label for="input1" class="form-label" id="numsimlabel1">Numero de la nouvelle sim</label>
+                      <input id="NumTel1" name="NumTel" class="form-control" type="number" dmx-bind:value="selectedSim.value.NumTel">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group mb-3">
+                      <label for="selectModel" class="form-label" id="pinsimlabel1">Code Pin</label>
+                      <input id="Pin1" name="Pin" class="form-control" type="number" dmx-bind:value="selectedSim.value.Pin">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group mb-3">
+                      <label for="selectEquipe" class="form-label" id="puklabel1">Code Puk</label>
+                      <input id="Puk1" name="Puk" class="form-control" type="number" dmx-bind:value="selectedSim.value.Puk">
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-4">
+                  <div class="col">
+                    <div class="d-flex justify-content-around">
+                      <button id="submit1" class="btn btn-primary" type="submit" dmx-bind:disabled="!Pin1.value||! NumTel1.value||!Puk1.value" dmx-on:click="loading.setValue(true)">
+                        Enregistrer
+                      </button>
+
+                      <button id="cancel1" class="btn btn-warning" data-bs-dismiss="modal">
+                        Annuler
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -72,7 +125,6 @@
 
 <meta name="ac:route" content="/views/sim/allsim" />
 
-<dmx-scheduler id="scheduler1" dmx-on:tick="browser1.goto('/')" delay="3" noload="true" norepeat="true"></dmx-scheduler>
 <dmx-notifications id="notifies1"></dmx-notifications>
 <div class="modal" id="affecterUserModal" is="dmx-bs5-modal" tabindex="-1">
   <div class="modal-dialog" role="document">
@@ -134,150 +186,6 @@
             <button type="button" class="btn btn-primary">Enregistrer</button><button type="button" class="btn btn-warning" data-bs-dismiss="modal">
               Annuler
             </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal" id="addTspModal" is="dmx-bs5-modal" tabindex="-1">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <form method="post" is="dmx-api-form" id="apiform1" action="http://localhost:5243/api/tsp" post-data="json" dmx-on:success="notifies1.success('Nouveau Tsp enregistré');scheduler1.start();addTspModal.toggle()" dmx-on:error="notifies1.danger(lastError.response+lastError.message);scheduler1.start();loading.setValue(false)" dmx-header:authorization="connectedUser.data.token">
-          <div class="row justify-content-center">
-            <div class="col-12">
-              <h4 class="heading-text">Nouveau Tsp</h4>
-            </div>
-            <div class="col-10">
-              <div class="d-flex flex-row justify-content-around">
-                <div class="d-flex justify-content-between flex-column">
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Nom et Id du nouveau TSP</label>
-                    <input id="IdTsp" name="IdTsp" class="form-control mb-1 form-control-plaintext" dmx-bind:value="nomNouveauAppareil.data" type="hidden" />
-                    <input id="Nom" name="Nom" class="form-control form-control-plaintext mb-0 form-control-sm" dmx-bind:value="'Z'+nomNouveauAppareil.data" readonly="true" />
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Le code TSP</label>
-                    <input id="CodeTsp" name="CodeTsp" class="form-control form-control-plaintext form-control-sm" dmx-bind:value="Nom.value" readonly="true" />
-                  </div>
-                  <input id="UserCrea" name="UserCrea" type="hidden" class="form-control" dmx-text="" />
-
-                  <div class="form-group mb-3">
-                    <label for="selectModel" class="form-label">Le model de TSP</label>
-                    <input id="ModeleId" name="ModeleId" class="form-control" type="hidden" />
-                    <select id="selectModel" class="form-select form-control form-select-sm" dmx-bind:options="listModelTsp.data" optiontext="Nom" optionvalue="IdModele" dmx-on:changed="ModeleId.setValue(value)" name="ModeleId">
-                      <option selected="" value=""></option>
-                    </select>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between flex-column">
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Année de production</label>
-                    <input id="AnneeProduction" name="AnneeProduction" class="form-control border form-control-plaintext mb-0 form-control-sm" />
-                  </div>
-                  <div class="form-group">
-                    <label for="modelName" class="form-label">Date d'achat</label>
-                    <input id="text1" name="DateAchat" class="form-control form-control-sm" is="dmx-date-picker" applylabel="Enregistrer" cancellabel="Annuler" format="DD-M-Y" />
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Numéro de serie</label>
-                    <input id="NumSerie" name="NumSerie" class="form-control border form-control-plaintext mb-0 form-control-sm" />
-                  </div>
-                </div>
-                <div class="d-flex flex-column justify-content-start">
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Description</label>
-                    <input id="Description" name="Description" class="form-control border form-control-plaintext mb-0 form-control-sm" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-10">
-              <div class="d-flex justify-content-around">
-                <button id="submit1" class="btn btn-primary btn-sm" type="submit" dmx-bind:disabled="!ModeleId.value||!SectEmp.value" dmx-on:click="loading.setValue(true)">
-                  Enregistrer
-                </button>
-
-                <button id="cancel1" class="btn btn-warning btn-sm" data-bs-dismiss="modal">
-                  Annuler
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal" id="editTspModal" is="dmx-bs5-modal" tabindex="-1">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <form method="post" is="dmx-api-form" id="apiEditTsp" action="http://localhost:5243/api/tsp" post-data="json" dmx-on:success="notifies1.success('Nouveau Tsp enregistré');scheduler1.start();addTspModal.toggle()" dmx-on:error="notifies1.danger(lastError.response+lastError.message);scheduler1.start();loading.setValue(false)" dmx-header:authorization="connectedUser.data.token">
-          <div class="row justify-content-center">
-            <div class="col-12">
-              <h4 class="heading-text">Modifier l'appareil</h4>
-            </div>
-            <div class="col-10">
-              <div class="d-flex flex-row justify-content-around">
-                <div class="d-flex justify-content-between flex-column">
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Nom</label>
-                    <input id="IdTsp1" name="IdTsp1" class="form-control mb-1 form-control-plaintext" dmx-bind:value="nomNouveauAppareil.data" type="hidden" />
-                    <input id="Nom1" name="Nom" class="form-control form-control-plaintext mb-0 form-control-sm border" dmx-bind:value="selectedTsp.value.Nom" />
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Le code TSP</label>
-                    <input id="CodeTsp1" name="CodeTsp" class="form-control form-control-plaintext form-control-sm" dmx-bind:value="selectedTsp.value.CodeTsp" />
-                  </div>
-                  <input id="UserCrea1" name="UserCrea1" type="hidden" class="form-control" dmx-text="" />
-
-                  <div class="form-group mb-3">
-                    <label for="selectModel1" class="form-label">Le model de TSP</label>
-
-                    <select id="selectModel1" class="form-select form-control form-select-sm" dmx-bind:options="listModelTsp.data.where(`IdModele`, selectedTsp.value.ModeleId, '!==')" optiontext="Nom" optionvalue="IdModele" name="ModeleId" dmx-bind:value="listModelTsp.data.where(`$value`, selectedTsp.value.Model, '==')">
-                      <option selected="" value="{{ selectedTsp.value.Model.IdModel }}">
-                        {{ selectedTsp.value.Model.Nom }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between flex-column">
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Date d'achat</label>
-                    <input id="DateAchat1" name="DateAchat" type="text" class="form-control form-control-sm" is="dmx-date-picker" format="DD-M-Y" />
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Année de production</label>
-                    <input id="AnneeProduction1" name="AnneeProduction" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="selectedTsp.value.AnneeProduction" />
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Numéro de serie</label>
-                    <input id="NumSerie1" name="NumSerie" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="selectedTsp.value.NumSerie" />
-                  </div>
-                </div>
-                <div class="d-flex flex-column justify-content-start">
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Description</label>
-                    <input id="Description1" name="Description" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="selectedTsp.value.Description" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-10">
-              <div class="d-flex mt-5 justify-content-around">
-                <button id="submit12" class="btn btn-primary" type="submit" dmx-bind:disabled="!ModeleId.value||!SectEmp.value" dmx-on:click="loading.setValue(true)">
-                  Enregistrer
-                </button>
-
-                <button id="cancel12" class="btn btn-warning" data-bs-dismiss="modal">
-                  Annuler
-                </button>
-              </div>
-            </div>
           </div>
         </form>
       </div>
@@ -348,17 +256,19 @@
           </li>
         </ul>
       </div>
-      <button id="btn1" class="btn btn-primary btn-sm w-100" data-bs-target="#addTspModal" data-bs-toggle="modal" dmx-on:click="nomNouveauAppareil.load({})">
+      <button id="btn1" class="btn btn-primary btn-sm w-100" data-bs-target="#newSim" data-bs-toggle="modal" dmx-on:click="nomNouveauAppareil.load({})">
         Ajouter&nbsp;<i class="fa fa-plus"></i>
       </button>
     </div>
-    <div class="col-10" id="data" dmx-show="selectedSim.value!=null">
+    <div class="col-10" id="data">
       <div class="row">
         <div class="col-12 col-md-4">
           <div class="card app-col">
             <div class="card-body">
-              <div class="d-flex flex-row justify-content-between mb-1">
-                <h5 class="heading-text">Details de la carte sim</h5>
+              <div class="d-flex mb-1 justify-content-between flex-row align-items-start">
+
+                <h5 class="heading-text">Details de la carte sim</h5><button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editSim">
+                  Modifier <i class="fa fa-pencil"></i></button>
                 <!-- <button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editTspModal" dmx-on:click="listModelTsp.load({});nomNouveauAppareil.load({})">
                   Modifier&nbsp;<i class="fa fa-pencil"></i>
                 </button> -->
@@ -545,6 +455,5 @@
         </div>
       </div>
     </div>
-    <div class="col-12 col-md-10 app-nodata" id="nodata" dmx-hide="selectedSim.value"></div>
   </div>
 </div>
