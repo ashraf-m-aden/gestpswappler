@@ -287,7 +287,10 @@
             <div class="col">
               <div class="card">
                 <div class="card-body">
-                  <div class="d-flex justify-content-around align-items-center">
+                  <div class="d-flex flex-row justify-content-between mb-1">
+                    <h5 class="heading-text">Details de l'agent</h5>
+                  </div>
+                  <div class="d-flex justify-content-around align-items-center" dmx-hide="!selectedAffectation.value">
                     <i class="fa fa-user fa-4x"></i>
                     <dl>
                       <dt>Nom</dt>
@@ -307,6 +310,9 @@
 
                     </dl>
                   </div>
+                  <div class="d-flex justify-content-center" dmx-hide="selectedAffectation.value">
+                    <small class="text-muted">Aucune donnée</small>
+                  </div>
                 </div>
               </div>
             </div>
@@ -316,7 +322,10 @@
                   <div class="d-flex flex-row justify-content-between mb-1">
                     <h5 class="heading-text">Details de l'appareil</h5>
                   </div>
-                  <div class="d-flex flex-row align-items-start justify-content-around" style="">
+                  <div class="d-flex justify-content-center" dmx-hide="selectedAffectation.value">
+                    <small class="text-muted">Aucune donnée</small>
+                  </div>
+                  <div class="d-flex flex-row align-items-start justify-content-around" style="" dmx-hide="!selectedAffectation.value.Tsp">
                     <div class="d-flex flex-column align-items-center justify-content-start">
                       <h6>{{ selectedAffectation.value.ModelTsp.Nom }}</h6>
                       <a><img class="img-fluid app-img" dmx-bind:src="selectedAffectation.value.ModelTsp.Img?'data:image/jpeg;base64,'+selectedAffectation.value.ModelTsp.Img:'/assets/mobile.png'" width="100"></a>
@@ -347,6 +356,7 @@
                       <dd>{{ selectedAffectation.value.Tsp.Description }}</dd>
                     </dl>
                   </div>
+
                 </div>
               </div>
             </div>
@@ -357,7 +367,7 @@
                     <h5 class="heading-text">Details de la carte sim</h5>
 
                   </div>
-                  <div class="d-flex justify-content-between flex-row" style="">
+                  <div class="d-flex justify-content-between flex-row" style="" dmx-hide="!selectedAffectation.value">
                     <div class="d-flex flex-column align-items-center justify-content-around">
                       <a><img class="img-fluid app-img" src="/assets/sim-card.png"></a>
                     </div>
@@ -376,6 +386,9 @@
                       <dt>Date de mise en service</dt>
                       <dd>XXXXX</dd>
                     </dl>
+                  </div>
+                  <div class="d-flex justify-content-center" dmx-hide="selectedAffectation.value">
+                    <small class="text-muted">Aucune donnée</small>
                   </div>
                 </div>
               </div>

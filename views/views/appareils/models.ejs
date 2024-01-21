@@ -5,9 +5,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title heading-text">
-          Enregistrement d'une nouvelle affectation
-        </h5>
+        <h5 class="modal-title heading-text">Enregistrement d'un nouveau model d'appareils</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -15,7 +13,7 @@
           <div class="row">
             <div class="col">
               <form id="addModelForm" method="post" is="dmx-api-form" action="http://localhost:5243/api/modelTsp" dmx-header:authorization="connectedUser.data.token" dmx-on:success="preloader1.hide();notifies1.success('Nouveau model ajouté');newModel.toggle();models.load({})" dmx-on:start="preloader1.show()" dmx-on:done="preloader1.hide()" dmx-on:error="preloader1.hide();notifies1.danger(lastError.response)">
-                <input id="text1" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" />
+                <input id="UserCrea1" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule">
 
                 <div class="form-group md-3">
                   <label for="modelName" class="form-label">Nom du model</label>
@@ -26,8 +24,8 @@
                   <input type="text" class="form-control" id="modelDescription" name="Description" aria-describedby="input1_help" placeholder="Description du model" />
                 </div>
                 <div class="form-group md-3">
-                  <label for="modelDescription1" class="form-label">Model Année</label>
-                  <input type="text" class="form-control" id="modelDescription1" name="Description1" aria-describedby="input1_help" placeholder="L'année du model" />
+                  <label for="modelAnnee1" class="form-label">Model Année</label>
+                  <input type="text" class="form-control" id="modelAnnee1" name="ModelAnnee" aria-describedby="input1_help" placeholder="L'année du model">
                 </div>
                 <div class="form-group md-3">
                   <label for="ReferenceModel" class="form-label">Reference</label>
@@ -62,9 +60,9 @@
 
           <input id="UserCreaEdit" name="UserCrea" type="text" class="form-control visually-hidden" dmx-bind:value="connectedUser.data.matricule">
           <div class="form-group mb-3 row">
-            <label for="input1" class="col-sm-2 col-form-label">Nom</label>
+            <label for="NomEdit" class="col-sm-2 col-form-label">Nom</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="input1" name="Nom" aria-describedby="input1_help" dmx-bind:value="selectedModel.value.Nom" required="" />
+              <input type="text" class="form-control" id="NomEdit" name="Nom" aria-describedby="input1_help" dmx-bind:value="selectedModel.value.Nom" required="">
             </div>
           </div>
           <div class="form-group mb-3 row">
@@ -74,15 +72,21 @@
             </div>
           </div>
           <div class="form-group mb-3 row">
+            <label for="ModelAnnee4" class="col-sm-2 col-form-label">Année du model</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="ModelAnnee4" name="ModelAnnee" aria-describedby="input1_help" dmx-bind:value="selectedModel.value.ModelAnnee" required="">
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
             <label for="input3" class="col-sm-2 col-form-label">Reference</label>
             <div class="col-sm-10">
               <input type="text" class="form-control" id="input3" name="RefModel" aria-describedby="input1_help" dmx-bind:value="selectedModel.value.RefModel" required="" />
             </div>
           </div>
-          <img dmx-bind:src="selectedModel.value.Img?'data:image/jpeg;base64,'+selectedModel.value.Img:'/assets/mobile.png'" class="mt-auto mb-auto ms-auto me-auto w-50" />
+          <img dmx-bind:src="selectedModel.value.Img?'data:image/jpeg;base64,'+selectedModel.value.Img:'/assets/mobile.png'" width="150">
 
           <div class="form-group mb-3 row">
-            <label for="input4" class="col-sm-2 col-form-label">Nouvelle image</label>
+            <label for="ModelAnnee4" class="col-sm-2 col-form-label">Nouvelle image</label>
             <div class="col-sm-10">
               <input id="file1" name="Img" type="file" class="form-control" />
             </div>
@@ -236,10 +240,10 @@
             <div class="card-body">
               <div class="d-flex flex-row justify-content-between mb-1 align-items-start">
                 <h5 class="heading-text">Details du model</h5>
-                <button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal">Modifier&nbsp;<i class="fa fa-pencil"></i></button>
-                <button id="btn4" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Supprimer <i class="fa fa-trash-o"></i></button>
+                <button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal" dmx-hide="!selectedModel.value">Modifier&nbsp;<i class="fa fa-pencil"></i></button>
+                <button id="btn4" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" dmx-hide="!selectedModel.value">Supprimer <i class="fa fa-trash-o"></i></button>
               </div>
-              <div class="d-flex flex-row justify-content-start" style="">
+              <div class="d-flex flex-row justify-content-start" style="" dmx-hide="!selectedModel.value">
                 <div class="d-flex flex-column align-items-center justify-content-around">
                   <a><img dmx-bind:src="selectedModel.value.Img?'data:image/jpeg;base64,'+selectedModel.value.Img:'/assets/mobile.png'" class="model-img" /></a>
                 </div>
@@ -251,14 +255,15 @@
                   <dd>{{ selectedModel.value.RefModel }}</dd>
                   <dt>Description</dt>
 
-                  <dd>50</dd>
+                  <dd>{{selectedModel.value.Description}}</dd>
                   <dt>Model Année</dt>
-                  <dd>2018</dd>
+                  <dd>{{selectedModel.value.ModelAnnee}}</dd>
                   <dt>Nombre d'appareils</dt>
-                  <dd>50</dd>
-                  <dt>Prix</dt>
-                  <dd>50</dd>
+                  <dd>{{selectedModel.value.NombreAppareil}}</dd>
                 </dl>
+              </div>
+              <div class="d-flex justify-content-center" dmx-hide="selectedModel.value">
+                <small class="text-muted">Aucune donnée</small>
               </div>
             </div>
           </div>
