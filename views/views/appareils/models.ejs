@@ -1,4 +1,6 @@
-<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="models" appConnect="local" bootstrap5="local" components="{dmxBootstrap5Navigation:{},dmxDataTraversal:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxBootstrap5TableGenerator:{},dmxFormatter:{}}" -->
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="models" appConnect="local" bootstrap5="local" components="{dmxBootstrap5Navigation:{},dmxDataTraversal:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxBootstrap5TableGenerator:{},dmxFormatter:{},dmxBrowser:{}}" -->
+<div is="dmx-browser" id="browser1"></div>
+<dmx-datetime id="var1"></dmx-datetime>
 <meta name="ac:route" content="/views/appareils/models" />
 
 <div class="modal" id="newModel" is="dmx-bs5-modal" tabindex="-1">
@@ -25,17 +27,36 @@
                 </div>
                 <div class="form-group md-3">
                   <label for="modelAnnee1" class="form-label">Model Année</label>
-                  <input type="text" class="form-control" id="modelAnnee1" name="ModelAnnee" aria-describedby="input1_help" placeholder="L'année du model">
+                  <input type="number" class="form-control" id="modelAnnee1" name="ModelAnnee" aria-describedby="input1_help" placeholder="L'année du model">
                 </div>
                 <div class="form-group md-3">
                   <label for="ReferenceModel" class="form-label">Reference</label>
                   <input type="text" class="form-control" id="ReferenceModel" name="RefModel" aria-describedby="input1_help" placeholder="Description du model" />
                 </div>
                 <div class="form-group md-3">
-                  <label for="ImgModel" class="form-label">Image</label><input id="UploadModel" name="Img" type="file" class="form-control" />
+                  <label for="ReferenceModel1" class="form-label">Reference Courte</label>
+                  <input type="text" class="form-control" id="ReferenceModel1" name="RefCourt" aria-describedby="input1_help" placeholder="Description du model">
+                </div>
+                <div class="form-group md-3">
+                  <label for="prixmodel" class="form-label">Prix</label>
+                  <input type="text" class="form-control" id="prixmodel" name="Prix" aria-describedby="input1_help" placeholder="Description du model">
+                </div>
+                <div class="form-group md-3">
+                  <label for="prixmodel" class="form-label">Type de model</label>
+                  <select id="selecttype" class="form-select form-select-sm" name="TypeModel">
+                    <option value="tsp">Tsp</option>
+                    <option value="accessoire">Accessoire</option>
+                  </select>
+                </div>
+
+                <div class="d-flex justify-content-around align-items-end">
+                  <div class="form-group md-3 ">
+                    <label for="ImgModel" class="form-label">Image</label><input id="UploadModel" name="Img" type="file" class="form-control" />
+
+                  </div><img dmx-bind:src="UploadModel.file.dataUrl" width="100">
                 </div>
                 <div class="d-flex mt-4 mb-1 justify-content-around">
-                  <button type="submit" class="btn btn-primary" dmx-class:disabled="!UploadModel.value||!modelName.value">
+                  <button type="submit" class="btn btn-primary" dmx-class:disabled="!UploadModel.value||!modelName.value||!selecttype.value">
                     Enregistrer</button><button type="button" class="btn btn-warning" data-bs-dismiss="modal">
                     Annuler
                   </button>
@@ -59,6 +80,7 @@
           <input id="IdModeleEdit" name="IdModele" class="form-control" dmx-bind:value="selectedModel.value.IdModele" type="hidden">
 
           <input id="UserCreaEdit" name="UserCrea" type="text" class="form-control visually-hidden" dmx-bind:value="connectedUser.data.matricule">
+          <input id="DateCreaEdit" name="DateCrea" type="text" class="form-control visually-hidden" dmx-bind:value="var1.datetime">
           <div class="form-group mb-3 row">
             <label for="NomEdit" class="col-sm-2 col-form-label">Nom</label>
             <div class="col-sm-10">
@@ -83,6 +105,7 @@
               <input type="text" class="form-control" id="input3" name="RefModel" aria-describedby="input1_help" dmx-bind:value="selectedModel.value.RefModel" required="" />
             </div>
           </div>
+
           <img dmx-bind:src="selectedModel.value.Img?'data:image/jpeg;base64,'+selectedModel.value.Img:'/assets/mobile.png'" width="150">
 
           <div class="form-group mb-3 row">
@@ -244,7 +267,7 @@
                 <button id="btn4" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" dmx-hide="!selectedModel.value">Supprimer <i class="fa fa-trash-o"></i></button>
               </div>
               <div class="d-flex flex-row justify-content-start" style="" dmx-hide="!selectedModel.value">
-                <div class="d-flex flex-column align-items-center justify-content-around">
+                <div class="d-flex flex-column align-items-center justify-content-around me-3">
                   <a><img dmx-bind:src="selectedModel.value.Img?'data:image/jpeg;base64,'+selectedModel.value.Img:'/assets/mobile.png'" class="model-img" /></a>
                 </div>
 

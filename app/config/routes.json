@@ -69,7 +69,10 @@
     {
       "path": "/views/appareils/models",
       "page": "views/appareils/models",
-      "layout": "main"
+      "layout": "main",
+      "data": {
+        "title": "Models"
+      }
     }
   ],
   "layouts": {

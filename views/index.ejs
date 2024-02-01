@@ -1,4 +1,5 @@
 <!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="index" appConnect="local" bootstrap5="local" components="{dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxDataTraversal:{},dmxDatastore:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Navigation:{},dmxBootstrap5Offcanvas:{},dmxRouting:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxGooglePlaces:{},dmxVideo:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxDatePicker:{},dmxFormatter:{}}" moment_2="cdn" -->
+<dmx-datetime id="var1"></dmx-datetime>
 
 <div is="dmx-browser" id="browser1"></div>
 
@@ -8,7 +9,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title heading-text">Affecter la carte sim à un agent: {{ selectedSim.value.Nom }}</h5>
+        <h5 class="modal-title heading-text">Affecter l'appareil à un agent: {{selectedTsp.value.Nom}}</h5>
       </div>
       <div class="modal-body">
         <form is="dmx-api-form" id="affectationForm" method="post" action="http://localhost:5243/api/affectationAm" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('L\'appareil a été affecté avec succés');tsp.load({});selectedTsp.setValue(tsp.data.where(`IdTsp`, selectedTsp.value, '=='));affecterUserModal.toggle()" dmx-on:error="notifies1.danger(lastError.response)">
@@ -38,7 +39,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <form method="post" is="dmx-api-form" id="apiform1" action="http://localhost:5243/api/tsp" post-data="json" dmx-on:success="notifies1.success('Nouveau Tsp enregistré');scheduler1.start();addTspModal.toggle()" dmx-on:error="notifies1.danger(lastError.response+lastError.message)" dmx-header:authorization="connectedUser.data.token">
+        <form method="post" is="dmx-api-form" id="apiform1" action="http://localhost:5243/api/tsp" post-data="json" dmx-on:success="notifies1.success('Nouveau Tsp enregistré');tsp.load({});addTspModal.toggle()" dmx-on:error="notifies1.danger(lastError.response+lastError.message)" dmx-header:authorization="connectedUser.data.token">
           <div class="row justify-content-center">
             <div class="col-12">
               <h4 class="heading-text">Ajout d'un nouvel appareil</h4>
@@ -49,12 +50,13 @@
                   <div class="form-group ">
                     <label for="selectModel" class="form-label">Le model de TSP</label>
                     <input id="UserCrea" name="UserCrea" class="form-control" type="hidden" dmx-bind:value="connectedUser.data.matricule">
+                    <input id="DescriptionTsp" name="Description" class="form-control" type="hidden" dmx-bind:value="listModelTsp.data.where(`IdModele`, selectModel.value, '==')[0].Description">
                     <select id="selectModel" class="form-select form-control form-select-sm" dmx-bind:options="listModelTsp.data" optiontext="Nom" optionvalue="IdModele" name="ModeleId">
                       <option selected="" value=""></option>
                     </select>
                   </div><img dmx-bind:src="'data:image/jpeg;base64,'+listModelTsp.data.where(`IdModele`,selectModel.value, '==')[0].Img" dmx-show="selectModel.value" width="150">
                 </div>
-                <div class="d-flex flex-column justify-content-start">
+                <div class="d-flex flex-column justify-content-start visually-hidden">
                   <div class="form-group ">
                     <label for="modelName" class="form-label">Id du nouvel appareil</label>
                     <input id="IdTsp" name="IdTsp" class="form-control mb-1 form-control-plaintext form-control-sm" dmx-bind:value="nomNouveauAppareil.data" type="number" readonly="true">
@@ -72,6 +74,16 @@
 
 
                 </div>
+                <div class="d-flex flex-column justify-content-start">
+                  <div class="form-group mb-3">
+                    <label for="modelName" class="form-label">Reference Court</label>
+                    <input id="RefCourtTsp" name="RefCourt" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="listModelTsp.data.where(`IdModele`,selectModel.value, '==')[0].RefCourt" readonly="true">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="modelName" class="form-label">Quantite</label>
+                    <input id="quantiteAdd1" name="Quantite1" class="form-control border form-control-plaintext mb-0 form-control-sm">
+                  </div>
+                </div>
                 <div class="d-flex justify-content-between flex-column">
                   <div class="form-group">
                     <label for="modelName" class="form-label">Année de production</label>
@@ -79,19 +91,14 @@
                   </div>
                   <div class="form-group">
                     <label for="modelName" class="form-label">Date d'achat</label>
-                    <input id="DateAchat" name="DateAchat" class="form-control form-control-sm" is="dmx-date-picker" applylabel="Enregistrer" cancellabel="Annuler" format="DD-MM-YYYY">
+                    <input id="DateAchat" name="DateAchat" class="form-control form-control-sm" is="dmx-date-picker" applylabel="Enregistrer" cancellabel="Annuler" format="DD-MM-YYYY" type="date">
                   </div>
                   <div class="form-group mb-3">
                     <label for="modelName" class="form-label">Numéro de serie</label>
                     <input id="NumSerie" name="NumSerie" class="form-control border form-control-plaintext mb-0 form-control-sm" />
                   </div>
                 </div>
-                <div class="d-flex flex-column justify-content-start">
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Description</label>
-                    <input id="Description" name="Description" class="form-control border form-control-plaintext mb-0 form-control-sm" />
-                  </div>
-                </div>
+
               </div>
             </div>
 
@@ -116,7 +123,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <form method="post" is="dmx-api-form" id="apiEditTsp" action="http://localhost:5243/api/tsp" post-data="json" dmx-on:success="notifies1.success('Nouveau Tsp enregistré');addTspModal.toggle()" dmx-on:error="notifies1.danger(lastError.response+lastError.message)" dmx-header:authorization="connectedUser.data.token">
+        <form method="post" is="dmx-api-form" id="apiEditTsp" action="http://localhost:5243/api/tsp/edit" post-data="json" dmx-on:success="notifies1.success('Appareil modifié');editTspModal.toggle();tsp.load({});selectedTsp.setValue(tsp.data.where(`IdTsp`, selectedTsp.value, '==')[0])" dmx-on:error="notifies1.danger(lastError.response+lastError.message)" dmx-header:authorization="connectedUser.data.token">
           <div class="row justify-content-center">
             <div class="col-12">
               <h4 class="heading-text">Modifier l'appareil</h4>
@@ -136,7 +143,7 @@
                 <div class="d-flex flex-column justify-content-start">
                   <div class="form-group mb-3">
                     <label for="modelName" class="form-label">Nom</label>
-                    <input id="IdTsp1" name="IdTsp" class="form-control mb-1 form-control-plaintext" dmx-bind:value="nomNouveauAppareil.data" type="hidden">
+                    <input id="IdTsp1" name="IdTsp" class="form-control mb-1 form-control-plaintext" dmx-bind:value="selectedTsp.value.IdTsp">
                     <input id="Nom1" name="Nom" class="form-control form-control-plaintext mb-0 form-control-sm border" dmx-bind:value="selectedTsp.value.Nom" />
                   </div>
                   <div class="form-group mb-3">
@@ -150,7 +157,7 @@
                 <div class="d-flex flex-column justify-content-start">
                   <div class="form-group mb-3">
                     <label for="modelName" class="form-label">Date d'achat</label>
-                    <input id="DateAchat1" name="DateAchat" type="text" class="form-control form-control-sm" is="dmx-date-picker" format="DD-M-Y" dmx-bind:value="selectedTsp.value.DateAchat">
+                    <input id="DateAchat1" name="DateAchat" type="text" class="form-control form-control-sm" is="dmx-date-picker" format="MM-DD-YYYY" dmx-bind:value="selectedTsp.value.DateAchat">
                   </div>
                   <div class="form-group mb-3">
                     <label for="modelName" class="form-label">Année de production</label>
@@ -162,6 +169,10 @@
                   <div class="form-group mb-3">
                     <label for="modelName" class="form-label">Description</label>
                     <input id="Description1" name="Description" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="selectedTsp.value.Description" />
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="modelName" class="form-label">Code de L'appareil</label>
+                    <input id="CodeTspEdit" name="CodeTsp" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="selectedTsp.value.CodeTsp">
                   </div>
                 </div>
               </div>
@@ -200,11 +211,11 @@
 <dmx-api-datasource id="sectionsList" is="dmx-fetch" url="http://localhost:5243/api/tableValeur/newAffectation"></dmx-api-datasource>
 <dmx-api-datasource id="simNonAffecteList" is="dmx-fetch" url="http://localhost:5243/api/simMobile/simNonAffecte" dmx-header:authorization="connectedUser.data.token" dmx-on:start="loadingSim.setValue(true)" dmx-on:done="loadingSim.setValue(false)"></dmx-api-datasource>
 <dmx-api-datasource id="tspNonAffectList" is="dmx-fetch" url="http://localhost:5243/api/tsp/nonAffecte/all" dmx-header:authorization="connectedUser.data.token" dmx-on:start="loadingTsp.setValue(true)" dmx-on:done="loadingTsp.setValue(false)"></dmx-api-datasource>
-<dmx-api-datasource id="listModelTsp" is="dmx-fetch" url="http://localhost:5243/api/modelTsp/all" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
+<dmx-api-datasource id="listModelTsp" is="dmx-fetch" url="http://localhost:5243/api/modelTsp/tsp" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 <dmx-api-datasource id="listEquipe" is="dmx-fetch" url="http://localhost:5243/api/tableValeur/codeTable/SECT" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 <dmx-api-datasource id="nomNouveauAppareil" is="dmx-fetch" url="http://localhost:5243/api/tsp/getMaxAsync" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 
-<dmx-api-datasource id="tsp" is="dmx-fetch" url="http://localhost:5243/api/tsp/firstLoad" dmx-on:success="tspViewList.add(data);loadingTsp.setValue(false)" dmx-on:unauthorized="connectedUser.removeAll();browser1.goto('/auth/login')" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
+<dmx-api-datasource id="tsp" is="dmx-fetch" url="http://localhost:5243/api/tsp/firstLoad" dmx-on:success="tspViewList.add(data);loadingTsp.setValue(false)" dmx-on:unauthorized="connectedUser.removeAll();browser1.goto('/auth/login')" dmx-header:authorization="connectedUser.data.token" dmx-param:type="'tsp'"></dmx-api-datasource>
 <div class="container-fluid">
   <div class="row ps-0 pe-0 app-row">
     <div class="col-2 app-sidebar">

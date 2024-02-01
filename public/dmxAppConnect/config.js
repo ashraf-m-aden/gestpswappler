@@ -3876,8 +3876,12 @@ dmx.config({
             "name": "UserCrea"
           },
           {
-            "type": "number",
+            "type": "text",
             "name": "ModelAnnee"
+          },
+          {
+            "type": "number",
+            "name": "NombreAppareil"
           },
           {
             "type": "text",
@@ -3890,6 +3894,14 @@ dmx.config({
           {
             "type": "text",
             "name": "Img"
+          },
+          {
+            "type": "text",
+            "name": "Prix"
+          },
+          {
+            "type": "text",
+            "name": "Type"
           }
         ]
       },
