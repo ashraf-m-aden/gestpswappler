@@ -12,18 +12,5 @@
       }
     ]
   },
-  "exec": {
-    "steps": {
-      "name": "getAccessoireTsp",
-      "module": "api",
-      "action": "send",
-      "options": {
-        "url": "http://localhost:5243/accessoire/affectationByIdTsp",
-        "data": {
-          "id": "{{$_GET.selectedtspid}}"
-        }
-      },
-      "output": true
-    }
-  }
+  "exec": {}
 }

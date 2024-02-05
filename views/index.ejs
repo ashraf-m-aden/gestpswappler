@@ -13,13 +13,13 @@
       </div>
       <div class="modal-body">
         <form is="dmx-api-form" id="affectationForm" method="post" action="http://localhost:5243/api/affectationAm" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('L\'appareil a été affecté avec succés');tsp.load({});selectedTsp.setValue(tsp.data.where(`IdTsp`, selectedTsp.value, '=='));affecterUserModal.toggle()" dmx-on:error="notifies1.danger(lastError.response)">
-          <input id="IdTspAffect" name="IdTsp" type="hidden" class="form-control" dmx-bind:value="selectedTsp.value.IdTsp" />
+          <input id="IdTspAffect" name="TspId" type="hidden" class="form-control" dmx-bind:value="selectedTsp.value.IdTsp">
           <input id="UserCreaAffect" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" />
 
           <div class="form-group mb-3 row">
             <label for="select2" class="col-sm-2 col-form-label">Agent</label>
             <div class="col-sm-10">
-              <select id="select2" class="form-select form-select-sm" dmx-bind:options="getEmployeByIdSection.data" optiontext="Nom" optionvalue="Matricule" name="IdEmploye"></select>
+              <select id="select2" class="form-select form-select-sm" dmx-bind:options="getEmployeByIdSection.data" optiontext="Nom" optionvalue="Matricule" name="EmployeId"></select>
             </div>
           </div>
           <div class="d-flex justify-content-around">
@@ -210,7 +210,7 @@
 <dmx-api-datasource id="newAfffId" is="dmx-fetch"></dmx-api-datasource>
 <dmx-api-datasource id="sectionsList" is="dmx-fetch" url="http://localhost:5243/api/tableValeur/newAffectation"></dmx-api-datasource>
 <dmx-api-datasource id="simNonAffecteList" is="dmx-fetch" url="http://localhost:5243/api/simMobile/simNonAffecte" dmx-header:authorization="connectedUser.data.token" dmx-on:start="loadingSim.setValue(true)" dmx-on:done="loadingSim.setValue(false)"></dmx-api-datasource>
-<dmx-api-datasource id="tspNonAffectList" is="dmx-fetch" url="http://localhost:5243/api/tsp/nonAffecte/all" dmx-header:authorization="connectedUser.data.token" dmx-on:start="loadingTsp.setValue(true)" dmx-on:done="loadingTsp.setValue(false)"></dmx-api-datasource>
+<dmx-api-datasource id="tspNonAffectList" is="dmx-fetch" url="http://localhost:5243/api/tsp/GetNonAffecteAll" dmx-header:authorization="connectedUser.data.token" dmx-on:start="loadingTsp.setValue(true)" dmx-on:done="loadingTsp.setValue(false)" dmx-param:type="'tsp'"></dmx-api-datasource>
 <dmx-api-datasource id="listModelTsp" is="dmx-fetch" url="http://localhost:5243/api/modelTsp/tsp" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 <dmx-api-datasource id="listEquipe" is="dmx-fetch" url="http://localhost:5243/api/tableValeur/codeTable/SECT" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 <dmx-api-datasource id="nomNouveauAppareil" is="dmx-fetch" url="http://localhost:5243/api/tsp/getMaxAsync" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
@@ -372,7 +372,7 @@
                 </dl>
                 <dl>
                   <dt>Affecté par</dt>
-                  <dd>{{ selectedTsp.value.Affectation.affectedBy }}</dd>
+                  <dd>{{selectedTsp.value.Affectation.UserCrea.Nom}}</dd>
                 </dl>
               </div>
               <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-show="selectedTsp.value&amp;&amp;(selectedTsp.value.Affectation.IdAffect==0||selectedTsp.value.Affectation==null || ActualAffectation.value.Deleted=='O')">

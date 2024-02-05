@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "idaccessoire"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select \"tsptest\".\"employe\".\"nom\" as \"employeNom\", \"tsptest\".\"employe\".\"matricule\", \"tsptest\".\"tsp\".\"nom\" as \"tspNom\", \"tsptest\".\"modele_tsp\".\"img\", \"tsptest\".\"accessoire_affectations\".\"date_crea\", \"tsptest\".\"modele_tsp\".\"id_modele\" from \"tsptest\".\"accessoire_affectations\" full outer join \"tsptest\".\"employe\" on \"tsptest\".\"employe\".\"matricule\" = \"tsptest\".\"accessoire_affectations\".\"user_crea\" full outer join \"tsptest\".\"tsp\" on \"tsptest\".\"tsp\".\"id_tsp\" = \"tsptest\".\"accessoire_affectations\".\"id_tsp\" full outer join \"tsptest\".\"modele_tsp\" on \"tsptest\".\"modele_tsp\".\"id_modele\" = \"tsp\".\"modele_id\" where \"tsptest\".\"accessoire_affectations\".\"id_accessoire\" = ?",
+          "params": [
+            {
+              "name": "id_accessoire",
+              "value": "{{$_GET.idaccessoire}}",
+              "test": "374"
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "employeNom",
+          "type": "text"
+        },
+        {
+          "name": "matricule",
+          "type": "number"
+        },
+        {
+          "name": "tspNom",
+          "type": "text"
+        },
+        {
+          "name": "img",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "id_modele",
+          "type": "number"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "matricule"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "userCrea",
+      "module": "dbconnector",
+      "action": "single",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "select",
+          "columns": [],
+          "params": [
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P1",
+              "value": "{{$_GET.matricule}}",
+              "test": "47698"
+            }
+          ],
+          "table": {
+            "name": "employe",
+            "schema": "tsptest"
+          },
+          "primary": "matricule",
+          "joins": [],
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "tsptest.employe.matricule",
+                "field": "tsptest.employe.matricule",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_GET.matricule}}",
+                "data": {
+                  "table": "employe",
+                  "column": "matricule",
+                  "type": "number",
+                  "columnObj": {
+                    "type": "decimal",
+                    "primary": true,
+                    "unique": true,
+                    "nullable": false,
+                    "name": "matricule"
+                  },
+                  "schema": "tsptest"
+                },
+                "operation": "="
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          },
+          "query": "select * from \"tsptest\".\"employe\" where \"tsptest\".\"employe\".\"matricule\" = ?"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "matricule"
+        },
+        {
+          "type": "text",
+          "name": "nom"
+        },
+        {
+          "type": "number",
+          "name": "id_client"
+        },
+        {
+          "type": "text",
+          "name": "a_init"
+        },
+        {
+          "type": "number",
+          "name": "id_machine"
+        },
+        {
+          "type": "text",
+          "name": "poste_mobile"
+        },
+        {
+          "type": "text",
+          "name": "connecte"
+        },
+        {
+          "type": "number",
+          "name": "poste_encours"
+        },
+        {
+          "type": "datetime",
+          "name": "dern_conn"
+        },
+        {
+          "type": "datetime",
+          "name": "dern_deconn"
+        },
+        {
+          "type": "text",
+          "name": "mess"
+        },
+        {
+          "type": "datetime",
+          "name": "date_mess"
+        },
+        {
+          "type": "text",
+          "name": "mess_lu"
+        },
+        {
+          "type": "number",
+          "name": "inst_vers"
+        },
+        {
+          "type": "text",
+          "name": "inst_urgence"
+        },
+        {
+          "type": "number",
+          "name": "statut"
+        },
+        {
+          "type": "text",
+          "name": "droit_au_quota"
+        },
+        {
+          "type": "text",
+          "name": "equipe"
+        },
+        {
+          "type": "text",
+          "name": "app_version"
+        },
+        {
+          "type": "datetime",
+          "name": "date_visite"
+        },
+        {
+          "type": "text",
+          "name": "person_visite"
+        },
+        {
+          "type": "text",
+          "name": "user_tsptest"
+        },
+        {
+          "type": "text",
+          "name": "motpasse"
+        },
+        {
+          "type": "text",
+          "name": "password_salt"
+        },
+        {
+          "type": "text",
+          "name": "password_hash"
+        }
+      ],
+      "outputType": "object"
+    }
+  }
+}

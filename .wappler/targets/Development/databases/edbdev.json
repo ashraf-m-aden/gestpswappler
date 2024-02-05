@@ -1,0 +1,1032 @@
+{
+  "type": "postgres",
+  "connection": {
+    "host": "192.168.8.50",
+    "port": 5444,
+    "user": "tspuser",
+    "password": "tspuser",
+    "database": "edbdev"
+  },
+  "direct": true,
+  "schema": {
+    "schemas": [
+      "aq$_agent",
+      "aq$_descriptor",
+      "aq$_reg_info",
+      "dbms_alert",
+      "dbms_aq",
+      "dbms_aqadm",
+      "dbms_crypto",
+      "dbms_job",
+      "dbms_lob",
+      "dbms_lock",
+      "dbms_mview",
+      "dbms_output",
+      "dbms_pipe",
+      "dbms_profiler",
+      "dbms_random",
+      "dbms_redact",
+      "dbms_rls",
+      "dbms_scheduler",
+      "dbms_session",
+      "dbms_sql",
+      "dbms_utility",
+      "msg_prop_t",
+      "pelerinage",
+      "sys",
+      "topology",
+      "tsptest",
+      "utl_encode",
+      "utl_file",
+      "utl_http",
+      "utl_mail",
+      "utl_raw",
+      "utl_smtp",
+      "utl_tcp",
+      "utl_url"
+    ],
+    "tables": {
+      "tsptest.spatial_ref_sys": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.anomalie_releve": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "columns": {
+          "code": {
+            "db": {
+              "type": "string",
+              "maxLength": 2,
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "libelle": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "qualite": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "affichable": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          }
+        }
+      },
+      "tsptest.compl_r_mt": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.tables_valeurs": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.section_employe": "section",
+          "tsptest.suiviebordereau": "statut",
+          "tsptest.role": "type_role",
+          "tsptest.suivi_tournee": "statut_tournee",
+          "tsptest.releve": "nature_releve",
+          "tsptest.cellule_clientele": "type_cellule",
+          "tsptest.log_suiviebordereau": "statut",
+          "tsptest.lot_fac_periode": "methodefact",
+          "tsptest.suivi_lot_fac": "statut_groupe",
+          "tsptest.point_livraison": "acces_compteur",
+          "tsptest.compteur": "etat_cpt",
+          "tsptest.modele_compteur": "fabricant"
+        }
+      },
+      "tsptest.modele_tsp": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "columns": {
+          "id_modele": {
+            "db": {
+              "type": "integer",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "nom": {
+            "db": {
+              "type": "string",
+              "maxLength": 25,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "description": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "ref_model": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "model_annee": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "img": {
+            "db": {
+              "type": "bytea",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "type_appareil": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "prix": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "ref_court": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        }
+      },
+      "tsptest.employe": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "columns": {
+          "matricule": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "nom": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_client": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "a_init": {
+            "db": {
+              "type": "string",
+              "default": "O",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_machine": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "poste_mobile": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "connecte": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "poste_encours": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "dern_conn": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "dern_deconn": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "mess": {
+            "db": {
+              "type": "string",
+              "maxLength": 140,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_mess": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "mess_lu": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "inst_vers": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "inst_urgence": {
+            "db": {
+              "type": "string",
+              "maxLength": 10,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "statut": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "droit_au_quota": {
+            "db": {
+              "type": "string",
+              "default": "O",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "equipe": {
+            "db": {
+              "type": "string",
+              "maxLength": 2,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "app_version": {
+            "db": {
+              "type": "string",
+              "default": "1",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_visite": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "person_visite": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_tsptest": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "motpasse": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "password_salt": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "password_hash": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        },
+        "refs": {
+          "tsptest.section_employe": "employe",
+          "tsptest.compte": "user_crea",
+          "tsptest.tsp": "releveur",
+          "tsptest.suiviebordereau": "user_maj",
+          "tsptest.tourne_rp": "matricule",
+          "tsptest.log_affectation_appareil_mobiles": "employe_id",
+          "tsptest.group_user": "id_matricule",
+          "tsptest.cellule_clientele": "mat_respo",
+          "tsptest.log_suiviebordereau": "user_crea",
+          "tsptest.client": "id_utilis_maj",
+          "tsptest.att_section_emp": "mat",
+          "tsptest.point_livraison": "id_utilis_maj",
+          "tsptest.compteur": "id_utilis_maj",
+          "tsptest.affectation_appareil_mobiles": "employe_id"
+        }
+      },
+      "tsptest.section_employe": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.appareil_probleme": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "columns": {
+          "id_probleme": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "id_tsp": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "description": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "repare": {
+            "db": {
+              "type": "\"char\"",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_repare": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_repare": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        }
+      },
+      "tsptest.compte": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.sim_mobile": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.log_affectation_appareil_mobiles": "sim_id",
+          "tsptest.affectation_appareil_mobiles": "sim_mobile_id"
+        }
+      },
+      "tsptest.tsp": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "columns": {
+          "id_tsp": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "nom": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "code_tsp": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "description": {
+            "db": {
+              "type": "text",
+              "default": "RELEVE BT",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "releveur": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "syns_path": {
+            "db": {
+              "type": "string",
+              "default": "C:\\Documents and Settings\\bouni\\Mes documents\\TSP0 My Documents\\tsptest",
+              "maxLength": 100,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "archive_path": {
+            "db": {
+              "type": "string",
+              "default": "\\\\192.168.0.3\\TSP\\ARCHIVE\\TSP1",
+              "maxLength": 100,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "syns_path_win7": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "pin": {
+            "db": {
+              "type": "string",
+              "maxLength": 4,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "puk": {
+            "db": {
+              "type": "string",
+              "maxLength": 8,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_tel": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "modele_id": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "equipe_id": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "sect_emp": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_serie": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_achat": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "annee_production": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        },
+        "refs": {
+          "tsptest.suiviebordereau": "numtsp",
+          "tsptest.log_affectation_appareil_mobiles": "tsp_id",
+          "tsptest.affectation_appareil_mobiles": "tsp_id"
+        }
+      },
+      "tsptest.supports": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.point_livraison": "code_support"
+        }
+      },
+      "tsptest.log_releve_correction": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.type_accessoire": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.accessoire": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.suiviebordereau": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.tourne_rp": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.role": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.accessoire_affectations": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "columns": {
+          "id_affect": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "id_tsp": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_employe": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_accessoire": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        }
+      },
+      "tsptest.poste": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.supports": "code_poste"
+        }
+      },
+      "tsptest.log_affectation_appareil_mobiles": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.suivi_tournee": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.equipe_app_mobile": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.releve": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.compl_r_mt": "num_releve"
+        }
+      },
+      "tsptest.group_user": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.groupe": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.group_user": "id_group"
+        }
+      },
+      "tsptest.tourne_releve": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.tourne_rp": "num_tourne",
+          "tsptest.point_livraison": "num_tourne"
+        }
+      },
+      "tsptest.groupe_fac": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.lot_facturation": "num_gr_fac",
+          "tsptest.zone_geographique": "groupe_fac"
+        }
+      },
+      "tsptest.cellule_clientele": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.lot_facturation": "num_cellule",
+          "tsptest.client": "num_cellule",
+          "tsptest.zone_geographique": "num_cellule"
+        }
+      },
+      "tsptest.lot_facturation": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.lot_fac_periode": "num_lot_fac"
+        }
+      },
+      "tsptest.log_suiviebordereau": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.periode": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.log_suiviebordereau": "periode",
+          "tsptest.lot_fac_periode": "id_periode"
+        }
+      },
+      "tsptest.lot_fac_periode": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.suivi_lot_fac": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.client": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.compte": "id_client",
+          "tsptest.role": "num_client"
+        }
+      },
+      "tsptest.att_section_emp": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.contrat": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.role": "num_contrat",
+          "tsptest.point_livraison": "id_dernier_contrat"
+        }
+      },
+      "tsptest.point_livraison": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.compteur": "num_pl"
+        }
+      },
+      "tsptest.compteur": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.compl_r_mt": "num_cpteur"
+        }
+      },
+      "tsptest.facture": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.affectation_appareil_mobiles": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.ligne_facture": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.autre_mvt": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.ligne_mvt": {
+        "db": {
+          "schema": "tsptest"
+        }
+      },
+      "tsptest.zone_geographique": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.supports": "num_zonegeo"
+        }
+      },
+      "tsptest.lieu_geographique": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.poste": "num_lieugeo",
+          "tsptest.zone_geographique": "num_lieugeo"
+        }
+      },
+      "tsptest.modele_compteur": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "refs": {
+          "tsptest.compteur": "modele_cpteur"
+        }
+      },
+      "sys.dual": {
+        "db": {
+          "schema": "sys"
+        }
+      },
+      "sys.callback_queue_table": {
+        "db": {
+          "schema": "sys",
+          "comment": "equal"
+        }
+      }
+    },
+    "views": {}
+  },
+  "case": "snake"
+}
