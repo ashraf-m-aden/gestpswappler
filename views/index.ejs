@@ -1,4 +1,10 @@
-<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="index" appConnect="local" bootstrap5="local" components="{dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxDataTraversal:{},dmxDatastore:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Navigation:{},dmxBootstrap5Offcanvas:{},dmxRouting:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxGooglePlaces:{},dmxVideo:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxDatePicker:{},dmxFormatter:{}}" moment_2="cdn" -->
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="index" appConnect="local" bootstrap5="local" components="{dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxDataTraversal:{},dmxDatastore:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Navigation:{},dmxBootstrap5Offcanvas:{},dmxRouting:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxGooglePlaces:{},dmxVideo:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxDatePicker:{},dmxFormatter:{},dmxValidator:{}}" moment_2="cdn" -->
+<dmx-serverconnect id="updateTsp" url="/api/tsp/post/postEditTsp" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="getModels" url="/api/global/models" dmx-param:model="'tsp'"></dmx-serverconnect>
+<dmx-serverconnect id="getAccessoires" url="/api/accessoires/get/getAccessories" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="getAffectation" url="/api/tsp/get/getActualAffectation" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="getAllTsp" url="/api/tsp/get/getAllTsp" dmx-on:done="loadingTsp.setValue(false)"></dmx-serverconnect>
+<dmx-serverconnect id="getLogAffectation" url="/api/tsp/get/getLocAffectation" noload="true"></dmx-serverconnect>
 <dmx-datetime id="var1"></dmx-datetime>
 
 <div is="dmx-browser" id="browser1"></div>
@@ -13,11 +19,11 @@
       </div>
       <div class="modal-body">
         <form is="dmx-api-form" id="affectationForm" method="post" action="http://localhost:5243/api/affectationAm" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('L\'appareil a été affecté avec succés');tsp.load({});selectedTsp.setValue(tsp.data.where(`IdTsp`, selectedTsp.value, '=='));affecterUserModal.toggle()" dmx-on:error="notifies1.danger(lastError.response)">
-          <input id="IdTspAffect" name="TspId" type="hidden" class="form-control" dmx-bind:value="selectedTsp.value.IdTsp">
-          <input id="UserCreaAffect" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" />
+          <input id="IdTspAffect" name="TspId" type="hidden" class="form-control-sm" dmx-bind:value="selectedTsp.value.IdTsp">
+          <input id="UserCreaAffect" name="UserCrea" type="hidden" class="form-control-sm" dmx-bind:value="connectedUser.data.matricule" />
 
           <div class="form-group mb-3 row">
-            <label for="select2" class="col-sm-2 col-form-label">Agent</label>
+            <label for="select2" class="col-sm-2 col-form-label-sm">Agent</label>
             <div class="col-sm-10">
               <select id="select2" class="form-select form-select-sm" dmx-bind:options="getEmployeByIdSection.data" optiontext="Nom" optionvalue="Matricule" name="EmployeId"></select>
             </div>
@@ -39,7 +45,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <form method="post" is="dmx-api-form" id="apiform1" action="http://localhost:5243/api/tsp" post-data="json" dmx-on:success="notifies1.success('Nouveau Tsp enregistré');tsp.load({});addTspModal.toggle()" dmx-on:error="notifies1.danger(lastError.response+lastError.message)" dmx-header:authorization="connectedUser.data.token">
+        <form method="post" is="dmx-serverconnect-form" id="postnewTsp" action="/api/tsp/post/postnewTsp" post-data="json" dmx-on:success="notifies1.success('Nouveau Tsp enregistré');tsp.load({});addTspModal.toggle()" dmx-on:error="notifies1.danger(lastError.response+lastError.message)" dmx-header:authorization="connectedUser.data.token">
           <div class="row justify-content-center">
             <div class="col-12">
               <h4 class="heading-text">Ajout d'un nouvel appareil</h4>
@@ -48,9 +54,9 @@
               <div class="d-flex flex-row justify-content-around">
                 <div class="d-flex flex-column justify-content-start">
                   <div class="form-group ">
-                    <label for="selectModel" class="form-label">Le model de TSP</label>
-                    <input id="UserCrea" name="UserCrea" class="form-control" type="hidden" dmx-bind:value="connectedUser.data.matricule">
-                    <input id="DescriptionTsp" name="Description" class="form-control" type="hidden" dmx-bind:value="listModelTsp.data.where(`IdModele`, selectModel.value, '==')[0].Description">
+                    <label for="selectModel" class="form-label">Le model d'appareil</label>
+                    <input id="UserCrea" name="UserCrea" class="form-control-sm" type="hidden" dmx-bind:value="connectedUser.data.matricule">
+                    <input id="DescriptionTsp" name="Description" class="form-control-sm" type="hidden" dmx-bind:value="listModelTsp.data.where(`IdModele`, selectModel.value, '==')[0].Description">
                     <select id="selectModel" class="form-select form-control form-select-sm" dmx-bind:options="listModelTsp.data" optiontext="Nom" optionvalue="IdModele" name="ModeleId">
                       <option selected="" value=""></option>
                     </select>
@@ -81,7 +87,7 @@
                   </div>
                   <div class="form-group mb-3">
                     <label for="modelName" class="form-label">Quantite</label>
-                    <input id="quantiteAdd1" name="Quantite1" class="form-control border form-control-plaintext mb-0 form-control-sm">
+                    <input id="quantiteAdd1" name="Quantite1" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="1">
                   </div>
                 </div>
                 <div class="d-flex justify-content-between flex-column">
@@ -122,72 +128,73 @@
 <div class="modal" id="editTspModal" is="dmx-bs5-modal" tabindex="-1">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Mise à jour de l'appareil</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
       <div class="modal-body">
-        <form method="post" is="dmx-api-form" id="apiEditTsp" action="http://localhost:5243/api/tsp/edit" post-data="json" dmx-on:success="notifies1.success('Appareil modifié');editTspModal.toggle();tsp.load({});selectedTsp.setValue(tsp.data.where(`IdTsp`, selectedTsp.value, '==')[0])" dmx-on:error="notifies1.danger(lastError.response+lastError.message)" dmx-header:authorization="connectedUser.data.token">
-          <div class="row justify-content-center">
-            <div class="col-12">
-              <h4 class="heading-text">Modifier l'appareil</h4>
+        <form is="dmx-serverconnect-form" id="apiEditTsp" method="post" action="/api/tsp/post/postEditTsp" dmx-generator="bootstrap5" dmx-form-type="horizontal" dmx-on:error="notifies1.danger(lastError.response.message)" dmx-on:success="getAllTsp.load({});notifies1.success('L\'appareil a été mis à jour');editTspModal.toggle()">
+          <div class="form-group mb-3 row">
+            <label for="inp_nom" class="col-sm-2 col-form-label-sm">Nom</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control form-control-sm" id="inp_nom" name="nom" aria-describedby="inp_nom_help" placeholder="Enter Nom" dmx-bind:value="selectedTsp.value.nom" required="" data-msg-required="Ce champ est nécessaire">
             </div>
-            <div class="col">
-              <div class="d-flex flex-row justify-content-around">
-
-                <div class="d-flex justify-content-start flex-column">
-                  <div class="form-group mb-3">
-                    <label for="selectModel1" class="form-label">Le model de TSP</label>
-
-                    <select id="selectModel1" class="form-select form-control form-select-sm" dmx-bind:options="listModelTsp.data.where(`IdModele`, selectedTsp.value.ModeleId, '!==')" optiontext="Nom" optionvalue="IdModele" name="ModeleId" dmx-bind:value="listModelTsp.data.where(`$value`, selectedTsp.value.Model.IdModele, '==')">
-                      <option dmx-bind:value="selectedTsp.value.Model.IdModele">{{ selectedTsp.value.Model.Nom }}</option>
-                    </select>
-                  </div><img dmx-bind:src="'data:image/jpeg;base64,'+listModelTsp.data.where(`IdModele`, selectModel1.value, '==')[0].Img" width="150" dmx-show="selectModel1.value">
-                </div>
-                <div class="d-flex flex-column justify-content-start">
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Nom</label>
-                    <input id="IdTsp1" name="IdTsp" class="form-control mb-1 form-control-plaintext" dmx-bind:value="selectedTsp.value.IdTsp">
-                    <input id="Nom1" name="Nom" class="form-control form-control-plaintext mb-0 form-control-sm border" dmx-bind:value="selectedTsp.value.Nom" />
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Numéro de serie</label>
-                    <input id="NumSerie1" name="NumSerie" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="selectedTsp.value.NumSerie" />
-                  </div>
-                  <input id="UserCrea1" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule">
-
-
-                </div>
-                <div class="d-flex flex-column justify-content-start">
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Date d'achat</label>
-                    <input id="DateAchat1" name="DateAchat" type="text" class="form-control form-control-sm" is="dmx-date-picker" format="MM-DD-YYYY" dmx-bind:value="selectedTsp.value.DateAchat">
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Année de production</label>
-                    <input id="AnneeProduction1" name="AnneeProduction" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="selectedTsp.value.AnneeProduction" />
-                  </div>
-
-                </div>
-                <div class="d-flex flex-column justify-content-start">
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Description</label>
-                    <input id="Description1" name="Description" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="selectedTsp.value.Description" />
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Code de L'appareil</label>
-                    <input id="CodeTspEdit" name="CodeTsp" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="selectedTsp.value.CodeTsp">
-                  </div>
-                </div>
-              </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_code_tsp" class="col-sm-2 col-form-label-sm">Code tsp</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control-sm" id="inp_code_tsp" name="code_tsp" dmx-bind:value="selectedTsp.value.code_tsp" aria-describedby="inp_code_tsp_help" placeholder="Enter Code tsp" required="" data-msg-required="Ce champ est nécessaire">
             </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_description" class="col-sm-2 col-form-label-sm">Description</label>
+            <div class="col-sm-10">
+              <textarea id="description" class="form-control" dmx-bind:value="selectedTsp.value.description" required="" data-msg-required="Ce champ est nécessaire"></textarea>
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_modele_id" class="col-sm-2 col-form-label-sm">Modele</label>
+            <div class="col-sm-10 d-flex flex-row justify-content-start align-items-center">
+              <select id="select1" class="form-select form-select-sm" dmx-bind:options="getModels.data.getModels" optiontext="nom" optionvalue="id_modele" dmx-bind:value="selectedTsp.value.modele_id" required="" data-msg-required="Ce champ est nécessaire" name="modele_id">
+              </select>
+              <img height="100" class="ms-5" dmx-bind:src="'/assets/images/'+select1.selectedValue+'.jpg'">
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_num_serie" class="col-sm-2 col-form-label-sm">Num serie</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control-sm" id="inp_num_serie" name="num_serie" dmx-bind:value="selectedTsp.value.num_serie" aria-describedby="inp_num_serie_help" placeholder="Enter Num serie" required="" data-msg-required="Ce champ est nécessaire">
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_date_achat" class="col-sm-2 col-form-label-sm">Date achat</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control-sm" id="inp_date_achat" name="date_achat" dmx-bind:value="selectedTsp.value.date_achat" aria-describedby="inp_date_achat_help" placeholder="Enter Date achat" required="" data-msg-required="Ce champ est nécessaire" is="dmx-date-picker" format="L">
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_annee_production" class="col-sm-2 col-form-label-sm">Annee production</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control-sm" dmx-bind:value="selectedTsp.value.annee_production" id="inp_annee_production" name="annee_production" aria-describedby="inp_annee_production_help" placeholder="Enter Annee production" required="" data-msg-required="Ce champ est nécessaire">
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_user_crea" class="col-sm-2 col-form-label-sm">User crea</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control-sm" dmx-bind:value="connectedUser.data.matricule" id="inp_user_crea" name="user_crea" aria-describedby="inp_user_crea_help" placeholder="Enter User crea" required="" data-msg-required="Ce champ est nécessaire">
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_id_tsp" class="col-sm-2 col-form-label-sm">Id tsp</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control-sm" id="inp_id_tsp" name="id_tsp" dmx-bind:value="selectedTsp.value.id_tsp" aria-describedby="inp_id_tsp_help" placeholder="Enter Id tsp" required="" data-msg-required="Ce champ est nécessaire">
+            </div>
+          </div>
 
-            <div class="col-10">
-              <div class="d-flex mt-5 justify-content-around">
-                <button id="submit1" class="btn btn-primary" type="submit" dmx-bind:disabled="!selectModel1.value||NumSerie1.value.length()&lt;5" dmx-on:click="loading.setValue(true)">
-                  Enregistrer
-                </button>
-
-                <button id="cancel1" class="btn btn-warning" data-bs-dismiss="modal">
-                  Annuler
-                </button>
-              </div>
+          <div class="form-group mb-3 row">
+            <div class="col-sm-10">
+              <button type="submit" class="btn btn-primary" dmx-bind:disabled="state.executing">Mettre à jour <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+              <button type="submit" class="btn btn-warning">Annuler </button>
             </div>
           </div>
         </form>
@@ -200,9 +207,11 @@
 <dmx-value id="loading" dmx-bind:value="false"></dmx-value>
 <dmx-value id="ActualAffectation" dmx-bind:value="selectedTsp.value.logAffectation.first()"></dmx-value>
 <dmx-value id="selectedTsp"></dmx-value>
-<dmx-data-view id="tspViewData" dmx-bind:data="tsp.data" dmx-bind:page="tsp.paging.pages" dmx-bind:pagesize="10" sortdir="desc"></dmx-data-view>
-<dmx-data-view id="searchData" dmx-bind:data="tsp.data.where(`CodeTsp`, form2.recherche.value, 'contains')" dmx-bind:page="tsp.paging.pages" dmx-bind:pagesize="10" sortdir="desc"></dmx-data-view>
-<dmx-data-view id="logDataView" dmx-bind:page="tsp.paging.pages" dmx-bind:pagesize="10" sortdir="desc" dmx-bind:data="tsp.data[23].logAffectation"></dmx-data-view>
+<dmx-value id="selectedTspModel"></dmx-value>
+<dmx-data-view id="tspViewData" dmx-bind:data="getAllTsp.data.getAllTsp" sortdir="desc"></dmx-data-view>
+<dmx-data-view id="searchData" dmx-bind:data="getAllTsp.data.getAllTsp.where(`code_tsp`, form2.recherche.value, 'contains')" dmx-bind:page="tsp.paging.pages" dmx-bind:pagesize="10" sortdir="desc"></dmx-data-view>
+<dmx-data-view id="logDataView" sortdir="desc" dmx-bind:data="getLogAffectation.data.getLogAffectation"></dmx-data-view>
+<dmx-data-view id="accssoireDataView" sortdir="desc" dmx-bind:data="getAccessoires.data.query"></dmx-data-view>
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
 
 <dmx-api-action id="deleteApi" noload="true" method="delete" data-type="json" dmx-data:id="selectedAffecation.value.IdAffect" dmx-on:success="affecationList.load({});tspNonAffectList.load({});simNonAffecteList.load({});selectedAffecation.setValue(null);affecationList.load({});loadingEdit.setValue(false);deleteModal.hide()" dmx-bind:url="'http://localhost:5243/api/affectationAM/'+selectedAffecation.value.IdAffect" dmx-header:authorization="connectedUser.data.token" dmx-on:done="affecationList.load({});newAfffId.load({});simNonAffecteList.load({});tspNonAffectList.load({});employeNonAffecteList.load({});deleteModal.hide();loadingEdit.setValue(false);notifies1.info(lastError.status+lastError.message)"></dmx-api-action>
@@ -215,7 +224,6 @@
 <dmx-api-datasource id="listEquipe" is="dmx-fetch" url="http://localhost:5243/api/tableValeur/codeTable/SECT" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 <dmx-api-datasource id="nomNouveauAppareil" is="dmx-fetch" url="http://localhost:5243/api/tsp/getMaxAsync" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 
-<dmx-api-datasource id="tsp" is="dmx-fetch" url="http://localhost:5243/api/tsp/firstLoad" dmx-on:success="tspViewList.add(data);loadingTsp.setValue(false)" dmx-on:unauthorized="connectedUser.removeAll();browser1.goto('/auth/login')" dmx-header:authorization="connectedUser.data.token" dmx-param:type="'tsp'"></dmx-api-datasource>
 <div class="container-fluid">
   <div class="row ps-0 pe-0 app-row">
     <div class="col-2 app-sidebar">
@@ -269,7 +277,7 @@
         </ul>
       </div>
       <div class="d-flex flex-column" dmx-show="form2.recherche.value!==null">
-        <div class="table-responsive">
+        <div class="table-responsive" id="allTsp">
           <table class="table table-hover table-sm">
             <thead>
               <tr>
@@ -278,9 +286,9 @@
               </tr>
             </thead>
             <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="searchData.data" id="tableRepeat1">
-              <tr dmx-on:click="selectedTsp.setValue($value)" dmx-class:clicked="selectedTsp.value==$value">
-                <td dmx-text="Nom"></td>
-                <td dmx-text="IdTsp"></td>
+              <tr dmx-on:click="selectedTsp.setValue($value);getLogAffectation.load({idtsp: $value.id_tsp},true);getAffectation.load({idtsp: $value.id_tsp},true);getAccessoires.load({idtsp: $value.id_tsp},true)" dmx-class:clicked="selectedTsp.value==$value">
+                <td dmx-text="nom"></td>
+                <td dmx-text="id_tsp"></td>
               </tr>
             </tbody>
           </table>
@@ -314,38 +322,33 @@
             <div class="card-body">
               <div class="d-flex flex-row justify-content-between mb-1">
                 <h5 class="heading-text">Details de l'appareil</h5>
-                <button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editTspModal" dmx-on:click="listModelTsp.load({});nomNouveauAppareil.load({})" dmx-show="selectedTsp.value">
+                <button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editTspModal" dmx-on:click="selectedTspModel.setValue(getModels.data.getModelAccessoire.where(`id_modele`, selectedTsp.value.modele_id, '=='))" dmx-show="selectedTsp.value">
                   Modifier&nbsp;<i class="fa fa-pencil"></i>
                 </button>
               </div>
               <div class="d-flex justify-content-between flex-row" style="" dmx-show="selectedTsp.value">
                 <div class="d-flex flex-column align-items-center justify-content-around">
                   <h6>{{ selectedTsp.value.Model.Nom }}</h6>
-                  <img dmx-bind:src="selectedTsp.value.Model.Img?'data:image/jpeg;base64,'+selectedTsp.value.Model.Img:'/assets/mobile.png'" class="img-fluid app-img" width="150">
+                  <img dmx-bind:src="'/assets/images/'+selectedTsp.value.modele_id+'.jpg'" class="img-fluid app-img" width="150">
                 </div>
 
                 <dl>
                   <dt>Nom</dt>
-                  <dd>{{ selectedTsp.value.Nom }}</dd>
+                  <dd>{{selectedTsp.value.nom}}</dd>
                   <dt>Identifiant</dt>
-                  <dd>{{ selectedTsp.value.IdTsp }}</dd>
+                  <dd>{{ selectedTsp.value.id_tsp }}</dd>
                   <dt>Description</dt>
-                  <dd>{{ selectedTsp.value.Description }}</dd>
+                  <dd>{{ selectedTsp.value.description }}</dd>
                 </dl>
                 <dl>
                   <dt>Numéro de Serie</dt>
-                  <dd>{{ selectedTsp.value.NumSerie }}</dd>
+                  <dd>{{ selectedTsp.value.num_serie }}</dd>
                   <dt>Année de production</dt>
-                  <dd>{{selectedTsp.value.AnneeProduction}}</dd>
+                  <dd>{{selectedTsp.value.annee_production}}</dd>
                   <dt>Date d'achat</dt>
-                  <dd>{{selectedTsp.value.DateAchat}}</dd>
+                  <dd>{{selectedTsp.value.date_achat}}</dd>
                 </dl>
-                <dl>
-                  <dt>Date de mise en service</dt>
-                  <dd>{{selectedTsp.value.DateMiseEnService}}</dd>
-                  <dt>Agent actuelle</dt>
-                  <dd>4799</dd>
-                </dl>
+
               </div>
               <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-show="!selectedTsp.value">
                 <small class="text-muted">Pas de données</small>
@@ -357,25 +360,22 @@
           <div class="card app-col">
             <div class="card-body">
               <h5 class="heading-text">Agent</h5>
-              <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-show="!selectedTsp.value">
-                <small class="text-muted">Pas de données</small>
-              </div>
-              <div class="d-flex justify-content-between flex-row" style="" dmx-show="selectedTsp.value.Affectation.IdAffect!=0&amp;&amp;selectedTsp.value.Affectation!=null">
+              <div class="d-flex justify-content-between flex-row" style="" dmx-show="selectedTsp.value&amp;&amp;( getLogAffectation.data.getLogAffectation.first()).deleted=='N'">
                 <i class="fa fa-user"></i>
                 <dl>
                   <dt>Nom</dt>
-                  <dd>{{ selectedTsp.value.Affectation.Employe.Nom }}</dd>
+                  <dd>{{getAffectation.data.query[0].employe}}</dd>
                   <dt>Date d'affectation</dt>
-                  <dd>{{ selectedTsp.value.Affectation.DateCreation }}</dd>
+                  <dd>{{ getAffectation.data.query[0].date_crea }}</dd>
                   <dt>Numéro de la carte sim</dt>
-                  <dd>{{ selectedTsp.value.Affectation.SimMobile.Num }}</dd>
+                  <dd>{{ getAffectation.data.query[0].numtel }}</dd>
                 </dl>
                 <dl>
                   <dt>Affecté par</dt>
-                  <dd>{{selectedTsp.value.Affectation.UserCrea.Nom}}</dd>
+                  <dd>{{getAffectation.data.query[0].affectedby}}</dd>
                 </dl>
               </div>
-              <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-show="selectedTsp.value&amp;&amp;(selectedTsp.value.Affectation.IdAffect==0||selectedTsp.value.Affectation==null || ActualAffectation.value.Deleted=='O')">
+              <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-hide="selectedTsp.value&amp;&amp;( getLogAffectation.data.getLogAffectation.first()).deleted=='N'">
                 <i class="fa fa-user-times fa-2x"></i>
                 <small class="text-muted">Aucun agent n'est affecté à cet appareil</small><button id="btn4" class="btn btn-sm btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#affecterUserModal">
                   Affecter <i class="fa fa-plus"></i>
@@ -413,17 +413,17 @@
                           <th>Supprimé</th>
                         </tr>
                       </thead>
-                      <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="selectedTsp.value.LogAffectation" id="tableRepeat4">
+                      <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="logDataView.data" id="tableRepeat4">
                         <tr>
-                          <td dmx-text="EmployeName"></td>
-                          <td dmx-text="SimNumber"></td>
-                          <td dmx-text="DateCrea"></td>
-                          <td dmx-text="affectedBy"></td>
-                          <td dmx-text="Deleted"></td>
+                          <td dmx-text="nom"></td>
+                          <td dmx-text="numtel"></td>
+                          <td dmx-text="date_crea"></td>
+                          <td dmx-text="affectedby"></td>
+                          <td dmx-text="deleted"></td>
                         </tr>
                       </tbody>
                     </table>
-                    <table class="table" id="aucunedonnhistorique">
+                    <table class="table" id="aucunedonnhistorique" dmx-hide="getLogAffectation.data.getLogAffectation.hasItems()">
                       <tbody>
                         <tr>
                           <td colspan="4">Aucunes données</td>
@@ -444,19 +444,19 @@
                           <th>Date</th>
                         </tr>
                       </thead>
-                      <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="selectedTsp.value.ListAccessoire" id="tableRepeat3">
+                      <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="getAccessoires.data.query" id="tableRepeat3">
                         <tr>
                           <td>
-                            <img dmx-bind:src="TypeAccessoire.Img?'data:image/jpeg;base64,'+TypeAccessoire.Img:''" width="50" dmxorgdomid="d49288">
+                            <img dmx-bind:src="'/assets/images/'+modele_id+'.png'" width="50" dmxorgdomid="d49288">
                           </td>
-                          <td dmx-text="Accessoire.Nom"></td>
-                          <td dmx-text="Employe.Nom"></td>
-                          <td dmx-text="UserCrea.Nom"></td>
-                          <td dmx-text="DateCrea"></td>
+                          <td dmx-text="nom"></td>
+                          <td dmx-text="employe"></td>
+                          <td dmx-text="affectedby"></td>
+                          <td dmx-text="date_crea"></td>
                         </tr>
                       </tbody>
                     </table>
-                    <table class="table" id="aucunedonnaccessoire">
+                    <table class="table" id="aucunedonnaccessoire" dmx-hide="getAccessoires.data.query.hasItems()">
                       <tbody>
                         <tr>
                           <td colspan="4">Aucunes données</td>
