@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "getSections",
+      "module": "dbconnector",
+      "action": "select",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "select",
+          "distinct": false,
+          "columns": [
+            {
+              "table": "tables_valeurs",
+              "column": "id_ligne",
+              "schema": "tsptest"
+            },
+            {
+              "table": "tables_valeurs",
+              "column": "lib_court",
+              "schema": "tsptest"
+            }
+          ],
+          "table": {
+            "name": "tables_valeurs",
+            "schema": "tsptest"
+          },
+          "joins": [],
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "schema": "tsptest",
+                "table": "tables_valeurs",
+                "column": "id_ligne",
+                "field": "tsptest.tables_valeurs.id_ligne",
+                "operation": "in",
+                "value": [
+                  202,
+                  203
+                ],
+                "id": "tsptest.tables_valeurs.id_ligne",
+                "operator": "equal"
+              }
+            ]
+          },
+          "orders": [],
+          "params": [],
+          "primary": "id_ligne",
+          "query": "select \"id_ligne\", \"lib_court\" from \"tsptest\".\"tables_valeurs\" where \"tsptest\".\"tables_valeurs\".\"id_ligne\" in (?, ?)"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "id_ligne"
+        },
+        {
+          "type": "text",
+          "name": "lib_court"
+        }
+      ],
+      "outputType": "array",
+      "type": "dbconnector_select"
+    }
+  }
+}

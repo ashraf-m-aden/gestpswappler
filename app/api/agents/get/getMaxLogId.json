@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "maxIdLogAffect",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select (MAX(id_log)+1) as max from log_affectation_appareil_mobiles",
+          "params": []
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "max",
+          "type": "number"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

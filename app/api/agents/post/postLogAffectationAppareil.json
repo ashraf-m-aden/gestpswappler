@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "number",
+        "name": "user_crea"
+      },
+      {
+        "type": "number",
+        "name": "employe_id"
+      },
+      {
+        "type": "number",
+        "name": "tsp_id"
+      },
+      {
+        "type": "text",
+        "name": "deleted"
+      },
+      {
+        "type": "number",
+        "name": "id_log"
+      }
+    ],
+    "$_POST": [
+      {
+        "type": "number",
+        "name": "id_log"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "insertLogAffect",
+      "module": "dbupdater",
+      "action": "insert",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "insert",
+          "values": [
+            {
+              "table": "tsptest.log_affectation_appareil_mobiles",
+              "column": "user_crea",
+              "type": "number",
+              "value": "{{$_GET.user_crea}}"
+            },
+            {
+              "table": "tsptest.log_affectation_appareil_mobiles",
+              "column": "employe_id",
+              "type": "number",
+              "value": "{{$_GET.employe_id}}"
+            },
+            {
+              "table": "tsptest.log_affectation_appareil_mobiles",
+              "column": "tsp_id",
+              "type": "number",
+              "value": "{{$_GET.tsp_id}}"
+            },
+            {
+              "table": "tsptest.log_affectation_appareil_mobiles",
+              "column": "deleted",
+              "type": "text",
+              "value": "{{$_GET.deleted}}"
+            },
+            {
+              "table": "tsptest.log_affectation_appareil_mobiles",
+              "column": "id_log",
+              "type": "number",
+              "value": "{{$_GET.id_log}}"
+            }
+          ],
+          "table": "tsptest.log_affectation_appareil_mobiles",
+          "returning": "id_log",
+          "query": "insert into \"tsptest\".\"log_affectation_appareil_mobiles\" (\"deleted\", \"employe_id\", \"id_log\", \"tsp_id\", \"user_crea\") values (?, ?, ?, ?, ?) returning \"id_log\"",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_GET.user_crea}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_GET.employe_id}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_GET.tsp_id}}",
+              "test": ""
+            },
+            {
+              "name": ":P4",
+              "type": "expression",
+              "value": "{{$_GET.deleted}}",
+              "test": ""
+            },
+            {
+              "name": ":P5",
+              "type": "expression",
+              "value": "{{$_GET.id_log}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "identity",
+          "type": "text"
+        },
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

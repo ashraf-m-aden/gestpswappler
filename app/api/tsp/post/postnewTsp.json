@@ -115,8 +115,7 @@
                 "table": "tsptest.tsp",
                 "column": "id_tsp",
                 "type": "number",
-                "value": "{{$_POST.id_tsp}}",
-                "condition": "{{getMaxiid['?column?']}}"
+                "value": "{{$_POST.id_tsp}}"
               }
             ],
             "table": "tsptest.tsp",

@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "idsection"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "getAgentBySection",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select matricule, nom from employe join att_section_emp on att_section_emp.mat=employe.matricule and att_section_emp.section_emp like ? and matricule not in (Select employe_id from affectation_appareil_mobiles)",
+          "params": [
+            {
+              "name": "?",
+              "value": "{{$_GET.idsection}}",
+              "test": "%202%"
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "matricule",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

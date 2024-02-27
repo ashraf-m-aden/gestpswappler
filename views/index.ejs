@@ -1,4 +1,9 @@
 <!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="index" appConnect="local" bootstrap5="local" components="{dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxDataTraversal:{},dmxDatastore:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Navigation:{},dmxBootstrap5Offcanvas:{},dmxRouting:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxGooglePlaces:{},dmxVideo:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxDatePicker:{},dmxFormatter:{},dmxValidator:{},dmxMediumEditor:{}}" moment_2="cdn" -->
+<dmx-serverconnect id="postLogAffectationAppareils" url="/api/agents/post/postLogAffectationAppareil" noload="true" dmx-param:user_crea="connectedUser.data.matricule" dmx-param:employe_id="affecterUserModal.serverconnectform1.inp_employe_id.value" dmx-param:tsp_id="selectedTsp.value.id_tsp" dmx-param:deleted="'N'" dmx-param:id_log="getLogAffectationMax.data.maxIdLogAffect[0].max"></dmx-serverconnect>
+<dmx-serverconnect id="getAffectationMax" url="/api/agents/get/getAffectationMaxId"></dmx-serverconnect>
+<dmx-serverconnect id="getLogAffectationMax" url="/api/agents/get/getMaxLogId"></dmx-serverconnect>
+<dmx-serverconnect id="getSections" url="/api/agents/get/getSections"></dmx-serverconnect>
+<dmx-serverconnect id="getAgentBySections" url="/api/agents/get/getAgentsBySection" dmx-param:idsection="'%'+affecterUserModal.serverconnectform1.inp_employe_section.selectedValue+'%'" noload="true"></dmx-serverconnect>
 <dmx-serverconnect id="maxId" url="/api/tsp/get/getMaxId"></dmx-serverconnect>
 <dmx-serverconnect id="updateTsp" url="/api/tsp/post/postEditTsp" noload="true"></dmx-serverconnect>
 <dmx-serverconnect id="getModels" url="/api/global/models" dmx-param:model="'tsp'"></dmx-serverconnect>
@@ -19,23 +24,43 @@
         <h5 class="modal-title heading-text">Affecter l'appareil à un agent: {{selectedTsp.value.Nom}}</h5>
       </div>
       <div class="modal-body">
-        <form is="dmx-api-form" id="affectationForm" method="post" action="http://localhost:5243/api/affectationAm" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('L\'appareil a été affecté avec succés');tsp.load({});selectedTsp.setValue(tsp.data.where(`IdTsp`, selectedTsp.value, '=='));affecterUserModal.toggle()" dmx-on:error="notifies1.danger(lastError.response)">
-          <input id="IdTspAffect" name="TspId" type="hidden" class="form-control-sm" dmx-bind:value="selectedTsp.value.IdTsp">
-          <input id="UserCreaAffect" name="UserCrea" type="hidden" class="form-control-sm" dmx-bind:value="connectedUser.data.matricule" />
-
+        <form is="dmx-serverconnect-form" id="serverconnectform1" method="post" action="/api/agents/post/affectAppareilToAgent" site="GesTsp" dmx-generator="bootstrap5" dmx-form-type="horizontal" dmx-on:error="notifies1.danger(lastError.response.message)" dmx-on:success="postLogAffectationAppareils.load({});notifies1.success('L\'appareil a été affecté avec succés');affecterUserModal.toggle()">
           <div class="form-group mb-3 row">
-            <label for="select2" class="col-sm-2 col-form-label-sm">Agent</label>
+            <label for="inp_employe_section" class="col-sm-2 col-form-label">Employe section:</label>
             <div class="col-sm-10">
-              <select id="select2" class="form-select form-select-sm" dmx-bind:options="getEmployeByIdSection.data" optiontext="Nom" optionvalue="Matricule" name="EmployeId"></select>
+              <select id="inp_employe_section" class="form-select" name="employe_section" dmxorgdomid="d217224" dmx-bind:options="getSections.data.getSections" optiontext="lib_court" optionvalue="id_ligne" dmx-on:updated="getAgentBySections.load({})" required="" data-msg-required="Ce champ est nécessaire">
+                <option selected="" value=""></option>
+              </select>
             </div>
           </div>
-          <div class="d-flex justify-content-around">
-            <button id="btn5" class="btn btn-sm btn-primary" type="submit">
-              Enregistrer
-            </button>
-            <button id="btn6" class="btn btn-sm btn-warning" data-bs-dismiss="modal">
-              Annuler
-            </button>
+          <div class="form-group mb-3 row">
+            <div class="col-sm-10">
+              <input type="hidden" class="form-control" id="inp_id_affect" name="id_affect" dmx-bind:value="getAffectationMax.data.maxIdAffect[0].max" aria-describedby="inp_id_affect_help" placeholder="Enter Id affect:" dmxorgdomid="d217201" readonly="true">
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_employe_id" class="col-sm-2 col-form-label">Employe:</label>
+            <div class="col-sm-10">
+              <select id="inp_employe_id" class="form-select" name="employe_id" dmxorgdomid="d217209" dmx-bind:options="getAgentBySections.data.getAgentBySection" optiontext="nom" optionvalue="matricule" required="" data-msg-required="Ce champ est nécessaire">
+                <option selected="" value=""></option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_tsp_id" class="col-sm-2 col-form-label">Tsp:</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="inp_tsp_id" name="tsp_id" dmx-bind:value="selectedTsp.value.id_tsp" aria-describedby="inp_tsp_id_help" placeholder="Tsp:" dmxorgdomid="d217216" readonly="true">
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <div class="col-sm-10">
+              <input type="hidden" class="form-control" id="inp_user_crea" name="user_crea" dmx-bind:value="connectedUser.data.matricule" aria-describedby="inp_user_crea_help" placeholder="Enter User crea:" dmxorgdomid="d217220">
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <div class="col-sm-10 d-flex justify-content-around">
+              <button type="submit" class="btn btn-primary" dmx-bind:disabled="state.executing">Enregistrer <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button><button type="button" class="btn btn-warning">Annuler</button>
+            </div>
           </div>
         </form>
       </div>
@@ -46,29 +71,29 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <form is="dmx-serverconnect-form" id="postnewTsp" method="post" action="/api/tsp/post/postnewTsp" dmx-generator="bootstrap5" dmx-form-type="horizontal">
+        <form is="dmx-serverconnect-form" id="postnewTsp" method="post" action="/api/tsp/post/postnewTsp" dmx-generator="bootstrap5" dmx-form-type="horizontal" dmx-on:success="getAllTsp.load({});notifies1.success('Nouvel appareil enregistré');addTspModal.toggle()" dmx-on:error="notifies1.danger(lastError.response.message)">
           <div class="form-group mb-3 row">
             <label for="inp_nom" class="col-sm-2 col-form-label">Nom:</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inp_nom" name="nom" aria-describedby="inp_nom_help" placeholder="Enter Nom:" dmxorgdomid="d127131" dmx-bind:value="selectNewModelTsp.selectedText+'-'+maxId.data.maxId.getMaxiid[0].max" disabled="true">
+              <input type="text" class="form-control" id="inp_nom" name="nom" aria-describedby="inp_nom_help" placeholder="Enter Nom:" dmxorgdomid="d127131" dmx-bind:value="selectNewModelTsp.selectedText+'-'+maxId.data.maxId.getMaxiid[0].max" required="" data-msg-required="Ce champ est nécessaire" readonly="true">
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="inp_code_tsp" class="col-sm-2 col-form-label">Code tsp:</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="inp_code_tsp" name="code_tsp" aria-describedby="inp_code_tsp_help" placeholder="Enter Code tsp:" dmxorgdomid="d127136" dmx-bind:value="maxId.data.maxId.getMaxiid[0].max" readonly="true">
+              <input type="text" class="form-control" id="inp_code_tsp" name="code_tsp" aria-describedby="inp_code_tsp_help" placeholder="Enter Code tsp:" dmxorgdomid="d127136" dmx-bind:value="maxId.data.maxId.getMaxiid[0].max" readonly="true" required="" data-msg-required="Ce champ est nécessaire">
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="inp_description" class="col-sm-2 col-form-label">Description:</label>
             <div class="col-sm-10">
-              <textarea id="addDescription" class="form-control" name="description" is="dmx-medium-editor" placeholder="Description"></textarea>
+              <textarea id="addDescription" class="form-control" name="description"></textarea>
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="inp_modele_id" class="col-sm-2 col-form-label-sm">Modele</label>
             <div class="col-sm-10 d-flex flex-row justify-content-start align-items-center">
-              <select id="selectNewModelTsp" class="form-select form-select-sm" dmx-bind:options="getModels.data.getModels" optiontext="nom" optionvalue="id_modele" required="" data-msg-required="Ce champ est nécessaire" name="modele_id">
+              <select id="selectNewModelTsp" class="form-select form-select-sm" dmx-bind:options="getModels.data.getModels" optiontext="nom" optionvalue="id_modele" required="" data-msg-required="Ce champ est nécessaire" name="modele_id" required="" data-msg-required="Ce champ est nécessaire">
               </select>
               <img height="100" class="ms-5" dmx-bind:src="'/assets/images/'+selectNewModelTsp.selectedValue+'.jpg'">
             </div>
@@ -77,32 +102,36 @@
           <div class="form-group mb-3 row">
             <label for="inp_num_serie" class="col-sm-2 col-form-label">Num serie:</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control form-control-sm" id="inp_num_serie" name="num_serie" aria-describedby="inp_num_serie_help" placeholder="Numero de serie:" dmxorgdomid="d127151">
+              <input type="text" class="form-control form-control-sm" id="inp_num_serie" name="num_serie" aria-describedby="inp_num_serie_help" placeholder="Numero de serie:" dmxorgdomid="d127151" required="" data-msg-required="Ce champ est nécessaire">
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="inp_date_achat" class="col-sm-2 col-form-label">Date achat:</label>
             <div class="col-sm-10">
-              <input type="date" class="form-control form-control-sm" id="inp_date_achat" name="date_achat" aria-describedby="inp_date_achat_help" placeholder=" Date achat:" dmxorgdomid="d127156">
+              <input type="date" class="form-control form-control-sm" id="inp_date_achat" name="date_achat" aria-describedby="inp_date_achat_help" placeholder=" Date achat:" dmxorgdomid="d127156" required="" data-msg-required="Ce champ est nécessaire">
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="inp_annee_production" class="col-sm-2 col-form-label">Annee production:</label>
             <div class="col-sm-10">
-              <input type="number" class="form-control form-control-sm" id="inp_annee_production" name="annee_production" aria-describedby="inp_annee_production_help" placeholder="Annee  de production:" dmxorgdomid="d127161">
+              <input type="number" class="form-control form-control-sm" id="inp_annee_production" name="annee_production" aria-describedby="inp_annee_production_help" placeholder="Annee  de production:" dmxorgdomid="d127161" required="" data-msg-required="Ce champ est nécessaire">
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="inp_user_crea" class="col-sm-2 col-form-label">User crea:</label>
             <div class="col-sm-10">
-              <input type="number" class="form-control" id="inp_user_crea" name="user_crea" aria-describedby="inp_user_crea_help" placeholder="Enter User crea:" dmxorgdomid="d127166" dmx-bind:value="connectedUser.data.matricule">
+              <input type="hidden" class="form-control" id="inp_user_crea" name="user_crea" aria-describedby="inp_user_crea_help" placeholder="Enter User crea:" dmxorgdomid="d127166" dmx-bind:value="connectedUser.data.matricule" required="" data-msg-required="Ce champ est nécessaire">
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="inp_id_tsp" class="col-sm-2 col-form-label">Id tsp:</label>
             <div class="col-sm-10">
-              <input type="number" class="form-control" id="inp_id_tsp" name="id_tsp" aria-describedby="inp_id_tsp_help" placeholder="Enter Id tsp:" dmxorgdomid="d127171">
+              <input class="form-control" id="inp_id_tsp" name="id_tsp" aria-describedby="inp_id_tsp_help" placeholder="Enter Id tsp:" dmxorgdomid="d127171" dmx-bind:value="maxId.data.maxId.getMaxiid[0].max" required="" data-msg-required="Ce champ est nécessaire">
             </div>
+          </div>
+          <div class="d-flex justify-content-around">
+            <button id="addNew" class="btn btn-primary" type="submit">Enregistrer</button><button id="cancelAdd" class="btn btn-sm btn-warning">Annuler</button>
+
           </div>
         </form>
       </div>
@@ -330,7 +359,7 @@
                   <dt>Année de production</dt>
                   <dd>{{selectedTsp.value.annee_production}}</dd>
                   <dt>Date d'achat</dt>
-                  <dd>{{selectedTsp.value.date_achat}}</dd>
+                  <dd>{{selectedTsp.value.date_achat.formatDate('dd-MM-yyyy')}}</dd>
                 </dl>
 
               </div>
@@ -350,7 +379,7 @@
                   <dt>Nom</dt>
                   <dd>{{getAffectation.data.query[0].employe}}</dd>
                   <dt>Date d'affectation</dt>
-                  <dd>{{ getAffectation.data.query[0].date_crea }}</dd>
+                  <dd>{{getAffectation.data.query[0].date_crea.formatDate('dd-MM-yyyy')}}</dd>
                   <dt>Numéro de la carte sim</dt>
                   <dd>{{ getAffectation.data.query[0].numtel }}</dd>
                 </dl>
@@ -359,7 +388,7 @@
                   <dd>{{getAffectation.data.query[0].affectedby}}</dd>
                 </dl>
               </div>
-              <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-hide="selectedTsp.value&amp;&amp;( getLogAffectation.data.getLogAffectation.first()).deleted=='N'">
+              <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-hide="selectedTsp.value&amp;&amp;( getLogAffectation.data.getLogAffectation.first()).deleted=='N'" dmx-show="selectedTsp.value">
                 <i class="fa fa-user-times fa-2x"></i>
                 <small class="text-muted">Aucun agent n'est affecté à cet appareil</small><button id="btn4" class="btn btn-sm btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#affecterUserModal">
                   Affecter <i class="fa fa-plus"></i>

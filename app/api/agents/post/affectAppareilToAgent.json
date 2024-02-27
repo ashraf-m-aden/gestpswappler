@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "options": {
+      "linkedFile": "/views/index.ejs",
+      "linkedForm": "affectationForm"
+    },
+    "$_POST": [
+      {
+        "type": "number",
+        "name": "id_affect"
+      },
+      {
+        "type": "number",
+        "name": "sim_mobile_id"
+      },
+      {
+        "type": "number",
+        "name": "employe_id"
+      },
+      {
+        "type": "number",
+        "name": "tsp_id"
+      },
+      {
+        "type": "number",
+        "name": "user_crea"
+      },
+      {
+        "type": "number",
+        "name": "employe_section"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "insertAffect",
+      "module": "dbupdater",
+      "action": "insert",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "insert",
+          "values": [
+            {
+              "table": "tsptest.affectation_appareil_mobiles",
+              "column": "id_affect",
+              "type": "number",
+              "value": "{{$_POST.id_affect}}"
+            },
+            {
+              "table": "tsptest.affectation_appareil_mobiles",
+              "column": "sim_mobile_id",
+              "type": "number",
+              "value": "{{$_POST.sim_mobile_id}}"
+            },
+            {
+              "table": "tsptest.affectation_appareil_mobiles",
+              "column": "employe_id",
+              "type": "number",
+              "value": "{{$_POST.employe_id}}"
+            },
+            {
+              "table": "tsptest.affectation_appareil_mobiles",
+              "column": "tsp_id",
+              "type": "number",
+              "value": "{{$_POST.tsp_id}}"
+            },
+            {
+              "table": "tsptest.affectation_appareil_mobiles",
+              "column": "user_crea",
+              "type": "number",
+              "value": "{{$_POST.user_crea}}"
+            },
+            {
+              "table": "tsptest.affectation_appareil_mobiles",
+              "column": "employe_section",
+              "type": "number",
+              "value": "{{$_POST.employe_section}}"
+            }
+          ],
+          "table": "tsptest.affectation_appareil_mobiles",
+          "returning": "id_affect",
+          "query": "insert into \"tsptest\".\"affectation_appareil_mobiles\" (\"employe_id\", \"employe_section\", \"id_affect\", \"sim_mobile_id\", \"tsp_id\", \"user_crea\") values (?, ?, ?, ?, ?, ?)",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.id_affect}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.sim_mobile_id}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.employe_id}}",
+              "test": ""
+            },
+            {
+              "name": ":P4",
+              "type": "expression",
+              "value": "{{$_POST.tsp_id}}",
+              "test": ""
+            },
+            {
+              "name": ":P5",
+              "type": "expression",
+              "value": "{{$_POST.user_crea}}",
+              "test": ""
+            },
+            {
+              "name": ":P6",
+              "type": "expression",
+              "value": "{{$_POST.employe_section}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "identity",
+          "type": "text"
+        },
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}
