@@ -214,6 +214,9 @@
               "nullable": true
             }
           }
+        },
+        "refs": {
+          "tsptest.tsp": "modele_id"
         }
       },
       "tsptest.employe": {
@@ -542,6 +545,59 @@
         "db": {
           "schema": "tsptest"
         },
+        "columns": {
+          "id_sim": {
+            "db": {
+              "type": "integer",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "num_tel": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "pin": {
+            "db": {
+              "type": "string",
+              "maxLength": 10,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "puk": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          }
+        },
         "refs": {
           "tsptest.log_affectation_appareil_mobiles": "sim_id",
           "tsptest.affectation_appareil_mobiles": "sim_mobile_id"
@@ -743,6 +799,81 @@
       "tsptest.type_accessoire": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "id_type": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "ref_model": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "description": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "model_annee": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "nom": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "img": {
+            "db": {
+              "type": "bytea",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "prix": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.accessoire": {
@@ -832,6 +963,81 @@
       "tsptest.log_affectation_appareil_mobiles": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "id_log": {
+            "db": {
+              "type": "integer",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "sim_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_sim",
+              "inTable": "sim_mobile",
+              "referenceType": "integer",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "employe_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "tsp_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_tsp",
+              "inTable": "tsp",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "deleted": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.suivi_tournee": {
@@ -972,6 +1178,80 @@
       "tsptest.affectation_appareil_mobiles": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "id_affect": {
+            "db": {
+              "type": "bigInteger",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "sim_mobile_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_sim",
+              "inTable": "sim_mobile",
+              "referenceType": "integer",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "employe_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "tsp_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_tsp",
+              "inTable": "tsp",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "employe_section": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.ligne_facture": {

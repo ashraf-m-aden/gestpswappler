@@ -1,0 +1,20 @@
+{
+  "name": "getMaxiid",
+  "module": "dbupdater",
+  "action": "custom",
+  "options": {
+    "connection": "edbdev",
+    "sql": {
+      "query": "select (MAX(id_tsp)+1) as max from \"tsptest\".\"tsp\"",
+      "params": []
+    }
+  },
+  "output": true,
+  "meta": [
+    {
+      "name": "max",
+      "type": "number"
+    }
+  ],
+  "type": "dbcustom_query"
+}

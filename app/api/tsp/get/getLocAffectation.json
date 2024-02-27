@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "idtsp"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "getLogAffectation",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select logg.*,emp.nom,emp.matricule,sim.id_sim,sim.num_tel,user.nom as affectedBy,user.matricule as user_mat from log_affectation_appareil_mobiles as logg \n join employe as emp on emp.matricule = logg.employe_id\n join employe as user on user.matricule = logg.user_crea\nleft join tsptest.sim_mobile as sim on sim.id_sim = logg.sim_id\nwhere logg.tsp_id = ?",
+          "params": [
+            {
+              "name": "?",
+              "value": "{{$_GET.idtsp}}",
+              "test": "1"
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "id_log",
+          "type": "number"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "sim_id",
+          "type": "number"
+        },
+        {
+          "name": "employe_id",
+          "type": "number"
+        },
+        {
+          "name": "tsp_id",
+          "type": "number"
+        },
+        {
+          "name": "deleted",
+          "type": "text"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "matricule",
+          "type": "number"
+        },
+        {
+          "name": "id_sim",
+          "type": "number"
+        },
+        {
+          "name": "num_tel",
+          "type": "number"
+        },
+        {
+          "name": "affectedby",
+          "type": "text"
+        },
+        {
+          "name": "user_mat",
+          "type": "number"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

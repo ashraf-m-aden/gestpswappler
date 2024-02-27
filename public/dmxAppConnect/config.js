@@ -1723,155 +1723,47 @@ dmx.config({
       "meta": [
         {
           "type": "number",
-          "name": "IdType"
+          "name": "id_modele"
         },
         {
           "type": "text",
-          "name": "Nom"
+          "name": "nom"
+        },
+        {
+          "type": "datetime",
+          "name": "date_crea"
+        },
+        {
+          "type": "number",
+          "name": "user_crea"
         },
         {
           "type": "text",
-          "name": "DateCrea"
-        },
-        {
-          "type": "object",
-          "name": "UserCrea",
-          "sub": [
-            {
-              "type": "number",
-              "name": "Matricule"
-            },
-            {
-              "type": "text",
-              "name": "Nom"
-            },
-            {
-              "type": "text",
-              "name": "IdClient"
-            },
-            {
-              "type": "text",
-              "name": "AInit"
-            },
-            {
-              "type": "text",
-              "name": "IdMachine"
-            },
-            {
-              "type": "text",
-              "name": "PosteMobile"
-            },
-            {
-              "type": "text",
-              "name": "Connecte"
-            },
-            {
-              "type": "text",
-              "name": "PosteEncours"
-            },
-            {
-              "type": "text",
-              "name": "DernConn"
-            },
-            {
-              "type": "text",
-              "name": "DernDeconn"
-            },
-            {
-              "type": "text",
-              "name": "Mess"
-            },
-            {
-              "type": "text",
-              "name": "DateMess"
-            },
-            {
-              "type": "text",
-              "name": "MessLu"
-            },
-            {
-              "type": "text",
-              "name": "InstVers"
-            },
-            {
-              "type": "text",
-              "name": "InstUrgence"
-            },
-            {
-              "type": "number",
-              "name": "Statut"
-            },
-            {
-              "type": "text",
-              "name": "DroitAuQuota"
-            },
-            {
-              "type": "text",
-              "name": "Equipe"
-            },
-            {
-              "type": "text",
-              "name": "AppVersion"
-            },
-            {
-              "type": "text",
-              "name": "DateVisite"
-            },
-            {
-              "type": "text",
-              "name": "PersonVisite"
-            },
-            {
-              "type": "text",
-              "name": "UserTsptest"
-            },
-            {
-              "type": "text",
-              "name": "PasswordSalt"
-            },
-            {
-              "type": "text",
-              "name": "PasswordHash"
-            },
-            {
-              "type": "text",
-              "name": "Motpasse"
-            }
-          ]
+          "name": "description"
         },
         {
           "type": "text",
-          "name": "Description"
+          "name": "ref_model"
+        },
+        {
+          "type": "number",
+          "name": "model_annee"
         },
         {
           "type": "text",
-          "name": "RefModel"
+          "name": "img"
         },
         {
           "type": "text",
-          "name": "Img"
+          "name": "type_appareil"
         },
         {
-          "type": "array",
-          "name": "Accessoires",
-          "sub": [
-            {
-              "type": "text",
-              "name": "NumSerie"
-            },
-            {
-              "type": "number",
-              "name": "IdType"
-            },
-            {
-              "type": "number",
-              "name": "UserCrea"
-            },
-            {
-              "type": "text",
-              "name": "DateCrea"
-            }
-          ]
+          "type": "number",
+          "name": "prix"
+        },
+        {
+          "type": "text",
+          "name": "ref_court"
         }
       ],
       "outputType": "array"
@@ -4051,7 +3943,551 @@ dmx.config({
           }
         ]
       }
-    ]
+    ],
+    "tspViewData": {
+      "meta": [
+        {
+          "name": "id_tsp",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "code_tsp",
+          "type": "text"
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "releveur",
+          "type": "number"
+        },
+        {
+          "name": "syns_path",
+          "type": "text"
+        },
+        {
+          "name": "archive_path",
+          "type": "text"
+        },
+        {
+          "name": "syns_path_win7",
+          "type": "text"
+        },
+        {
+          "name": "pin",
+          "type": "text"
+        },
+        {
+          "name": "puk",
+          "type": "text"
+        },
+        {
+          "name": "num_tel",
+          "type": "number"
+        },
+        {
+          "name": "modele_id",
+          "type": "number"
+        },
+        {
+          "name": "equipe_id",
+          "type": "number"
+        },
+        {
+          "name": "sect_emp",
+          "type": "number"
+        },
+        {
+          "name": "num_serie",
+          "type": "text"
+        },
+        {
+          "name": "date_achat",
+          "type": "datetime"
+        },
+        {
+          "name": "annee_production",
+          "type": "number"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "id_modele",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "ref_model",
+          "type": "text"
+        },
+        {
+          "name": "model_annee",
+          "type": "number"
+        },
+        {
+          "name": "img",
+          "type": "text"
+        },
+        {
+          "name": "type_appareil",
+          "type": "text"
+        },
+        {
+          "name": "prix",
+          "type": "number"
+        },
+        {
+          "name": "ref_court",
+          "type": "text"
+        }
+      ],
+      "outputType": "text"
+    },
+    "searchData": {
+      "meta": null,
+      "outputType": "text"
+    },
+    "logDataView": {
+      "meta": [
+        {
+          "name": "id_log",
+          "type": "number"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "sim_id",
+          "type": "number"
+        },
+        {
+          "name": "employe_id",
+          "type": "number"
+        },
+        {
+          "name": "tsp_id",
+          "type": "number"
+        },
+        {
+          "name": "deleted",
+          "type": "text"
+        },
+        {
+          "name": "matricule",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "id_client",
+          "type": "number"
+        },
+        {
+          "name": "a_init",
+          "type": "text"
+        },
+        {
+          "name": "id_machine",
+          "type": "number"
+        },
+        {
+          "name": "poste_mobile",
+          "type": "text"
+        },
+        {
+          "name": "connecte",
+          "type": "text"
+        },
+        {
+          "name": "poste_encours",
+          "type": "number"
+        },
+        {
+          "name": "dern_conn",
+          "type": "datetime"
+        },
+        {
+          "name": "dern_deconn",
+          "type": "datetime"
+        },
+        {
+          "name": "mess",
+          "type": "text"
+        },
+        {
+          "name": "date_mess",
+          "type": "datetime"
+        },
+        {
+          "name": "mess_lu",
+          "type": "text"
+        },
+        {
+          "name": "inst_vers",
+          "type": "number"
+        },
+        {
+          "name": "inst_urgence",
+          "type": "text"
+        },
+        {
+          "name": "statut",
+          "type": "number"
+        },
+        {
+          "name": "droit_au_quota",
+          "type": "text"
+        },
+        {
+          "name": "equipe",
+          "type": "text"
+        },
+        {
+          "name": "app_version",
+          "type": "text"
+        },
+        {
+          "name": "date_visite",
+          "type": "datetime"
+        },
+        {
+          "name": "person_visite",
+          "type": "text"
+        },
+        {
+          "name": "user_tsptest",
+          "type": "text"
+        },
+        {
+          "name": "motpasse",
+          "type": "text"
+        },
+        {
+          "name": "password_salt",
+          "type": "text"
+        },
+        {
+          "name": "password_hash",
+          "type": "text"
+        }
+      ],
+      "outputType": "text"
+    },
+    "tableRepeat4": {
+      "meta": [
+        {
+          "name": "id_log",
+          "type": "number"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "sim_id",
+          "type": "number"
+        },
+        {
+          "name": "employe_id",
+          "type": "number"
+        },
+        {
+          "name": "tsp_id",
+          "type": "number"
+        },
+        {
+          "name": "deleted",
+          "type": "text"
+        },
+        {
+          "name": "matricule",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "id_client",
+          "type": "number"
+        },
+        {
+          "name": "a_init",
+          "type": "text"
+        },
+        {
+          "name": "id_machine",
+          "type": "number"
+        },
+        {
+          "name": "poste_mobile",
+          "type": "text"
+        },
+        {
+          "name": "connecte",
+          "type": "text"
+        },
+        {
+          "name": "poste_encours",
+          "type": "number"
+        },
+        {
+          "name": "dern_conn",
+          "type": "datetime"
+        },
+        {
+          "name": "dern_deconn",
+          "type": "datetime"
+        },
+        {
+          "name": "mess",
+          "type": "text"
+        },
+        {
+          "name": "date_mess",
+          "type": "datetime"
+        },
+        {
+          "name": "mess_lu",
+          "type": "text"
+        },
+        {
+          "name": "inst_vers",
+          "type": "number"
+        },
+        {
+          "name": "inst_urgence",
+          "type": "text"
+        },
+        {
+          "name": "statut",
+          "type": "number"
+        },
+        {
+          "name": "droit_au_quota",
+          "type": "text"
+        },
+        {
+          "name": "equipe",
+          "type": "text"
+        },
+        {
+          "name": "app_version",
+          "type": "text"
+        },
+        {
+          "name": "date_visite",
+          "type": "datetime"
+        },
+        {
+          "name": "person_visite",
+          "type": "text"
+        },
+        {
+          "name": "user_tsptest",
+          "type": "text"
+        },
+        {
+          "name": "motpasse",
+          "type": "text"
+        },
+        {
+          "name": "password_salt",
+          "type": "text"
+        },
+        {
+          "name": "password_hash",
+          "type": "text"
+        }
+      ],
+      "outputType": "text"
+    },
+    "accssoireDataView": {
+      "meta": [
+        {
+          "name": "id_affect",
+          "type": "number"
+        },
+        {
+          "name": "id_tsp",
+          "type": "number"
+        },
+        {
+          "name": "id_employe",
+          "type": "number"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "id_accessoire",
+          "type": "number"
+        },
+        {
+          "name": "id_tsp",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "code_tsp",
+          "type": "text"
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "releveur",
+          "type": "number"
+        },
+        {
+          "name": "syns_path",
+          "type": "text"
+        },
+        {
+          "name": "archive_path",
+          "type": "text"
+        },
+        {
+          "name": "syns_path_win7",
+          "type": "text"
+        },
+        {
+          "name": "pin",
+          "type": "text"
+        },
+        {
+          "name": "puk",
+          "type": "text"
+        },
+        {
+          "name": "num_tel",
+          "type": "number"
+        },
+        {
+          "name": "modele_id",
+          "type": "number"
+        },
+        {
+          "name": "equipe_id",
+          "type": "number"
+        },
+        {
+          "name": "sect_emp",
+          "type": "number"
+        },
+        {
+          "name": "num_serie",
+          "type": "text"
+        },
+        {
+          "name": "date_achat",
+          "type": "datetime"
+        },
+        {
+          "name": "annee_production",
+          "type": "number"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "id_modele",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "ref_model",
+          "type": "text"
+        },
+        {
+          "name": "model_annee",
+          "type": "number"
+        },
+        {
+          "name": "img",
+          "type": "text"
+        },
+        {
+          "name": "type_appareil",
+          "type": "text"
+        },
+        {
+          "name": "prix",
+          "type": "number"
+        },
+        {
+          "name": "ref_court",
+          "type": "text"
+        }
+      ],
+      "outputType": "text"
+    }
   },
   "addTsp": {
     "nomNouveauAppareil": [

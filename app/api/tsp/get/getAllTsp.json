@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "getAllTsp",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select tsp.id_tsp,tsp.nom,tsp.code_tsp,tsp.description,tsp.date_crea,tsp.modele_id,tsp.num_serie,tsp.date_achat,tsp.annee_production,tsp.user_crea, m.nom,m.date_crea,m.user_crea,m.description  as mdescription from tsp join modele_tsp m   on m.id_modele =tsp.modele_id  where m.type_appareil = ?\t \n",
+          "params": [
+            {
+              "name": "?",
+              "value": "tsp",
+              "test": "tsp"
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "id_tsp",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "modele_id",
+          "type": "number"
+        },
+        {
+          "name": "num_serie",
+          "type": "text"
+        },
+        {
+          "name": "date_achat",
+          "type": "datetime"
+        },
+        {
+          "name": "annee_production",
+          "type": "number"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "mdescription",
+          "type": "text"
+        }
+      ],
+      "type": "dbcustom_query",
+      "outputType": "array"
+    }
+  }
+}

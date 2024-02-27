@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      },
+      {
+        "type": "text",
+        "name": "model"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "getModels",
+      "module": "dbconnector",
+      "action": "select",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "select",
+          "columns": [],
+          "params": [
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P1",
+              "value": "{{$_GET.model}}",
+              "test": "accessoire"
+            }
+          ],
+          "table": {
+            "name": "modele_tsp",
+            "schema": "tsptest"
+          },
+          "primary": "id_modele",
+          "joins": [],
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "tsptest.modele_tsp.type_appareil",
+                "field": "tsptest.modele_tsp.type_appareil",
+                "type": "string",
+                "operator": "equal",
+                "value": "{{$_GET.model}}",
+                "data": {
+                  "table": "modele_tsp",
+                  "column": "type_appareil",
+                  "type": "text",
+                  "columnObj": {
+                    "type": "text",
+                    "primary": false,
+                    "unique": false,
+                    "nullable": true,
+                    "name": "type_appareil"
+                  },
+                  "schema": "tsptest"
+                },
+                "operation": "=",
+                "table": "modele_tsp"
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          },
+          "query": "select * from \"tsptest\".\"modele_tsp\" where \"tsptest\".\"modele_tsp\".\"type_appareil\" = ?"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "id_modele"
+        },
+        {
+          "type": "text",
+          "name": "nom"
+        },
+        {
+          "type": "datetime",
+          "name": "date_crea"
+        },
+        {
+          "type": "number",
+          "name": "user_crea"
+        },
+        {
+          "type": "text",
+          "name": "description"
+        },
+        {
+          "type": "text",
+          "name": "ref_model"
+        },
+        {
+          "type": "number",
+          "name": "model_annee"
+        },
+        {
+          "type": "text",
+          "name": "img"
+        },
+        {
+          "type": "text",
+          "name": "type_appareil"
+        },
+        {
+          "type": "number",
+          "name": "prix"
+        },
+        {
+          "type": "text",
+          "name": "ref_court"
+        }
+      ],
+      "outputType": "array"
+    }
+  }
+}

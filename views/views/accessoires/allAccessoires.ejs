@@ -1,4 +1,5 @@
 <!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="accessoires" appconnect="local" bootstrap5="local" components="{dmxStateManagement:{},dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxBootstrap5Modal:{},dmxBootstrap5Navigation:{},dmxDataTraversal:{},dmxFormatter:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Collapse:{},dmxDatePicker:{}}" moment_2="cdn" -->
+<dmx-serverconnect id="getModels" url="/api/accessoires/models"></dmx-serverconnect>
 <dmx-serverconnect id="getAffectationTsp" url="/api/accessoires/getAffectationTsp" noload="true"></dmx-serverconnect>
 <dmx-serverconnect id="getAccessories" url="/api/accessoires/getAccessories" dmx-param:idmodel="" noload="true"></dmx-serverconnect>
 <dmx-datetime id="var1"></dmx-datetime>
@@ -240,7 +241,7 @@
 <dmx-value id="selectedAccessory"></dmx-value>
 <dmx-value id="selectedModel"></dmx-value>
 <dmx-data-view id="data_view_accessory" dmx-bind:data="getAccessories.data.query" pagesize="5"></dmx-data-view>
-<dmx-data-view id="data_viewModel" dmx-bind:data="listModelAccesoires.data" pagesize="5"></dmx-data-view>
+<dmx-data-view id="data_viewModel" dmx-bind:data="getModels.data.getModelAccessoire" pagesize="5"></dmx-data-view>
 <dmx-api-action id="deleteAccessorModel" noload="true" url="http://localhost:5243/api/typeAccessoire" method="delete" dmx-param:id="selectedModel.value.IdType" dmx-on:success="notifies1.success('Model supprimé avec succés');listModelAccesoires.load({});selectedModel.setValue(null);deleteAccessoryModel.toggle()"></dmx-api-action>
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
 <dmx-api-datasource id="AffectedTsp" is="dmx-fetch" url="http://localhost:5243/api/AffectationAM/firstLoad/" dmx-header:authorization="connectedUser.data.token" noload="true"></dmx-api-datasource>
@@ -310,11 +311,11 @@
                 <th></th>
               </tr>
             </thead>
-            <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="data_viewModel.data" id="tableRepeat2">
-              <tr dmx-on:click="selectedModel.setValue($value);getAccessories.load({idmodel: IdModele},true)" dmx-class:clicked="selectedModel.value==$value">
-                <td dmx-text="Nom"></td>
+            <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="data_viewModel.data" id="tableRepeat1">
+              <tr dmx-on:click="selectedModel.setValue($value);getAccessories.load({idmodel: id_modele})">
+                <td dmx-text="nom"></td>
                 <td>
-                  <img dmx-bind:src="'/assets/images/'+IdModele+'.png'||'/assets/images/'+IdModele+'.jpg'" width="50">
+                  <img dmx-bind:src="'/assets/images/'+id_modele+'.png'" width="50" dmxorgdomid="d47436">
                 </td>
               </tr>
             </tbody>
@@ -364,22 +365,22 @@
               <div class="d-flex justify-content-between" style="" dmx-show="selectedModel.value">
                 <dl>
                   <dt>Identifiant</dt>
-                  <dd>{{ selectedModel.value.IdType }}</dd>
+                  <dd>{{ selectedModel.value.id_modele }}</dd>
                   <dt>Nom</dt>
-                  <dd>{{ selectedModel.value.Nom }}</dd>
+                  <dd>{{ selectedModel.value.nom }}</dd>
                   <dt>Réference</dt>
-                  <dd>{{ selectedModel.value.RefModel }}</dd>
+                  <dd>{{ selectedModel.value.ref_model }}</dd>
                   <dt>Description</dt>
 
-                  <dd>{{ selectedModel.value.Description }}</dd>
+                  <dd>{{ selectedModel.value.description }}</dd>
                   <dt>Model Année</dt>
-                  <dd>{{ selectedModel.value.ModelAnnee }}</dd>
+                  <dd>{{ selectedModel.value.model_annee }}</dd>
                   <dt>Nombre d'accessoires</dt>
                   <dd>{{ selectedModel.value.Accessoires.length }}</dd>
                   <dt>Prix</dt>
                   <dd>50</dd>
                 </dl>
-                <a><img dmx-bind:src="selectedModel.value.Img?'data:image/jpeg;base64,'+selectedModel.value.Img:'/assets/mobile.png'" class="model-img" /></a>
+                <a><img dmx-bind:src="'/assets/images/'+selectedModel.value.id_modele+'.png'" class="model-img" /></a>
               </div>
             </div>
           </div>
@@ -488,23 +489,6 @@
 
                         <dd>{{getAffectationTsp.data.query[0].date_crea.formatDate('dd-MM-yyyy')}}</dd>
                       </dl>
-                    </div>
-                    <div class="col">
-                      <small class="text-muted">Liste des accessoires</small>
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Numero de serie</th>
-                            <th>Quantité</th>
-                          </tr>
-                        </thead>
-                        <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="tspLoadData.data.ListAccessoire" id="tableRepeat4">
-                          <tr>
-                            <td dmx-text="Accessoire.NumSerie"></td>
-                            <td dmx-text="Accessoire.Quantite"></td>
-                          </tr>
-                        </tbody>
-                      </table>
                     </div>
                   </div>
                   <div class="row" dmx-hide="getAffectationTsp.data.query[0]">

@@ -1,0 +1,9 @@
+{
+  "name": "maxId",
+  "module": "core",
+  "action": "exec",
+  "options": {
+    "exec": "tsp/getMaxId"
+  },
+  "output": true
+}

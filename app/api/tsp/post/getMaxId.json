@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "maxId",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select MAX(id_tsp) +1 from \"tsptest\".\"tsp\"",
+          "params": []
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "?column?",
+          "type": "number"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

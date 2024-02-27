@@ -1,0 +1,394 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "idtsp"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select *, usercrea.nom as affectedby, emp.nom as employe from \"tsptest\".\"accessoire_affectations\"   \njoin \"tsptest\".\"tsp\" as tsp on tsp.\"id_tsp\" = \"tsptest\".\"accessoire_affectations\".\"id_accessoire\"  \njoin \"tsptest\".\"modele_tsp\" on \"tsptest\".\"modele_tsp\".\"id_modele\" = tsp.\"modele_id\"\njoin \"tsptest\".\"employe\" as usercrea on \"tsptest\".\"accessoire_affectations\".\"user_crea\" = usercrea.\"matricule\"\njoin \"tsptest\".\"employe\" as emp on \"tsptest\".\"accessoire_affectations\".\"id_employe\" = emp.\"matricule\"\nwhere \"tsptest\".\"accessoire_affectations\".\"id_tsp\" = ?",
+          "params": [
+            {
+              "name": ":P1",
+              "value": "{{$_GET.idtsp}}",
+              "test": "1"
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "id_affect",
+          "type": "number"
+        },
+        {
+          "name": "id_tsp",
+          "type": "number"
+        },
+        {
+          "name": "id_employe",
+          "type": "number"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "id_accessoire",
+          "type": "number"
+        },
+        {
+          "name": "id_tsp",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "code_tsp",
+          "type": "text"
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "releveur",
+          "type": "number"
+        },
+        {
+          "name": "syns_path",
+          "type": "text"
+        },
+        {
+          "name": "archive_path",
+          "type": "text"
+        },
+        {
+          "name": "syns_path_win7",
+          "type": "text"
+        },
+        {
+          "name": "pin",
+          "type": "text"
+        },
+        {
+          "name": "puk",
+          "type": "text"
+        },
+        {
+          "name": "num_tel",
+          "type": "number"
+        },
+        {
+          "name": "modele_id",
+          "type": "number"
+        },
+        {
+          "name": "equipe_id",
+          "type": "number"
+        },
+        {
+          "name": "sect_emp",
+          "type": "number"
+        },
+        {
+          "name": "num_serie",
+          "type": "text"
+        },
+        {
+          "name": "date_achat",
+          "type": "datetime"
+        },
+        {
+          "name": "annee_production",
+          "type": "number"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "id_modele",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "ref_model",
+          "type": "text"
+        },
+        {
+          "name": "model_annee",
+          "type": "number"
+        },
+        {
+          "name": "img",
+          "type": "text"
+        },
+        {
+          "name": "type_appareil",
+          "type": "text"
+        },
+        {
+          "name": "prix",
+          "type": "number"
+        },
+        {
+          "name": "ref_court",
+          "type": "text"
+        },
+        {
+          "name": "matricule",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "id_client",
+          "type": "number"
+        },
+        {
+          "name": "a_init",
+          "type": "text"
+        },
+        {
+          "name": "id_machine",
+          "type": "number"
+        },
+        {
+          "name": "poste_mobile",
+          "type": "text"
+        },
+        {
+          "name": "connecte",
+          "type": "text"
+        },
+        {
+          "name": "poste_encours",
+          "type": "number"
+        },
+        {
+          "name": "dern_conn",
+          "type": "datetime"
+        },
+        {
+          "name": "dern_deconn",
+          "type": "datetime"
+        },
+        {
+          "name": "mess",
+          "type": "text"
+        },
+        {
+          "name": "date_mess",
+          "type": "datetime"
+        },
+        {
+          "name": "mess_lu",
+          "type": "text"
+        },
+        {
+          "name": "inst_vers",
+          "type": "number"
+        },
+        {
+          "name": "inst_urgence",
+          "type": "text"
+        },
+        {
+          "name": "statut",
+          "type": "number"
+        },
+        {
+          "name": "droit_au_quota",
+          "type": "text"
+        },
+        {
+          "name": "equipe",
+          "type": "text"
+        },
+        {
+          "name": "app_version",
+          "type": "text"
+        },
+        {
+          "name": "date_visite",
+          "type": "datetime"
+        },
+        {
+          "name": "person_visite",
+          "type": "text"
+        },
+        {
+          "name": "user_tsptest",
+          "type": "text"
+        },
+        {
+          "name": "motpasse",
+          "type": "text"
+        },
+        {
+          "name": "password_salt",
+          "type": "text"
+        },
+        {
+          "name": "password_hash",
+          "type": "text"
+        },
+        {
+          "name": "matricule",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "id_client",
+          "type": "number"
+        },
+        {
+          "name": "a_init",
+          "type": "text"
+        },
+        {
+          "name": "id_machine",
+          "type": "number"
+        },
+        {
+          "name": "poste_mobile",
+          "type": "text"
+        },
+        {
+          "name": "connecte",
+          "type": "text"
+        },
+        {
+          "name": "poste_encours",
+          "type": "number"
+        },
+        {
+          "name": "dern_conn",
+          "type": "datetime"
+        },
+        {
+          "name": "dern_deconn",
+          "type": "datetime"
+        },
+        {
+          "name": "mess",
+          "type": "text"
+        },
+        {
+          "name": "date_mess",
+          "type": "datetime"
+        },
+        {
+          "name": "mess_lu",
+          "type": "text"
+        },
+        {
+          "name": "inst_vers",
+          "type": "number"
+        },
+        {
+          "name": "inst_urgence",
+          "type": "text"
+        },
+        {
+          "name": "statut",
+          "type": "number"
+        },
+        {
+          "name": "droit_au_quota",
+          "type": "text"
+        },
+        {
+          "name": "equipe",
+          "type": "text"
+        },
+        {
+          "name": "app_version",
+          "type": "text"
+        },
+        {
+          "name": "date_visite",
+          "type": "datetime"
+        },
+        {
+          "name": "person_visite",
+          "type": "text"
+        },
+        {
+          "name": "user_tsptest",
+          "type": "text"
+        },
+        {
+          "name": "motpasse",
+          "type": "text"
+        },
+        {
+          "name": "password_salt",
+          "type": "text"
+        },
+        {
+          "name": "password_hash",
+          "type": "text"
+        },
+        {
+          "name": "affectedby",
+          "type": "text"
+        },
+        {
+          "name": "employe",
+          "type": "text"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

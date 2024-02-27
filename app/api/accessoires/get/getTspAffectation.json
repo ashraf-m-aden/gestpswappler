@@ -1,0 +1,186 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "idaccessoire"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "getTsp",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select * from \"tsptest\".\"tsp\"\njoin \"tsptest\".\"modele_tsp\" on \"tsptest\".\"tsp\".\"modele_id\"=\"tsptest\".\"modele_tsp\".\"id_modele\"\njoin \"tsptest\".\"accessoire_affectations\" on \"tsptest\".\"accessoire_affectations\".\"id_tsp\" = \"tsp\".\"id_tsp\" where \"tsptest\".\"accessoire_affectations\".\"id_accessoire\" = ?",
+          "params": [
+            {
+              "name": ":P1",
+              "value": "{{$_GET.idaccessoire}}",
+              "test": "374"
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "id_tsp",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "code_tsp",
+          "type": "text"
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "releveur",
+          "type": "number"
+        },
+        {
+          "name": "syns_path",
+          "type": "text"
+        },
+        {
+          "name": "archive_path",
+          "type": "text"
+        },
+        {
+          "name": "syns_path_win7",
+          "type": "text"
+        },
+        {
+          "name": "pin",
+          "type": "text"
+        },
+        {
+          "name": "puk",
+          "type": "text"
+        },
+        {
+          "name": "num_tel",
+          "type": "number"
+        },
+        {
+          "name": "modele_id",
+          "type": "number"
+        },
+        {
+          "name": "equipe_id",
+          "type": "number"
+        },
+        {
+          "name": "sect_emp",
+          "type": "number"
+        },
+        {
+          "name": "num_serie",
+          "type": "text"
+        },
+        {
+          "name": "date_achat",
+          "type": "datetime"
+        },
+        {
+          "name": "annee_production",
+          "type": "number"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "id_modele",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "ref_model",
+          "type": "text"
+        },
+        {
+          "name": "model_annee",
+          "type": "number"
+        },
+        {
+          "name": "img",
+          "type": "text"
+        },
+        {
+          "name": "type_appareil",
+          "type": "text"
+        },
+        {
+          "name": "prix",
+          "type": "number"
+        },
+        {
+          "name": "ref_court",
+          "type": "text"
+        },
+        {
+          "name": "id_affect",
+          "type": "number"
+        },
+        {
+          "name": "id_tsp",
+          "type": "number"
+        },
+        {
+          "name": "id_employe",
+          "type": "number"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "id_accessoire",
+          "type": "number"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

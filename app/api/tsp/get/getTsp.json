@@ -1,0 +1,168 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "offset"
+      },
+      {
+        "type": "text",
+        "name": "limit"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      },
+      {
+        "type": "text",
+        "name": "idmodel"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query",
+      "module": "dbconnector",
+      "action": "select",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "select",
+          "distinct": false,
+          "columns": [],
+          "table": {
+            "name": "tsp",
+            "schema": "tsptest"
+          },
+          "joins": [],
+          "orders": [],
+          "params": [
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P1",
+              "value": "{{$_GET.idmodel}}",
+              "test": "6"
+            }
+          ],
+          "primary": "id_tsp",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "tsptest.tsp.modele_id",
+                "field": "tsptest.tsp.modele_id",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_GET.idmodel}}",
+                "data": {
+                  "table": "tsp",
+                  "column": "modele_id",
+                  "type": "number",
+                  "columnObj": {
+                    "type": "integer",
+                    "primary": false,
+                    "unique": false,
+                    "nullable": true,
+                    "name": "modele_id"
+                  },
+                  "schema": "tsptest"
+                },
+                "operation": "=",
+                "table": "tsp"
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          },
+          "query": "select * from \"tsptest\".\"tsp\" where \"tsptest\".\"tsp\".\"modele_id\" = ?"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "id_tsp"
+        },
+        {
+          "type": "text",
+          "name": "nom"
+        },
+        {
+          "type": "text",
+          "name": "code_tsp"
+        },
+        {
+          "type": "text",
+          "name": "description"
+        },
+        {
+          "type": "datetime",
+          "name": "date_crea"
+        },
+        {
+          "type": "number",
+          "name": "releveur"
+        },
+        {
+          "type": "text",
+          "name": "syns_path"
+        },
+        {
+          "type": "text",
+          "name": "archive_path"
+        },
+        {
+          "type": "text",
+          "name": "syns_path_win7"
+        },
+        {
+          "type": "text",
+          "name": "pin"
+        },
+        {
+          "type": "text",
+          "name": "puk"
+        },
+        {
+          "type": "number",
+          "name": "num_tel"
+        },
+        {
+          "type": "number",
+          "name": "modele_id"
+        },
+        {
+          "type": "number",
+          "name": "equipe_id"
+        },
+        {
+          "type": "number",
+          "name": "sect_emp"
+        },
+        {
+          "type": "text",
+          "name": "num_serie"
+        },
+        {
+          "type": "datetime",
+          "name": "date_achat"
+        },
+        {
+          "type": "number",
+          "name": "annee_production"
+        },
+        {
+          "type": "number",
+          "name": "user_crea"
+        }
+      ],
+      "outputType": "array",
+      "type": "dbconnector_select"
+    }
+  }
+}

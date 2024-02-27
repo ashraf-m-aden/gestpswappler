@@ -1,4 +1,5 @@
-<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="index" appConnect="local" bootstrap5="local" components="{dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxDataTraversal:{},dmxDatastore:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Navigation:{},dmxBootstrap5Offcanvas:{},dmxRouting:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxGooglePlaces:{},dmxVideo:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxDatePicker:{},dmxFormatter:{},dmxValidator:{}}" moment_2="cdn" -->
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="index" appConnect="local" bootstrap5="local" components="{dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxDataTraversal:{},dmxDatastore:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Navigation:{},dmxBootstrap5Offcanvas:{},dmxRouting:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxGooglePlaces:{},dmxVideo:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxDatePicker:{},dmxFormatter:{},dmxValidator:{},dmxMediumEditor:{}}" moment_2="cdn" -->
+<dmx-serverconnect id="maxId" url="/api/tsp/get/getMaxId"></dmx-serverconnect>
 <dmx-serverconnect id="updateTsp" url="/api/tsp/post/postEditTsp" noload="true"></dmx-serverconnect>
 <dmx-serverconnect id="getModels" url="/api/global/models" dmx-param:model="'tsp'"></dmx-serverconnect>
 <dmx-serverconnect id="getAccessoires" url="/api/accessoires/get/getAccessories" noload="true"></dmx-serverconnect>
@@ -45,79 +46,62 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <form method="post" is="dmx-serverconnect-form" id="postnewTsp" action="/api/tsp/post/postnewTsp" post-data="json" dmx-on:success="notifies1.success('Nouveau Tsp enregistré');tsp.load({});addTspModal.toggle()" dmx-on:error="notifies1.danger(lastError.response+lastError.message)" dmx-header:authorization="connectedUser.data.token">
-          <div class="row justify-content-center">
-            <div class="col-12">
-              <h4 class="heading-text">Ajout d'un nouvel appareil</h4>
+        <form is="dmx-serverconnect-form" id="postnewTsp" method="post" action="/api/tsp/post/postnewTsp" dmx-generator="bootstrap5" dmx-form-type="horizontal">
+          <div class="form-group mb-3 row">
+            <label for="inp_nom" class="col-sm-2 col-form-label">Nom:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inp_nom" name="nom" aria-describedby="inp_nom_help" placeholder="Enter Nom:" dmxorgdomid="d127131" dmx-bind:value="selectNewModelTsp.selectedText+'-'+maxId.data.maxId.getMaxiid[0].max" disabled="true">
             </div>
-            <div class="col">
-              <div class="d-flex flex-row justify-content-around">
-                <div class="d-flex flex-column justify-content-start">
-                  <div class="form-group ">
-                    <label for="selectModel" class="form-label">Le model d'appareil</label>
-                    <input id="UserCrea" name="UserCrea" class="form-control-sm" type="hidden" dmx-bind:value="connectedUser.data.matricule">
-                    <input id="DescriptionTsp" name="Description" class="form-control-sm" type="hidden" dmx-bind:value="listModelTsp.data.where(`IdModele`, selectModel.value, '==')[0].Description">
-                    <select id="selectModel" class="form-select form-control form-select-sm" dmx-bind:options="listModelTsp.data" optiontext="Nom" optionvalue="IdModele" name="ModeleId">
-                      <option selected="" value=""></option>
-                    </select>
-                  </div><img dmx-bind:src="'data:image/jpeg;base64,'+listModelTsp.data.where(`IdModele`,selectModel.value, '==')[0].Img" dmx-show="selectModel.value" width="150">
-                </div>
-                <div class="d-flex flex-column justify-content-start visually-hidden">
-                  <div class="form-group ">
-                    <label for="modelName" class="form-label">Id du nouvel appareil</label>
-                    <input id="IdTsp" name="IdTsp" class="form-control mb-1 form-control-plaintext form-control-sm" dmx-bind:value="nomNouveauAppareil.data" type="number" readonly="true">
-                  </div>
-                  <div class="form-group ">
-                    <label for="modelName" class="form-label" id="NomAppareil">Nom du nouvel appareil</label>
-                    <input id="Nom" name="Nom" class="form-control form-control-plaintext mb-0 form-control-sm" dmx-bind:value="listModelTsp.data.where(`IdModele`, selectModel.value, '==')[0].Nom+'-'+nomNouveauAppareil.data" readonly="true">
-                  </div>
-                  <div class="form-group ">
-                    <label for="modelName" class="form-label" id="NomAppareil1">Code de l'appareil</label>
-                    <input id="CodeTsp" name="CodeTsp" class="form-control form-control-plaintext mb-0 form-control-sm" dmx-bind:value="listModelTsp.data.where(`IdModele`, selectModel.value, '==')[0].Nom+'-'+nomNouveauAppareil.data" readonly="true">
-                  </div>
-
-
-
-
-                </div>
-                <div class="d-flex flex-column justify-content-start">
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Reference Court</label>
-                    <input id="RefCourtTsp" name="RefCourt" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="listModelTsp.data.where(`IdModele`,selectModel.value, '==')[0].RefCourt" readonly="true">
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Quantite</label>
-                    <input id="quantiteAdd1" name="Quantite1" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="1">
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between flex-column">
-                  <div class="form-group">
-                    <label for="modelName" class="form-label">Année de production</label>
-                    <input id="AnneeProduction" name="AnneeProduction" class="form-control border form-control-plaintext mb-0 form-control-sm" />
-                  </div>
-                  <div class="form-group">
-                    <label for="modelName" class="form-label">Date d'achat</label>
-                    <input id="DateAchat" name="DateAchat" class="form-control form-control-sm" is="dmx-date-picker" applylabel="Enregistrer" cancellabel="Annuler" format="DD-MM-YYYY" type="date">
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Numéro de serie</label>
-                    <input id="NumSerie" name="NumSerie" class="form-control border form-control-plaintext mb-0 form-control-sm" />
-                  </div>
-                </div>
-
-              </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_code_tsp" class="col-sm-2 col-form-label">Code tsp:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inp_code_tsp" name="code_tsp" aria-describedby="inp_code_tsp_help" placeholder="Enter Code tsp:" dmxorgdomid="d127136" dmx-bind:value="maxId.data.maxId.getMaxiid[0].max" readonly="true">
             </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_description" class="col-sm-2 col-form-label">Description:</label>
+            <div class="col-sm-10">
+              <textarea id="addDescription" class="form-control" name="description" is="dmx-medium-editor" placeholder="Description"></textarea>
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_modele_id" class="col-sm-2 col-form-label-sm">Modele</label>
+            <div class="col-sm-10 d-flex flex-row justify-content-start align-items-center">
+              <select id="selectNewModelTsp" class="form-select form-select-sm" dmx-bind:options="getModels.data.getModels" optiontext="nom" optionvalue="id_modele" required="" data-msg-required="Ce champ est nécessaire" name="modele_id">
+              </select>
+              <img height="100" class="ms-5" dmx-bind:src="'/assets/images/'+selectNewModelTsp.selectedValue+'.jpg'">
+            </div>
+          </div>
 
-            <div class="col-10">
-              <div class="d-flex justify-content-around">
-                <button id="submit" class="btn btn-primary btn-sm" type="submit" dmx-bind:disabled="!selectModel.value" dmx-on:click="loading.setValue(true)">
-                  Enregistrer
-                </button>
-
-                <button id="cancel" class="btn btn-warning btn-sm" data-bs-dismiss="modal">
-                  Annuler
-                </button>
-              </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_num_serie" class="col-sm-2 col-form-label">Num serie:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control form-control-sm" id="inp_num_serie" name="num_serie" aria-describedby="inp_num_serie_help" placeholder="Numero de serie:" dmxorgdomid="d127151">
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_date_achat" class="col-sm-2 col-form-label">Date achat:</label>
+            <div class="col-sm-10">
+              <input type="date" class="form-control form-control-sm" id="inp_date_achat" name="date_achat" aria-describedby="inp_date_achat_help" placeholder=" Date achat:" dmxorgdomid="d127156">
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_annee_production" class="col-sm-2 col-form-label">Annee production:</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control form-control-sm" id="inp_annee_production" name="annee_production" aria-describedby="inp_annee_production_help" placeholder="Annee  de production:" dmxorgdomid="d127161">
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_user_crea" class="col-sm-2 col-form-label">User crea:</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="inp_user_crea" name="user_crea" aria-describedby="inp_user_crea_help" placeholder="Enter User crea:" dmxorgdomid="d127166" dmx-bind:value="connectedUser.data.matricule">
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="inp_id_tsp" class="col-sm-2 col-form-label">Id tsp:</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="inp_id_tsp" name="id_tsp" aria-describedby="inp_id_tsp_help" placeholder="Enter Id tsp:" dmxorgdomid="d127171">
             </div>
           </div>
         </form>
