@@ -1,11 +1,11 @@
 {
-  "name": "getMaxiid",
+  "name": "getMaxId",
   "module": "dbupdater",
   "action": "custom",
   "options": {
     "connection": "edbdev",
     "sql": {
-      "query": "select (MAX(id_tsp)+1) as max from tsp",
+      "query": "select (MAX(id_modele)+1) as max from modele_tsp",
       "params": []
     }
   },

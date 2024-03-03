@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "id_modele"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "deleteModel",
+      "module": "dbupdater",
+      "action": "delete",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "delete",
+          "table": "tsptest.modele_tsp",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "id_modele",
+                "field": "id_modele",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_GET.id_modele}}",
+                "data": {
+                  "column": "id_modele"
+                },
+                "operation": "="
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          },
+          "returning": "id_modele",
+          "query": "delete from \"tsptest\".\"modele_tsp\" where \"id_modele\" = ? returning \"id_modele\"",
+          "params": [
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P1",
+              "value": "{{$_GET.id_modele}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

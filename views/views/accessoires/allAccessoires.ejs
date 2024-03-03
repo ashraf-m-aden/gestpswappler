@@ -1,7 +1,8 @@
 <!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="accessoires" appconnect="local" bootstrap5="local" components="{dmxStateManagement:{},dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxBootstrap5Modal:{},dmxBootstrap5Navigation:{},dmxDataTraversal:{},dmxFormatter:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Collapse:{},dmxDatePicker:{}}" moment_2="cdn" -->
-<dmx-serverconnect id="getModels" url="/api/accessoires/models"></dmx-serverconnect>
+<dmx-serverconnect id="getOneAccessoire" noload="true" url="/api/accessoires/get/getOneAccessoire"></dmx-serverconnect>
+<dmx-serverconnect id="getModels" url="/api/global/models" dmx-param:model="'accessoire'"></dmx-serverconnect>
 <dmx-serverconnect id="getAffectationTsp" url="/api/accessoires/getAffectationTsp" noload="true"></dmx-serverconnect>
-<dmx-serverconnect id="getAccessories" url="/api/accessoires/getAccessories" dmx-param:idmodel="" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="getAccessories" url="/api/accessoires/get/getAccessories" dmx-param:idmodel="" noload="true"></dmx-serverconnect>
 <dmx-datetime id="var1"></dmx-datetime>
 
 <div class="modal" id="deleteAccessoryModel" is="dmx-bs5-modal" tabindex="-1">
@@ -241,14 +242,8 @@
 <dmx-value id="selectedAccessory"></dmx-value>
 <dmx-value id="selectedModel"></dmx-value>
 <dmx-data-view id="data_view_accessory" dmx-bind:data="getAccessories.data.query" pagesize="5"></dmx-data-view>
-<dmx-data-view id="data_viewModel" dmx-bind:data="getModels.data.getModelAccessoire" pagesize="5"></dmx-data-view>
-<dmx-api-action id="deleteAccessorModel" noload="true" url="http://localhost:5243/api/typeAccessoire" method="delete" dmx-param:id="selectedModel.value.IdType" dmx-on:success="notifies1.success('Model supprimé avec succés');listModelAccesoires.load({});selectedModel.setValue(null);deleteAccessoryModel.toggle()"></dmx-api-action>
+<dmx-data-view id="data_viewModel" dmx-bind:data="getModels.data.getModels" pagesize="5"></dmx-data-view>
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
-<dmx-api-datasource id="AffectedTsp" is="dmx-fetch" url="http://localhost:5243/api/AffectationAM/firstLoad/" dmx-header:authorization="connectedUser.data.token" noload="true"></dmx-api-datasource>
-<dmx-api-datasource id="allTsp" is="dmx-fetch" url="http://localhost:5243/api/tsp/firstLoad" noload="true" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
-<dmx-api-datasource id="tspLoadData" is="dmx-fetch" url="http://localhost:5243/api/tsp/GetbyId/" dmx-header:authorization="connectedUser.data.token" dmx-param:id="" noload="true"></dmx-api-datasource>
-<dmx-api-datasource id="accessoires" is="dmx-fetch" url="http://localhost:5243/api/tsp/byAccessoireModel" dmx-header:authorization="connectedUser.data.token" dmx-on:unauthorized="connectedUser.removeAll();browser1.goto('/auth/login')" dmx-on:done="loadingData.setValue(false)" noload="true" dmx-param:id="selectedModel.value.IdModele"></dmx-api-datasource>
-<dmx-api-datasource id="listModelAccesoires" is="dmx-fetch" url="http://localhost:5243/api/modelTsp/accessoire" dmx-header:authorization="connectedUser.data.token" dmx-on:unauthorized="connectedUser.removeAll();browser1.goto('/auth/login')"></dmx-api-datasource>
 
 <div class="container-fluid">
   <div class="row ps-0 pe-0">
@@ -376,7 +371,7 @@
                   <dt>Model Année</dt>
                   <dd>{{ selectedModel.value.model_annee }}</dd>
                   <dt>Nombre d'accessoires</dt>
-                  <dd>{{ selectedModel.value.Accessoires.length }}</dd>
+                  <dd>{{selectedModel.value.nombre_appareils}}</dd>
                   <dt>Prix</dt>
                   <dd>50</dd>
                 </dl>
@@ -420,7 +415,7 @@
                           </tr>
                         </thead>
                         <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="data_view_accessory.data" id="tableRepeat3">
-                          <tr dmx-on:click="selectedAccessory.setValue($value);getUserCrea.load({matricule: user_crea},true);getAffectationTsp.load({idaccessoire: id_tsp},true)" dmx-class:clicked="selectedAccessory.value==$value">
+                          <tr dmx-on:click="selectedAccessory.setValue($value);getOneAccessoire.load({id_tsp: id_tsp},true)" dmx-class:clicked="selectedAccessory.value==$value">
                             <td dmx-text="id_tsp"></td>
                             <td dmx-text="nom"></td>
                           </tr>
@@ -454,15 +449,15 @@
                   <div class="d-flex justify-content-between flex-wrap">
                     <dl>
                       <dt>Numero de serie</dt>
-                      <dd>{{selectedAccessory.value.numSerie != null ? selectedAccessory.value.numSerie : "N/A"}}</dd>
+                      <dd>{{getOneAccessoire.data.query[0].numSerie!=null?getOneAccessoire.data.query[0].numSerie:'N/A'}}</dd>
                     </dl>
                     <dl>
                       <dt>Date d'enregistrement</dt>
-                      <dd>{{selectedAccessory.value.date_crea.formatDate('dd-MM-yyyy')}}</dd>
+                      <dd>{{getOneAccessoire.data.query[0].date_crea.formatDate('dd-MM-yyyy')}}</dd>
                     </dl>
                     <dl>
                       <dt>Enregistré par</dt>
-                      <dd>{{getUserCrea.data.userCrea.nom}}</dd>
+                      <dd>{{getOneAccessoire.data.query[0].user_crea}}</dd>
                     </dl>
                   </div>
                 </div>
@@ -472,26 +467,26 @@
                   <h6 class="card-title heading-text">
                     Affectation de l'accessoire
                   </h6>
-                  <div class="row" dmx-show="getAffectationTsp.data.query[0]">
+                  <div class="row" dmx-show="getOneAccessoire.data.query[0].tsp">
                     <div class="col">
                       <div class="d-flex flex-column justify-content-around align-items-center">
                         <small class="text-muted">Détails de l'appareil</small>
-                        <h5 dmx-text="getAffectationTsp.data.query[0].tspNom"></h5>
-                        <img width="150" dmx-bind:src="'/assets/images/'+getAffectationTsp.data.query[0].id_modele+'.jpg'||'/assets/images/'+getAffectationTsp.data.query[0].id_modele+'.png'">
+                        <h5 dmx-text="getOneAccessoire.data.query[0].tsp"></h5>
+                        <img width="150" dmx-bind:src="'/assets/images/'+getOneAccessoire.data.query[0].tsp_modele+'.jpg'">
                       </div>
                     </div>
                     <div class="col">
                       <small class="text-muted">Détails de l'agent</small>
                       <dl>
                         <dt>Affecté par:</dt>
-                        <dd>{{getAffectationTsp.data.query[0].employeNom}}</dd>
+                        <dd>{{getOneAccessoire.data.query[0].usercreaaff}}</dd>
                         <dt>Date:</dt>
 
-                        <dd>{{getAffectationTsp.data.query[0].date_crea.formatDate('dd-MM-yyyy')}}</dd>
+                        <dd>{{getOneAccessoire.data.query[0].dateaff.formatDate('dd-MM-yyyy')}}</dd>
                       </dl>
                     </div>
                   </div>
-                  <div class="row" dmx-hide="getAffectationTsp.data.query[0]">
+                  <div class="row" dmx-hide="getOneAccessoire.data.query[0].tsp">
                     <div class="col text-end">
                       <button id="btn5" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#affectAccessoryModal" dmx-on:click="AffectedTsp.load({})">
                         Affecté&nbsp;<i class="fa fa-plus"></i>

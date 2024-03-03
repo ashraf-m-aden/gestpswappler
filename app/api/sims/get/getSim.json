@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "id_sim"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "getSim",
+      "module": "dbconnector",
+      "action": "single",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "select",
+          "columns": [],
+          "params": [
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P1",
+              "value": "{{$_GET.id_sim}}",
+              "test": "2"
+            }
+          ],
+          "table": {
+            "name": "sim_mobile",
+            "schema": "tsptest"
+          },
+          "primary": "id_sim",
+          "joins": [],
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "tsptest.sim_mobile.id_sim",
+                "field": "tsptest.sim_mobile.id_sim",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_GET.id_sim}}",
+                "data": {
+                  "table": "sim_mobile",
+                  "column": "id_sim",
+                  "type": "number",
+                  "columnObj": {
+                    "type": "integer",
+                    "primary": true,
+                    "unique": true,
+                    "nullable": false,
+                    "name": "id_sim"
+                  },
+                  "schema": "tsptest"
+                },
+                "operation": "=",
+                "table": "sim_mobile"
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          },
+          "query": "select * from \"tsptest\".\"sim_mobile\" where \"tsptest\".\"sim_mobile\".\"id_sim\" = ?"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "id_sim"
+        },
+        {
+          "type": "number",
+          "name": "num_tel"
+        },
+        {
+          "type": "text",
+          "name": "pin"
+        },
+        {
+          "type": "text",
+          "name": "puk"
+        },
+        {
+          "type": "datetime",
+          "name": "date_crea"
+        },
+        {
+          "type": "number",
+          "name": "user_crea"
+        }
+      ],
+      "outputType": "object",
+      "type": "dbconnector_single"
+    }
+  }
+}

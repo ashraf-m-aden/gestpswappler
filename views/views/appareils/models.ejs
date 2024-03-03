@@ -1,5 +1,8 @@
-<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="models" appConnect="local" bootstrap5="local" components="{dmxBootstrap5Navigation:{},dmxDataTraversal:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxBootstrap5TableGenerator:{},dmxFormatter:{},dmxBrowser:{}}" -->
-<dmx-serverconnect id="getAllTsp" url="/api/tsp/getAllTsp"></dmx-serverconnect>
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="models" appConnect="local" bootstrap5="local" components="{dmxBootstrap5Navigation:{},dmxDataTraversal:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxBootstrap5TableGenerator:{},dmxFormatter:{},dmxBrowser:{},dmxBootstrap5PagingGenerator:{},dmxValidator:{}}" -->
+<dmx-serverconnect id="getMaxId" url="/api/models/get/getMaxId"></dmx-serverconnect>
+<dmx-serverconnect id="addModel" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="deleteModel" url="/api/models/post/DeleteModel" dmx-param:id_modele="selectedModel.value.id_modele" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="getModels" url="/api/global/models" dmx-param:model="'all'"></dmx-serverconnect>
 <div is="dmx-browser" id="browser1"></div>
 <dmx-datetime id="var1"></dmx-datetime>
 <meta name="ac:route" content="/views/appareils/models" />
@@ -15,49 +18,47 @@
         <div class="container">
           <div class="row">
             <div class="col">
-              <form id="addModelForm" method="post" is="dmx-api-form" action="http://localhost:5243/api/modelTsp" dmx-header:authorization="connectedUser.data.token" dmx-on:success="preloader1.hide();notifies1.success('Nouveau model ajouté');newModel.toggle();models.load({})" dmx-on:start="preloader1.show()" dmx-on:done="preloader1.hide()" dmx-on:error="preloader1.hide();notifies1.danger(lastError.response)">
-                <input id="UserCrea1" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule">
+              <form id="addModelForm" method="post" is="dmx-serverconnect-form" action="/api/models/post/postNewModel" dmx-header:authorization="connectedUser.data.token" dmx-on:success="getModels.load({});notifies1.success('Nouveau model ajouté');newModel.toggle()" dmx-on:error="notifies1.danger(lastError.response)">
+                <input id="UserCrea1" name="user_crea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule">
 
                 <div class="form-group md-3">
-                  <label for="modelName" class="form-label">Nom du model</label>
-                  <input type="text" class="form-control" id="modelName" name="Nom" aria-describedby="input1_help" placeholder="Nom du model" />
+                  <label for="id_modele" class="form-label">Identifiant</label>
+                  <input type="text" class="form-control" id="id_modele" name="id_modele" aria-describedby="input1_help" readonly="true" dmx-bind:value="getMaxId.data.getMaxId[0].max">
+                </div>
+                <div class="form-group md-3">
+                  <label for="modelName1" class="form-label">Nom du model</label>
+                  <input type="text" class="form-control" id="modelName1" name="nom" aria-describedby="input1_help" placeholder="Nom du model" required="" data-msg-required="Ce champ est nécessaire">
                 </div>
                 <div class="form-group md-3">
                   <label for="modelDescription" class="form-label">Description</label>
-                  <input type="text" class="form-control" id="modelDescription" name="Description" aria-describedby="input1_help" placeholder="Description du model" />
+                  <input type="text" class="form-control" id="modelDescription" name="description" aria-describedby="input1_help" placeholder="Description du model" required="" data-msg-required="Ce champ est nécessaire">
                 </div>
                 <div class="form-group md-3">
                   <label for="modelAnnee1" class="form-label">Model Année</label>
-                  <input type="number" class="form-control" id="modelAnnee1" name="ModelAnnee" aria-describedby="input1_help" placeholder="L'année du model">
+                  <input type="number" class="form-control" id="modelAnnee1" name="model_annee" aria-describedby="input1_help" placeholder="L'année du model" required="" data-msg-required="Ce champ est nécessaire">
                 </div>
                 <div class="form-group md-3">
                   <label for="ReferenceModel" class="form-label">Reference</label>
-                  <input type="text" class="form-control" id="ReferenceModel" name="RefModel" aria-describedby="input1_help" placeholder="Description du model" />
+                  <input type="text" class="form-control" id="ReferenceModel" name="ref_model" aria-describedby="input1_help" placeholder="Description du model" required="" data-msg-required="Ce champ est nécessaire">
                 </div>
                 <div class="form-group md-3">
                   <label for="ReferenceModel1" class="form-label">Reference Courte</label>
-                  <input type="text" class="form-control" id="ReferenceModel1" name="RefCourt" aria-describedby="input1_help" placeholder="Description du model">
+                  <input type="text" class="form-control" id="ReferenceModel1" name="ref_court" aria-describedby="input1_help" placeholder="Description du model" required="" data-msg-required="Ce champ est nécessaire">
                 </div>
                 <div class="form-group md-3">
                   <label for="prixmodel" class="form-label">Prix</label>
-                  <input type="text" class="form-control" id="prixmodel" name="Prix" aria-describedby="input1_help" placeholder="Description du model">
+                  <input type="number" class="form-control" id="prixmodel" name="prix" aria-describedby="input1_help" placeholder="Description du model" required="" data-msg-required="Ce champ est nécessaire">
                 </div>
                 <div class="form-group md-3">
                   <label for="prixmodel" class="form-label">Type de model</label>
-                  <select id="selecttype" class="form-select form-select-sm" name="TypeModel">
+                  <select id="selecttype" class="form-select form-select-sm" name="type_appareil" required="" data-msg-required="Ce champ est nécessaire">
                     <option value="tsp">Tsp</option>
                     <option value="accessoire">Accessoire</option>
                   </select>
                 </div>
 
-                <div class="d-flex justify-content-around align-items-end">
-                  <div class="form-group md-3 ">
-                    <label for="ImgModel" class="form-label">Image</label><input id="UploadModel" name="Img" type="file" class="form-control" />
-
-                  </div><img dmx-bind:src="UploadModel.file.dataUrl" width="100">
-                </div>
                 <div class="d-flex mt-4 mb-1 justify-content-around">
-                  <button type="submit" class="btn btn-primary" dmx-class:disabled="!UploadModel.value||!modelName.value||!selecttype.value">
+                  <button type="submit" class="btn btn-primary">
                     Enregistrer</button><button type="button" class="btn btn-warning" data-bs-dismiss="modal">
                     Annuler
                   </button>
@@ -77,44 +78,56 @@
         <h5 class="modal-title">Modifier le model</h5>
       </div>
       <div class="modal-body">
-        <form is="dmx-api-form" id="editModel" method="post" action="http://localhost:5243/api/modelTsp/edit" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Model modifié avec succes');editModal.toggle();models.load({});selectedModel.setValue((models.data.where(`IdModele`, selectedModel.value.IdModele, '=='))[0])" dmx-on:error="notifies1.danger(lastError.response.message)">
-          <input id="IdModeleEdit" name="IdModele" class="form-control" dmx-bind:value="selectedModel.value.IdModele" type="hidden">
+        <form is="dmx-serverconnect-form" id="editModel" method="post" action="/api/models/post/postEditModel" dmx-header:authorization="connectedUser.data.token" dmx-on:success="getModels.load({});notifies1.success('Model modifié avec succes');editModal.toggle();selectedModel.setValue((models.data.where(`IdModele`, selectedModel.value.IdModele, '=='))[0])" dmx-on:error="notifies1.danger(lastError.response.message)">
+          <input id="IdModeleEdit" name="id_modele" class="form-control" dmx-bind:value="selectedModel.value.id_modele" type="hidden">
 
-          <input id="UserCreaEdit" name="UserCrea" type="text" class="form-control visually-hidden" dmx-bind:value="connectedUser.data.matricule">
-          <input id="DateCreaEdit" name="DateCrea" type="text" class="form-control visually-hidden" dmx-bind:value="var1.datetime">
+          <input id="UserCreaEdit" name="user_crea" type="text" class="form-control visually-hidden" dmx-bind:value="connectedUser.data.matricule">
           <div class="form-group mb-3 row">
             <label for="NomEdit" class="col-sm-2 col-form-label">Nom</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="NomEdit" name="Nom" aria-describedby="input1_help" dmx-bind:value="selectedModel.value.Nom" required="">
+              <input type="text" class="form-control" id="NomEdit" name="nom" aria-describedby="input1_help" dmx-bind:value="selectedModel.value.nom" required="" data-msg-required="Ce champ est nécessaire">
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="input2" class="col-sm-2 col-form-label">Descripton</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="input2" name="Description" aria-describedby="input1_help" dmx-bind:value="selectedModel.value.Description" required="" />
+              <input type="text" class="form-control" id="input2" name="description" aria-describedby="input1_help" dmx-bind:value="selectedModel.value.description" required="" data-msg-required="Ce champ est nécessaire">
+            </div>
+          </div>
+          <div class="form-group mb-3 row">
+            <label for="input5" class="col-sm-2 col-form-label">Appareil pour</label>
+            <div class="col-sm-10">
+              <select id="select1" class="form-select" name="type_appareil" dmx-bind:value="selectedModel.value.type_appareil">
+                <option value="tsp">Tsp</option>
+                <option value="accessoire">Accessoire</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group mb-3 row"><label for="input4" class="col-sm-2 col-form-label">Prix</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="input4" name="prix" aria-describedby="input1_help" dmx-bind:value="selectedModel.value.prix" required="" data-msg-required="Ce champ est nécessaire">
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="ModelAnnee4" class="col-sm-2 col-form-label">Année du model</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="ModelAnnee4" name="ModelAnnee" aria-describedby="input1_help" dmx-bind:value="selectedModel.value.ModelAnnee" required="">
+              <input type="text" class="form-control" id="ModelAnnee4" name="model_annee" aria-describedby="input1_help" dmx-bind:value="selectedModel.value.model_annee" required="" data-msg-required="Ce champ est nécessaire">
             </div>
           </div>
           <div class="form-group mb-3 row">
             <label for="input3" class="col-sm-2 col-form-label">Reference</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="input3" name="RefModel" aria-describedby="input1_help" dmx-bind:value="selectedModel.value.RefModel" required="" />
+              <input type="text" class="form-control" id="input3" name="ref_model" aria-describedby="input1_help" dmx-bind:value="selectedModel.value.ref_model" required="" data-msg-required="Ce champ est nécessaire">
             </div>
           </div>
-
-          <img dmx-bind:src="selectedModel.value.Img?'data:image/jpeg;base64,'+selectedModel.value.Img:'/assets/mobile.png'" width="150">
-
           <div class="form-group mb-3 row">
-            <label for="ModelAnnee4" class="col-sm-2 col-form-label">Nouvelle image</label>
+            <label for="input1" class="col-sm-2 col-form-label">Ref Court</label>
             <div class="col-sm-10">
-              <input id="file1" name="Img" type="file" class="form-control" />
+              <input type="text" class="form-control" id="input1" name="ref_model1" aria-describedby="input1_help" dmx-bind:value="selectedModel.value.ref_court" required="" data-msg-required="Ce champ est nécessaire">
             </div>
           </div>
+
+          <img dmx-bind:src="'/assets/images/'+selectedModel.value.id_modele+'.jpg'" width="150">
           <div class="d-flex justify-content-around">
             <button type="submit" class="btn btn-primary">Enregistrer</button><button type="button" class="btn btn-warning" data-bs-dismiss="modal" dmx-on:click="editModel.reset()">
               Annuler
@@ -137,13 +150,18 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <p dmx-show="selectedModel.value.nombre_appareils&gt;0" class="text-danger">Vous ne pouvez pas supprimer ce model, des appareils y sont affectés.</p>
         <dl>
           <dt>Nom</dt>
-          <dd>{{ selectedModel.value.Nom }}</dd>
+          <dd>{{selectedModel.value.nom}}</dd>
+        </dl>
+        <dl>
+          <dt>Nombre d'appareils</dt>
+          <dd>{{selectedModel.value.nombre_appareils}}</dd>
         </dl>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" dmx-on:click="deleteModel.load({})">
+        <button type="button" class="btn btn-danger" dmx-on:click="deleteModel.load({id_modele: selectedModel.value.id_modele},true);getModels.load({});deleteModal.toggle();getMaxId.load({})" dmx-class:disabled="selectedModel.value.nombre_appareils&gt;0">
           Supprimer<button type="button" class="btn btn-warning" data-bs-dismiss="modal">
             Annuler
           </button>
@@ -157,12 +175,7 @@
 
 <dmx-value id="selectedModel"></dmx-value>
 
-<dmx-data-view id="ModelViewData" dmx-bind:data="models.data" dmx-bind:page="models.paging.pages" dmx-bind:pagesize="10"></dmx-data-view>
-<dmx-local-manager id="connectedUser"></dmx-local-manager>
-<dmx-api-action id="deleteModel" noload="true" url="http://localhost:5243/api/modelTsp/" method="delete" dmx-param:id="selectedModel.value.IdModele" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Model supprimé');deleteModal.toggle();models.load({});selectedModel.setValue(null)" dmx-on:error="notifies1.danger(lastError.response)"></dmx-api-action>
-<dmx-api-datasource id="accessoiresData" is="dmx-fetch" noload="true" dmx-header:authorization="tokenValue.data.token" url="http://localhost:5243/api/accessoire/affectationByIdTsp"></dmx-api-datasource>
-<dmx-api-datasource id="logAffectationTspData" is="dmx-fetch" noload="true" dmx-header:authorization="tokenValue.data.token" url="http://localhost:5243/api/logAffectationAM/getLogAffectationTsp"></dmx-api-datasource>
-<dmx-api-datasource id="models" is="dmx-fetch" url="http://localhost:5243/api/modelTsp/all" dmx-on:success="tspViewList.add(data);loadingTsp.setValue(false)" dmx-on:unauthorized="tokenValue.removeAll();browser1.goto('/auth/login')" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
+<dmx-data-view id="ModelViewData" dmx-bind:data="getModels.data.getModelsAll" dmx-bind:page="models.paging.pages" dmx-bind:pagesize="10"></dmx-data-view>
 
 <div class="container-fluid">
   <div class="row ps-0 pe-0">
@@ -227,29 +240,30 @@
             </thead>
             <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="ModelViewData.data" id="tableRepeat2">
               <tr dmx-on:click="selectedModel.setValue($value)">
-                <td dmx-text="Nom"></td>
+                <td dmx-text="nom"></td>
                 <td>
-                  <img dmx-bind:src="Img?'data:image/jpeg;base64,'+Img:'/assets/mobile.png'" width="50" />
+                  <img dmx-bind:src="'/assets/images/'+id_modele+'.jpg'" width="30">
                 </td>
+
               </tr>
             </tbody>
           </table>
         </div>
-        <ul class="pagination pagination-sm flex-wrap" dmx-dataview="searchData" dmx-generator="bs5paging">
-          <li class="page-item" dmx-class:disabled="searchData.page == 1" aria-label="First">
-            <a href="javascript:void(0)" class="page-link" dmx-on:click="searchData.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
+        <ul class="pagination pagination-sm" dmx-dataview="ModelViewData" dmx-generator="bs5paging">
+          <li class="page-item" dmx-class:disabled="ModelViewData.page == 1" aria-label="First">
+            <a href="javascript:void(0)" class="page-link" dmx-on:click="ModelViewData.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
           </li>
-          <li class="page-item" dmx-class:disabled="searchData.page == 1" aria-label="Previous">
-            <a href="javascript:void(0)" class="page-link" dmx-on:click="searchData.prev()"><span aria-hidden="true">&lsaquo;</span></a>
+          <li class="page-item" dmx-class:disabled="ModelViewData.page == 1" aria-label="Previous">
+            <a href="javascript:void(0)" class="page-link" dmx-on:click="ModelViewData.prev()"><span aria-hidden="true">&lsaquo;</span></a>
           </li>
-          <li class="page-item" dmx-class:active="title == searchData.page" dmx-class:disabled="!active" dmx-repeat="searchData.getDataViewPagination(2,1,'...')">
-            <a href="javascript:void(0)" class="page-link" dmx-on:click="searchData.select(page)">{{title)}}</a>
+          <li class="page-item" dmx-class:active="title == ModelViewData.page" dmx-class:disabled="!active" dmx-repeat="ModelViewData.getDataViewPagination(2,1,'...')">
+            <a href="javascript:void(0)" class="page-link" dmx-on:click="ModelViewData.select(page)">{{title)}}</a>
           </li>
-          <li class="page-item" dmx-class:disabled="searchData.page == searchData.pages" aria-label="Next">
-            <a href="javascript:void(0)" class="page-link" dmx-on:click="searchData.next()"><span aria-hidden="true">&rsaquo;</span></a>
+          <li class="page-item" dmx-class:disabled="ModelViewData.page == ModelViewData.pages" aria-label="Next">
+            <a href="javascript:void(0)" class="page-link" dmx-on:click="ModelViewData.next()"><span aria-hidden="true">&rsaquo;</span></a>
           </li>
-          <li class="page-item" dmx-class:disabled="searchData.page == searchData.pages" aria-label="Last">
-            <a href="javascript:void(0)" class="page-link" dmx-on:click="searchData.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
+          <li class="page-item" dmx-class:disabled="ModelViewData.page == ModelViewData.pages" aria-label="Last">
+            <a href="javascript:void(0)" class="page-link" dmx-on:click="ModelViewData.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
           </li>
         </ul>
       </div>
@@ -269,21 +283,24 @@
               </div>
               <div class="d-flex flex-row justify-content-start" style="" dmx-hide="!selectedModel.value">
                 <div class="d-flex flex-column align-items-center justify-content-around me-3">
-                  <a><img dmx-bind:src="selectedModel.value.Img?'data:image/jpeg;base64,'+selectedModel.value.Img:'/assets/mobile.png'" class="model-img" /></a>
+                  <a>
+                    <img dmx-bind:src="'/assets/images/'+selectedModel.value.id_modele+'.jpg'" class="model-img">
+                  </a>
+
                 </div>
 
                 <dl>
                   <dt>Nom</dt>
-                  <dd>{{ selectedModel.value.Nom }}</dd>
+                  <dd>{{ selectedModel.value.nom }}</dd>
                   <dt>Réference</dt>
-                  <dd>{{ selectedModel.value.RefModel }}</dd>
+                  <dd>{{ selectedModel.value.ref_model }}</dd>
                   <dt>Description</dt>
 
-                  <dd>{{selectedModel.value.Description}}</dd>
+                  <dd>{{selectedModel.value.description}}</dd>
                   <dt>Model Année</dt>
-                  <dd>{{selectedModel.value.ModelAnnee}}</dd>
+                  <dd>{{selectedModel.value.model_annee}}</dd>
                   <dt>Nombre d'appareils</dt>
-                  <dd>{{selectedModel.value.NombreAppareil}}</dd>
+                  <dd>{{selectedModel.value.nombre_appareils}}</dd>
                 </dl>
               </div>
               <div class="d-flex justify-content-center" dmx-hide="selectedModel.value">

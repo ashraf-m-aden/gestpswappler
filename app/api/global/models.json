@@ -17,109 +17,151 @@
   },
   "exec": {
     "steps": {
-      "name": "getModels",
-      "module": "dbconnector",
-      "action": "select",
+      "name": "",
+      "module": "core",
+      "action": "condition",
       "options": {
-        "connection": "edbdev",
-        "sql": {
-          "type": "select",
-          "columns": [],
-          "params": [
-            {
-              "operator": "equal",
-              "type": "expression",
-              "name": ":P1",
-              "value": "{{$_GET.model}}",
-              "test": "accessoire"
-            }
-          ],
-          "table": {
-            "name": "modele_tsp",
-            "schema": "tsptest"
-          },
-          "primary": "id_modele",
-          "joins": [],
-          "wheres": {
-            "condition": "AND",
-            "rules": [
+        "if": "{{$_GET.model=='all'}}",
+        "then": {
+          "steps": {
+            "name": "getModelsAll",
+            "module": "dbupdater",
+            "action": "custom",
+            "options": {
+              "connection": "edbdev",
+              "sql": {
+                "query": "select m.*,COUNT(tsp.*) as nombre_appareils from modele_tsp m left join tsp on tsp.modele_id = m.id_modele GROUP BY m.id_modele",
+                "params": []
+              }
+            },
+            "output": true,
+            "meta": [
               {
-                "id": "tsptest.modele_tsp.type_appareil",
-                "field": "tsptest.modele_tsp.type_appareil",
-                "type": "string",
-                "operator": "equal",
-                "value": "{{$_GET.model}}",
-                "data": {
-                  "table": "modele_tsp",
-                  "column": "type_appareil",
-                  "type": "text",
-                  "columnObj": {
-                    "type": "text",
-                    "primary": false,
-                    "unique": false,
-                    "nullable": true,
-                    "name": "type_appareil"
-                  },
-                  "schema": "tsptest"
-                },
-                "operation": "=",
-                "table": "modele_tsp"
+                "name": "id_modele",
+                "type": "number"
+              },
+              {
+                "name": "nom",
+                "type": "text"
+              },
+              {
+                "name": "date_crea",
+                "type": "datetime"
+              },
+              {
+                "name": "user_crea",
+                "type": "number"
+              },
+              {
+                "name": "description",
+                "type": "text"
+              },
+              {
+                "name": "ref_model",
+                "type": "text"
+              },
+              {
+                "name": "model_annee",
+                "type": "number"
+              },
+              {
+                "name": "img",
+                "type": "text"
+              },
+              {
+                "name": "type_appareil",
+                "type": "text"
+              },
+              {
+                "name": "prix",
+                "type": "number"
+              },
+              {
+                "name": "ref_court",
+                "type": "text"
+              },
+              {
+                "name": "nombre_appareils",
+                "type": "number"
               }
             ],
-            "conditional": null,
-            "valid": true
-          },
-          "query": "select * from \"tsptest\".\"modele_tsp\" where \"tsptest\".\"modele_tsp\".\"type_appareil\" = ?"
+            "type": "dbcustom_query"
+          }
+        },
+        "else": {
+          "steps": {
+            "name": "getModels",
+            "module": "dbupdater",
+            "action": "custom",
+            "options": {
+              "connection": "edbdev",
+              "sql": {
+                "query": "select m.*,COUNT(tsp.*) as nombre_appareils from modele_tsp m left join tsp on tsp.modele_id = m.id_modele  where m.type_appareil = ? GROUP BY m.id_modele",
+                "params": [
+                  {
+                    "name": ":P1",
+                    "value": "{{$_GET.model}}",
+                    "test": "accessoire"
+                  }
+                ]
+              }
+            },
+            "output": true,
+            "meta": [
+              {
+                "name": "id_modele",
+                "type": "number"
+              },
+              {
+                "name": "nom",
+                "type": "text"
+              },
+              {
+                "name": "date_crea",
+                "type": "datetime"
+              },
+              {
+                "name": "user_crea",
+                "type": "number"
+              },
+              {
+                "name": "description",
+                "type": "text"
+              },
+              {
+                "name": "ref_model",
+                "type": "text"
+              },
+              {
+                "name": "model_annee",
+                "type": "number"
+              },
+              {
+                "name": "img",
+                "type": "text"
+              },
+              {
+                "name": "type_appareil",
+                "type": "text"
+              },
+              {
+                "name": "prix",
+                "type": "number"
+              },
+              {
+                "name": "ref_court",
+                "type": "text"
+              },
+              {
+                "name": "nombre_appareils",
+                "type": "number"
+              }
+            ],
+            "type": "dbcustom_query"
+          }
         }
       },
-      "output": true,
-      "meta": [
-        {
-          "type": "number",
-          "name": "id_modele"
-        },
-        {
-          "type": "text",
-          "name": "nom"
-        },
-        {
-          "type": "datetime",
-          "name": "date_crea"
-        },
-        {
-          "type": "number",
-          "name": "user_crea"
-        },
-        {
-          "type": "text",
-          "name": "description"
-        },
-        {
-          "type": "text",
-          "name": "ref_model"
-        },
-        {
-          "type": "number",
-          "name": "model_annee"
-        },
-        {
-          "type": "text",
-          "name": "img"
-        },
-        {
-          "type": "text",
-          "name": "type_appareil"
-        },
-        {
-          "type": "number",
-          "name": "prix"
-        },
-        {
-          "type": "text",
-          "name": "ref_court"
-        }
-      ],
-      "outputType": "array"
+      "outputType": "boolean"
     }
   }
 }

@@ -1466,6 +1466,140 @@
         "db": {
           "schema": "tsptest"
         },
+        "columns": {
+          "num_modele": {
+            "db": {
+              "type": "increments",
+              "default": "",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "libelle": {
+            "db": {
+              "type": "string",
+              "maxLength": 30,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "lg_index": {
+            "db": {
+              "type": "decimal",
+              "default": 5,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "commentaire": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "type_compteur": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "fabricant": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "type_courant": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "voltage": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "num_rapport_comptage": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "den_rapport_comptage": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "coeff_lect_index": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "coeff_lect_ipm": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "code_article": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        },
         "refs": {
           "tsptest.compteur": "modele_cpteur"
         }

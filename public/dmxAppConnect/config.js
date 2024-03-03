@@ -8521,31 +8521,47 @@ dmx.config({
       "meta": [
         {
           "type": "number",
-          "name": "IdModele"
+          "name": "id_modele"
         },
         {
           "type": "text",
-          "name": "Nom"
+          "name": "nom"
+        },
+        {
+          "type": "datetime",
+          "name": "date_crea"
+        },
+        {
+          "type": "number",
+          "name": "user_crea"
         },
         {
           "type": "text",
-          "name": "DateCrea"
+          "name": "description"
         },
         {
           "type": "text",
-          "name": "UserCrea"
+          "name": "ref_model"
+        },
+        {
+          "type": "number",
+          "name": "model_annee"
         },
         {
           "type": "text",
-          "name": "Description"
+          "name": "img"
         },
         {
           "type": "text",
-          "name": "RefModel"
+          "name": "type_appareil"
+        },
+        {
+          "type": "number",
+          "name": "prix"
         },
         {
           "type": "text",
-          "name": "Img"
+          "name": "ref_court"
         }
       ],
       "outputType": "array"

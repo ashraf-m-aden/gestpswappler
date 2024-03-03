@@ -20,12 +20,20 @@
       {
         "type": "number",
         "name": "id_log"
+      },
+      {
+        "type": "text",
+        "name": "sim_id"
       }
     ],
     "$_POST": [
       {
         "type": "number",
         "name": "id_log"
+      },
+      {
+        "type": "number",
+        "name": "sim_id"
       }
     ]
   },
@@ -68,11 +76,17 @@
               "column": "id_log",
               "type": "number",
               "value": "{{$_GET.id_log}}"
+            },
+            {
+              "table": "tsptest.log_affectation_appareil_mobiles",
+              "column": "sim_id",
+              "type": "number",
+              "value": "{{$_GET.sim_id}}"
             }
           ],
           "table": "tsptest.log_affectation_appareil_mobiles",
           "returning": "id_log",
-          "query": "insert into \"tsptest\".\"log_affectation_appareil_mobiles\" (\"deleted\", \"employe_id\", \"id_log\", \"tsp_id\", \"user_crea\") values (?, ?, ?, ?, ?) returning \"id_log\"",
+          "query": "insert into \"tsptest\".\"log_affectation_appareil_mobiles\" (\"deleted\", \"employe_id\", \"id_log\", \"sim_id\", \"tsp_id\", \"user_crea\") values (?, ?, ?, ?, ?, ?) returning \"id_log\"",
           "params": [
             {
               "name": ":P1",
@@ -102,6 +116,12 @@
               "name": ":P5",
               "type": "expression",
               "value": "{{$_GET.id_log}}",
+              "test": ""
+            },
+            {
+              "name": ":P6",
+              "type": "expression",
+              "value": "{{$_GET.sim_id}}",
               "test": ""
             }
           ]

@@ -1,0 +1,190 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ],
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "nom"
+      },
+      {
+        "type": "number",
+        "name": "user_crea"
+      },
+      {
+        "type": "text",
+        "name": "description"
+      },
+      {
+        "type": "text",
+        "name": "ref_model"
+      },
+      {
+        "type": "number",
+        "name": "model_annee"
+      },
+      {
+        "type": "text",
+        "name": "type_appareil"
+      },
+      {
+        "type": "number",
+        "name": "prix"
+      },
+      {
+        "type": "text",
+        "name": "ref_court"
+      },
+      {
+        "type": "number",
+        "name": "id_modele"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "insertNewModel",
+      "module": "dbupdater",
+      "action": "insert",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "insert",
+          "values": [
+            {
+              "table": "tsptest.modele_tsp",
+              "column": "nom",
+              "type": "text",
+              "value": "{{$_POST.nom}}"
+            },
+            {
+              "table": "tsptest.modele_tsp",
+              "column": "user_crea",
+              "type": "number",
+              "value": "{{$_POST.user_crea}}"
+            },
+            {
+              "table": "tsptest.modele_tsp",
+              "column": "description",
+              "type": "text",
+              "value": "{{$_POST.description}}"
+            },
+            {
+              "table": "tsptest.modele_tsp",
+              "column": "ref_model",
+              "type": "text",
+              "value": "{{$_POST.ref_model}}"
+            },
+            {
+              "table": "tsptest.modele_tsp",
+              "column": "model_annee",
+              "type": "number",
+              "value": "{{$_POST.model_annee}}"
+            },
+            {
+              "table": "tsptest.modele_tsp",
+              "column": "type_appareil",
+              "type": "text",
+              "value": "{{$_POST.type_appareil}}"
+            },
+            {
+              "table": "tsptest.modele_tsp",
+              "column": "prix",
+              "type": "number",
+              "value": "{{$_POST.prix}}"
+            },
+            {
+              "table": "tsptest.modele_tsp",
+              "column": "ref_court",
+              "type": "text",
+              "value": "{{$_POST.ref_court}}"
+            },
+            {
+              "table": "tsptest.modele_tsp",
+              "column": "id_modele",
+              "type": "number",
+              "value": "{{$_POST.id_modele}}"
+            }
+          ],
+          "table": "tsptest.modele_tsp",
+          "returning": "id_modele",
+          "query": "insert into \"tsptest\".\"modele_tsp\" (\"description\", \"id_modele\", \"model_annee\", \"nom\", \"prix\", \"ref_court\", \"ref_model\", \"type_appareil\", \"user_crea\") values (?, ?, ?, ?, ?, ?, ?, ?, ?) returning \"id_modele\"",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.nom}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.user_crea}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.description}}",
+              "test": ""
+            },
+            {
+              "name": ":P4",
+              "type": "expression",
+              "value": "{{$_POST.ref_model}}",
+              "test": ""
+            },
+            {
+              "name": ":P5",
+              "type": "expression",
+              "value": "{{$_POST.model_annee}}",
+              "test": ""
+            },
+            {
+              "name": ":P6",
+              "type": "expression",
+              "value": "{{$_POST.type_appareil}}",
+              "test": ""
+            },
+            {
+              "name": ":P7",
+              "type": "expression",
+              "value": "{{$_POST.prix}}",
+              "test": ""
+            },
+            {
+              "name": ":P8",
+              "type": "expression",
+              "value": "{{$_POST.ref_court}}",
+              "test": ""
+            },
+            {
+              "name": ":P9",
+              "type": "expression",
+              "value": "{{$_POST.id_modele}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "identity",
+          "type": "text"
+        },
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

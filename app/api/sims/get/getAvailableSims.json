@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      },
+      {
+        "type": "number",
+        "name": "count"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "getAvailableSim",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select * from sim_mobile where  id_sim not  in (select sim_mobile_id from affectation_appareil_mobiles where sim_mobile_id is not null)\n",
+          "params": []
+        }
+      },
+      "meta": [
+        {
+          "name": "id_sim",
+          "type": "number"
+        },
+        {
+          "name": "num_tel",
+          "type": "number"
+        },
+        {
+          "name": "pin",
+          "type": "text"
+        },
+        {
+          "name": "puk",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        }
+      ],
+      "type": "dbcustom_query",
+      "outputType": "array",
+      "output": true
+    }
+  }
+}

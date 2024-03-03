@@ -3,11 +3,7 @@
     "$_GET": [
       {
         "type": "text",
-        "name": "offset"
-      },
-      {
-        "type": "text",
-        "name": "limit"
+        "name": "id_tsp"
       },
       {
         "type": "text",
@@ -16,10 +12,6 @@
       {
         "type": "text",
         "name": "dir"
-      },
-      {
-        "type": "text",
-        "name": "idmodel"
       }
     ]
   },
@@ -31,12 +23,12 @@
       "options": {
         "connection": "edbdev",
         "sql": {
-          "query": "select * from tsp where tsp.modele_id = ?",
+          "query": "select tsp.*,t.nom as tsp,t.modele_id as tsp_modele,emp.nom as affectedby,empp.nom as agent,empp.matricule,af.date_crea as dateAff, emmpp.nom as usercreaAff from tsp left join accessoire_affectations aff on aff.id_accessoire=tsp.id_tsp left join employe emp on emp.matricule =aff.user_crea left JOIN tsp t on t.id_tsp= aff.id_tsp left join affectation_appareil_mobiles af on af.tsp_id=t.id_tsp left join employe empp on empp.matricule =af.employe_id left join employe emmpp on emmpp.matricule=af.user_crea where tsp.id_tsp=?",
           "params": [
             {
-              "name": ":P1",
-              "value": "{{$_GET.idmodel}}",
-              "test": "6"
+              "name": "?",
+              "value": "{{$_GET.id_tsp}}",
+              "test": "375"
             }
           ]
         }
@@ -118,6 +110,34 @@
         {
           "name": "user_crea",
           "type": "number"
+        },
+        {
+          "name": "tsp",
+          "type": "text"
+        },
+        {
+          "name": "tsp_modele",
+          "type": "number"
+        },
+        {
+          "name": "affectedby",
+          "type": "text"
+        },
+        {
+          "name": "agent",
+          "type": "text"
+        },
+        {
+          "name": "matricule",
+          "type": "number"
+        },
+        {
+          "name": "dateaff",
+          "type": "datetime"
+        },
+        {
+          "name": "usercreaaff",
+          "type": "text"
         }
       ],
       "type": "dbcustom_query"
