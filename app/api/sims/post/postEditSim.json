@@ -1,0 +1,134 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "number",
+        "name": "num_tel"
+      },
+      {
+        "type": "text",
+        "name": "pin"
+      },
+      {
+        "type": "text",
+        "name": "puk"
+      },
+      {
+        "type": "number",
+        "name": "user_crea"
+      },
+      {
+        "type": "number",
+        "name": "id_sim"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "update",
+      "module": "dbupdater",
+      "action": "update",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "update",
+          "values": [
+            {
+              "table": "tsptest.sim_mobile",
+              "column": "num_tel",
+              "type": "number",
+              "value": "{{$_POST.num_tel}}"
+            },
+            {
+              "table": "tsptest.sim_mobile",
+              "column": "pin",
+              "type": "text",
+              "value": "{{$_POST.pin}}"
+            },
+            {
+              "table": "tsptest.sim_mobile",
+              "column": "puk",
+              "type": "text",
+              "value": "{{$_POST.puk}}"
+            },
+            {
+              "table": "tsptest.sim_mobile",
+              "column": "user_crea",
+              "type": "number",
+              "value": "{{$_POST.user_crea}}"
+            },
+            {
+              "table": "tsptest.sim_mobile",
+              "column": "id_sim",
+              "type": "number",
+              "value": "{{$_POST.id_sim}}"
+            }
+          ],
+          "table": "tsptest.sim_mobile",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "id_sim",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_POST.id_sim}}",
+                "data": {
+                  "column": "id_sim"
+                },
+                "operation": "="
+              }
+            ]
+          },
+          "returning": "id_sim",
+          "query": "update \"tsptest\".\"sim_mobile\" set \"num_tel\" = ?, \"pin\" = ?, \"puk\" = ?, \"user_crea\" = ?, \"id_sim\" = ? where \"id_sim\" = ? returning \"id_sim\"",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.num_tel}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.pin}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.puk}}",
+              "test": ""
+            },
+            {
+              "name": ":P4",
+              "type": "expression",
+              "value": "{{$_POST.user_crea}}",
+              "test": ""
+            },
+            {
+              "name": ":P5",
+              "type": "expression",
+              "value": "{{$_POST.id_sim}}",
+              "test": ""
+            },
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P6",
+              "value": "{{$_POST.id_sim}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

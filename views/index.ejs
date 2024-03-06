@@ -1,7 +1,9 @@
 <!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="index" appConnect="local" bootstrap5="local" components="{dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxDataTraversal:{},dmxDatastore:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Navigation:{},dmxBootstrap5Offcanvas:{},dmxRouting:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxGooglePlaces:{},dmxVideo:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxDatePicker:{},dmxFormatter:{},dmxValidator:{},dmxMediumEditor:{}}" moment_2="cdn" -->
+<dmx-serverconnect id="getMaxIdLog" url="/api/agents/get/getMaxLogId"></dmx-serverconnect>
+<dmx-serverconnect id="postLogAffectationAppareils" url="/api/agents/post/postLogAffectationAppareil" noload="true" dmx-param:user_crea="connectedUser.data.matricule" dmx-param:employe_id="affecterUserModal.serverconnectform1.inp_employe_id.value" dmx-param:tsp_id="selectedTsp.value.id_tsp" dmx-param:deleted="'N'" dmx-param:id_log="getLogAffectationMax.data.maxIdLogAffect[0].max!=null?getLogAffectationMax.data.maxIdLogAffect[0].max:1" dmx-param:sim_id="affecterUserModal.serverconnectform1.simId.selectedValue"></dmx-serverconnect>
 <dmx-serverconnect id="getSim" url="/api/sims/get/getSim" dmx-param:id_sim="" noload="true"></dmx-serverconnect>
 <dmx-serverconnect id="getAvailableSim" url="/api/sims/get/getAvailableSims"></dmx-serverconnect>
-<dmx-serverconnect id="postLogAffectationAppareils" url="/api/agents/post/postLogAffectationAppareil" noload="true" dmx-param:user_crea="connectedUser.data.matricule" dmx-param:employe_id="affecterUserModal.serverconnectform1.inp_employe_id.value" dmx-param:tsp_id="selectedTsp.value.id_tsp" dmx-param:deleted="'N'" dmx-param:id_log="getLogAffectationMax.data.maxIdLogAffect[0].max" dmx-param:sim_id="affecterUserModal.serverconnectform1.simId.selectedValue"></dmx-serverconnect>
+
 <dmx-serverconnect id="getAffectationMax" url="/api/agents/get/getAffectationMaxId"></dmx-serverconnect>
 <dmx-serverconnect id="getLogAffectationMax" url="/api/agents/get/getMaxLogId"></dmx-serverconnect>
 <dmx-serverconnect id="getSections" url="/api/agents/get/getSections"></dmx-serverconnect>
@@ -26,7 +28,7 @@
         <h5 class="modal-title heading-text">Affecter l'appareil à un agent: {{selectedTsp.value.Nom}}</h5>
       </div>
       <div class="modal-body">
-        <form is="dmx-serverconnect-form" id="serverconnectform1" method="post" action="/api/agents/post/affectAppareilToAgent" site="GesTsp" dmx-generator="bootstrap5" dmx-form-type="horizontal" dmx-on:error="notifies1.danger(lastError.response.message)" dmx-on:success="postLogAffectationAppareils.load({});notifies1.success('L\'appareil a été affecté avec succés');affecterUserModal.toggle()">
+        <form is="dmx-serverconnect-form" id="serverconnectform1" method="post" action="/api/agents/post/affectAppareilToAgent" site="GesTsp" dmx-generator="bootstrap5" dmx-form-type="horizontal" dmx-on:error="notifies1.danger(lastError.response.message)" dmx-on:success="postLogAffectationAppareils.load({user_crea: connectedUser.data.matricule, employe_id: inp_employe_id.value, tsp_id: selectedTsp.value.id_tsp, deleted: 'N', max: 1, sim_id: simId.value});notifies1.success('L\'appareil a été affecté avec succés');affecterUserModal.toggle();getMaxIdLog.load({})">
           <div class="form-group mb-3 row">
             <label for="inp_employe_section" class="col-sm-2 col-form-label">Employe section:</label>
             <div class="col-sm-10">
@@ -37,7 +39,7 @@
           </div>
           <div class="form-group mb-3 row">
             <div class="col-sm-10">
-              <input type="hidden" class="form-control" id="inp_id_affect" name="id_affect" dmx-bind:value="getAffectationMax.data.maxIdAffect[0].max" aria-describedby="inp_id_affect_help" placeholder="Enter Id affect:" dmxorgdomid="d217201" readonly="true">
+              <input type="hidden" class="form-control" id="inp_id_affect" name="id_affect" dmx-bind:value="getAffectationMax.data.maxIdAffect[0].max!=null?getAffectationMax.data.maxIdAffect[0].max:1" aria-describedby="inp_id_affect_help" placeholder="Enter Id affect:" dmxorgdomid="d217201" readonly="true">
             </div>
           </div>
           <div class="form-group mb-3 row">
@@ -69,7 +71,7 @@
           </div>
           <div class="form-group mb-3 row">
             <div class="col-sm-10 d-flex justify-content-around">
-              <button type="submit" class="btn btn-primary" dmx-bind:disabled="state.executing">Enregistrer <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button><button type="button" class="btn btn-warning">Annuler</button>
+              <button type="submit" class="btn btn-primary" dmx-bind:disabled="state.executing">Enregistrer <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
             </div>
           </div>
         </form>
@@ -234,7 +236,7 @@
 <dmx-value id="selectedTspModel"></dmx-value>
 <dmx-data-view id="tspViewData" dmx-bind:data="getAllTsp.data.getAllTsp" sortdir="desc"></dmx-data-view>
 <dmx-data-view id="searchData" dmx-bind:data="getAllTsp.data.getAllTsp.where(`code_tsp`, form2.recherche.value, 'contains')" dmx-bind:page="tsp.paging.pages" dmx-bind:pagesize="10" sortdir="desc"></dmx-data-view>
-<dmx-data-view id="logDataView" sortdir="desc" dmx-bind:data="getLogAffectation.data.getLogAffectation"></dmx-data-view>
+<dmx-data-view id="logDataView" sortdir="desc" dmx-bind:data="getLogAffectation.data.getLogAffectation" sortOn="id_log"></dmx-data-view>
 <dmx-data-view id="accssoireDataView" sortdir="desc" dmx-bind:data="getAccessoires.data.query"></dmx-data-view>
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
 
@@ -375,7 +377,7 @@
           <div class="card app-col">
             <div class="card-body">
               <h5 class="heading-text">Agent</h5>
-              <div class="d-flex justify-content-between flex-row" style="" dmx-show="selectedTsp.value&amp;&amp;( getLogAffectation.data.getLogAffectation.first()).deleted=='N'">
+              <div class="d-flex justify-content-between flex-row" style="" dmx-show="selectedTsp.value&amp;&amp;getAffectation.data.query[0]">
                 <dl>
                   <dt>Nom</dt>
                   <dd>{{getAffectation.data.query[0].employe}}</dd>
@@ -433,8 +435,8 @@
                       <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="logDataView.data" id="tableRepeat4">
                         <tr>
                           <td dmx-text="nom"></td>
-                          <td dmx-text="numtel"></td>
-                          <td dmx-text="date_crea"></td>
+                          <td dmx-text="num_tel"></td>
+                          <td dmx-text="date_crea.formatDate('dd-MM-yyyy')"></td>
                           <td dmx-text="affectedby"></td>
                           <td dmx-text="deleted"></td>
                         </tr>

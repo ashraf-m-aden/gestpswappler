@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "id_sim"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "delete",
+      "module": "dbupdater",
+      "action": "delete",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "delete",
+          "table": "tsptest.sim_mobile",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "id_sim",
+                "field": "id_sim",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_GET.id_sim}}",
+                "data": {
+                  "column": "id_sim"
+                },
+                "operation": "="
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          },
+          "returning": "id_sim",
+          "query": "delete from \"tsptest\".\"sim_mobile\" where \"id_sim\" = ? returning \"id_sim\"",
+          "params": [
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P1",
+              "value": "{{$_GET.id_sim}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

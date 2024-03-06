@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select emp.nom,emp.matricule, aff.id_affect from employe emp join affectation_appareil_mobiles aff on aff.employe_id=emp.matricule\nwhere aff.sim_mobile_id is null",
+          "params": []
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "matricule",
+          "type": "number"
+        },
+        {
+          "name": "id_affect",
+          "type": "number"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

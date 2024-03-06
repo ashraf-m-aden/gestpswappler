@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "id_sim"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query",
+      "module": "dbconnector",
+      "action": "single",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "select",
+          "columns": [],
+          "params": [
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P1",
+              "value": "{{$_GET.id_sim}}",
+              "test": "2"
+            }
+          ],
+          "table": {
+            "name": "affectation_appareil_mobiles",
+            "schema": "tsptest"
+          },
+          "primary": "id_affect",
+          "joins": [],
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "tsptest.affectation_appareil_mobiles.sim_mobile_id",
+                "field": "tsptest.affectation_appareil_mobiles.sim_mobile_id",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_GET.id_sim}}",
+                "data": {
+                  "table": "affectation_appareil_mobiles",
+                  "column": "sim_mobile_id",
+                  "type": "number",
+                  "columnObj": {
+                    "type": "reference",
+                    "primary": false,
+                    "unique": false,
+                    "nullable": true,
+                    "references": "id_sim",
+                    "inTable": "sim_mobile",
+                    "referenceType": "integer",
+                    "onUpdate": "NO ACTION",
+                    "onDelete": "NO ACTION",
+                    "name": "sim_mobile_id"
+                  },
+                  "schema": "tsptest"
+                },
+                "operation": "="
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          },
+          "query": "select * from \"tsptest\".\"affectation_appareil_mobiles\" where \"tsptest\".\"affectation_appareil_mobiles\".\"sim_mobile_id\" = ?"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "id_affect"
+        },
+        {
+          "type": "number",
+          "name": "sim_mobile_id"
+        },
+        {
+          "type": "number",
+          "name": "employe_id"
+        },
+        {
+          "type": "number",
+          "name": "tsp_id"
+        },
+        {
+          "type": "datetime",
+          "name": "date_crea"
+        },
+        {
+          "type": "number",
+          "name": "user_crea"
+        },
+        {
+          "type": "number",
+          "name": "employe_section"
+        }
+      ],
+      "outputType": "object"
+    }
+  }
+}

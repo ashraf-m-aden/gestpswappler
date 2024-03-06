@@ -1,0 +1,239 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "nom"
+      },
+      {
+        "type": "number",
+        "name": "modele_id"
+      },
+      {
+        "type": "text",
+        "name": "num_serie"
+      },
+      {
+        "type": "datetime",
+        "name": "date_achat"
+      },
+      {
+        "type": "number",
+        "name": "annee_production"
+      },
+      {
+        "type": "number",
+        "name": "user_crea"
+      },
+      {
+        "type": "number",
+        "name": "id_tsp"
+      },
+      {
+        "type": "text",
+        "name": "quantite"
+      },
+      {
+        "type": "text",
+        "name": "code_tsp"
+      },
+      {
+        "type": "array",
+        "name": "record",
+        "sub": [
+          {
+            "type": "text",
+            "name": "$_POST"
+          },
+          {
+            "type": "number",
+            "name": "maxid[0]"
+          },
+          {
+            "type": "text",
+            "name": "code_tsp"
+          }
+        ]
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "repeat",
+      "module": "core",
+      "action": "repeat",
+      "options": {
+        "repeat": "{{$_POST.quantite}}",
+        "outputFields": [],
+        "exec": {
+          "steps": [
+            {
+              "name": "maxid",
+              "module": "dbupdater",
+              "action": "custom",
+              "options": {
+                "connection": "edbdev",
+                "sql": {
+                  "query": "select (MAX(id_tsp)+1)as max from tsp",
+                  "params": []
+                }
+              },
+              "output": true,
+              "meta": [
+                {
+                  "name": "max",
+                  "type": "number"
+                }
+              ],
+              "type": "dbcustom_query"
+            },
+            {
+              "name": "insert",
+              "module": "dbupdater",
+              "action": "insert",
+              "options": {
+                "connection": "edbdev",
+                "sql": {
+                  "type": "insert",
+                  "values": [
+                    {
+                      "table": "tsptest.tsp",
+                      "column": "nom",
+                      "type": "text",
+                      "value": "{{$_POST.nom}}"
+                    },
+                    {
+                      "table": "tsptest.tsp",
+                      "column": "modele_id",
+                      "type": "number",
+                      "value": "{{$_POST.modele_id}}"
+                    },
+                    {
+                      "table": "tsptest.tsp",
+                      "column": "num_serie",
+                      "type": "text",
+                      "value": "{{$_POST.num_serie}}"
+                    },
+                    {
+                      "table": "tsptest.tsp",
+                      "column": "date_achat",
+                      "type": "datetime",
+                      "value": "{{$_POST.date_achat}}"
+                    },
+                    {
+                      "table": "tsptest.tsp",
+                      "column": "annee_production",
+                      "type": "number",
+                      "value": "{{$_POST.annee_production}}"
+                    },
+                    {
+                      "table": "tsptest.tsp",
+                      "column": "user_crea",
+                      "type": "number",
+                      "value": "{{$_POST.user_crea}}"
+                    },
+                    {
+                      "table": "tsptest.tsp",
+                      "column": "id_tsp",
+                      "type": "number",
+                      "value": "{{maxid[0].max}}"
+                    },
+                    {
+                      "table": "tsptest.tsp",
+                      "column": "code_tsp",
+                      "type": "text",
+                      "value": "{{$_POST.code_tsp}}"
+                    }
+                  ],
+                  "table": "tsptest.tsp",
+                  "returning": "id_tsp",
+                  "query": "insert into \"tsptest\".\"tsp\" (\"annee_production\", \"code_tsp\", \"date_achat\", \"id_tsp\", \"modele_id\", \"nom\", \"num_serie\", \"user_crea\") values (?, ?, ?, ?, ?, ?, ?, ?) returning \"id_tsp\"",
+                  "params": [
+                    {
+                      "name": ":P1",
+                      "type": "expression",
+                      "value": "{{$_POST.nom}}",
+                      "test": ""
+                    },
+                    {
+                      "name": ":P2",
+                      "type": "expression",
+                      "value": "{{$_POST.modele_id}}",
+                      "test": ""
+                    },
+                    {
+                      "name": ":P3",
+                      "type": "expression",
+                      "value": "{{$_POST.num_serie}}",
+                      "test": ""
+                    },
+                    {
+                      "name": ":P4",
+                      "type": "expression",
+                      "value": "{{$_POST.date_achat}}",
+                      "test": ""
+                    },
+                    {
+                      "name": ":P5",
+                      "type": "expression",
+                      "value": "{{$_POST.annee_production}}",
+                      "test": ""
+                    },
+                    {
+                      "name": ":P6",
+                      "type": "expression",
+                      "value": "{{$_POST.user_crea}}",
+                      "test": ""
+                    },
+                    {
+                      "name": ":P7",
+                      "type": "expression",
+                      "value": "{{maxid[0].max}}",
+                      "test": ""
+                    },
+                    {
+                      "name": ":P8",
+                      "type": "expression",
+                      "value": "{{$_POST.code_tsp}}",
+                      "test": ""
+                    }
+                  ]
+                }
+              },
+              "meta": [
+                {
+                  "name": "identity",
+                  "type": "text"
+                },
+                {
+                  "name": "affected",
+                  "type": "number"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "$index",
+          "type": "number"
+        },
+        {
+          "name": "$number",
+          "type": "number"
+        },
+        {
+          "name": "$name",
+          "type": "text"
+        },
+        {
+          "name": "$value",
+          "type": "object"
+        }
+      ],
+      "outputType": "array"
+    }
+  }
+}

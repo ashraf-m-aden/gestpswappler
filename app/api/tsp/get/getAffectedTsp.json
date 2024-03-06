@@ -23,13 +23,12 @@
       "options": {
         "connection": "edbdev",
         "sql": {
-          "query": "select employe.nom as employeNom, employe.matricule, tsp.nom as tspNom, tsp.id_tsp, modele_tsp.img, tsptest.accessoire_affectations.date_crea, modele_tsp.id_modele from accessoire_affectations full outer join employe on employe.matricule = accessoire_affectations.user_crea full outer join tsp on tsp.id_tsp = accessoire_affectations.id_tsp full outer join modele_tsp on modele_tsp.id_modele = tsp.modele_id where accessoire_affectations.id_accessoire = ?",
+          "query": "select employe.nom as employeNom, employe.matricule, tsp.nom as tspNom, tsp.id_tsp, modele_tsp.img, affectation_appareil_mobiles.date_crea, modele_tsp.id_modele\nfrom affectation_appareil_mobiles\njoin employe on employe.matricule = affectation_appareil_mobiles.user_crea\njoin tsp on tsp.id_tsp = affectation_appareil_mobiles.tsp_id\njoin modele_tsp on modele_tsp.id_modele = tsp.modele_id ",
           "params": [
             {
               "name": "id_accessoire",
               "value": "{{$_GET.idaccessoire}}",
-              "test": "374",
-              "recid": 1
+              "test": "374"
             }
           ]
         }

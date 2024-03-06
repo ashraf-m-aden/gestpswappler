@@ -1,7 +1,11 @@
-<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="accessoires" appconnect="local" bootstrap5="local" components="{dmxStateManagement:{},dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxBootstrap5Modal:{},dmxBootstrap5Navigation:{},dmxDataTraversal:{},dmxFormatter:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Collapse:{},dmxDatePicker:{}}" moment_2="cdn" -->
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="accessoires" appconnect="local" bootstrap5="local" components="{dmxStateManagement:{},dmxBrowser:{},dmxBootstrap5TableGenerator:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxBootstrap5Modal:{},dmxBootstrap5Navigation:{},dmxDataTraversal:{},dmxFormatter:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Collapse:{},dmxDatePicker:{},dmxValidator:{}}" moment_2="cdn" -->
+<dmx-serverconnect id="deleteAccessory" url="/api/accessoires/post/postedeleteAccessoire" noload="true" dmx-on:success="notifies1.success('Accessoire supprimé');getAccessories.load({idmodel: selectedModel.value.id_modele});deleteAccessoryy.toggle()" dmx-on:error="notifies1.danger(lastError.response.message)"></dmx-serverconnect>
+<dmx-serverconnect id="getMaxIdAccessoire" url="/api/tsp/get/getMaxId"></dmx-serverconnect>
+<dmx-serverconnect id="addAccessoire" url="/api/accessoires/post/postNewAccessoire"></dmx-serverconnect>
+<dmx-serverconnect id="getMaxIdAffect" url="/api/accessoireAffect/get/getMaxId"></dmx-serverconnect>
 <dmx-serverconnect id="getOneAccessoire" noload="true" url="/api/accessoires/get/getOneAccessoire"></dmx-serverconnect>
 <dmx-serverconnect id="getModels" url="/api/global/models" dmx-param:model="'accessoire'"></dmx-serverconnect>
-<dmx-serverconnect id="getAffectationTsp" url="/api/accessoires/getAffectationTsp" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="getAffectedTsp" url="/api/tsp/get/getAffectedTsp" noload="true"></dmx-serverconnect>
 <dmx-serverconnect id="getAccessories" url="/api/accessoires/get/getAccessories" dmx-param:idmodel="" noload="true"></dmx-serverconnect>
 <dmx-datetime id="var1"></dmx-datetime>
 
@@ -17,7 +21,7 @@
       <div class="modal-body">
         <dl>
           <dt>Nom</dt>
-          <dd>{{ selectedModel.value.Nom }}</dd>
+          <dd>{{selectedModel.value.nom}}</dd>
         </dl>
       </div>
       <div class="modal-footer">
@@ -30,10 +34,37 @@
     </div>
   </div>
 </div>
+<div class="modal" id="deleteAccessoryy" is="dmx-bs5-modal" tabindex="-1">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Etes vous sûr de vouloir supprimer cet accessoire?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <dl>
+          <dt>Identifiant</dt>
+          <dd>{{selectedAccessory.value.id_tsp}}</dd>
+        </dl>
+        <dl>
+          <dt>Nom</dt>
+          <dd>{{selectedAccessory.value.nom}}</dd>
+        </dl>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" dmx-on:click="deleteAccessory.load({id_tsp: selectedAccessory.value.id_tsp})">
+          Supprimer</button><button type="button" class="btn btn-warning" data-bs-dismiss="modal">
+          Annuler
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>
 
 <div is="dmx-browser" id="browser1"></div>
 <div class="modal" id="affectAccessoryModal" is="dmx-bs5-modal" tabindex="-1">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title heading-text">
@@ -42,11 +73,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="affectAccessoryForm" method="post" is="dmx-api-form" action="http://localhost:5243/api/accessoire/affectationAccessoireToTsp" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Accessoire affecté avec succés');accessoires.load({});affectAccessoryModal.toggle()" dmx-on:error="notifies1.danger(lastError.response)">
-          <input id="UserCreaAffect" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" />
-          <input id="EmployeId" name="EmployeId" type="hidden" class="form-control" dmx-bind:value="Employe.Matricule">
-          <input id="AccessoryAffect" name="IdAccessoire" type="hidden" class="form-control" dmx-bind:value="selectedAccessory.value.IdTsp">
-          <select id="tspChoice" class="form-select form-select-sm" name="idAffect" dmx-bind:options="AffectedTsp.data" dmx-on:updated="idEmployeAffect.setValue(value.Affectation.EmployeId);idTspAffect.setValue(value.IdTsp)" optiontext="Tsp.Nom" optionvalue="IdAffect">
+        <form id="affectAccessoryForm" method="post" is="dmx-serverconnect-form" action="/api/accessoires/post/postAffectAccessoireToTsp" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Accessoire affecté avec succés');getAccessories.load({idmodel: selectedModel.value.id_modele});getMaxIdAffect.load({});affectAccessoryModal.toggle()" dmx-on:error="notifies1.danger(lastError.response)">
+          <input id="UserCreaAffect" name="user_crea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule">
+          <input id="UserCreaAffect1" name="id_affect" type="hidden" class="form-control" dmx-bind:value="getMaxIdAffect.data.getMaxId[0].max">
+          <input id="EmployeId" name="id_employe" type="hidden" class="form-control" dmx-bind:value="getAffectedTsp.data.query.where(`id_tsp`, tspChoice.value, '==')[0].matricule">
+          <input id="AccessoryAffect" name="id_accessoire" type="hidden" class="form-control" dmx-bind:value="selectedAccessory.value.id_tsp">
+          <select id="tspChoice" class="form-select form-select-sm" name="id_tsp" dmx-bind:options="getAffectedTsp.data.query" dmx-on:updated="idEmployeAffect.setValue(value.Affectation.EmployeId);idTspAffect.setValue(value.IdTsp)" optiontext="tspnom" optionvalue="id_tsp" required="" data-msg-required="Ce champ est nécessaire">
             <option selected="" value="">Aucun Appareil</option>
           </select>
           <div class="d-flex justify-content-around mt-5">
@@ -64,7 +96,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <form method="post" is="dmx-api-form" id="addAccessoryForm" action="http://localhost:5243/api/tsp" dmx-on:success="notifies1.success('Nouvel accessoire enregistré');addAccessoryModal.toggle();accessoires.load({})" dmx-on:error="notifies1.danger(lastError.response+lastError.message)" dmx-header:authorization="connectedUser.data.token">
+        <form method="post" is="dmx-serverconnect-form" id="addAccessoryForm" action="/api/accessoires/post/postNewAccessoire" dmx-on:success="getAccessories.load({idmodel: selectedModel.value.id_modele});notifies1.success('Nouvel accessoire enregistré');addAccessoryModal.toggle()" dmx-on:error="notifies1.danger(lastError.response.message)" dmx-header:authorization="connectedUser.data.token">
           <div class="row justify-content-center">
             <div class="col-12">
               <h4 class="heading-text">Ajout d'un nouvel accessoire</h4>
@@ -76,28 +108,28 @@
                 <div class="d-flex justify-content-between flex-column">
                   <div class="form-group">
                     <label for="modelName" class="form-label">Année de production</label>
-                    <input id="AnneeProduction" name="AnneeProduction" class="form-control border form-control-plaintext mb-0 form-control-sm" />
-                    <input id="UserCreaAcc" name="UserCrea" class="form-control border form-control-plaintext mb-0 form-control-sm" type="hidden" dmx-bind:value="connectedUser.data.matricule">
-                    <input id="ModelIDAcc" name="ModeleId" class="form-control border form-control-plaintext mb-0 form-control-sm" type="hidden" dmx-bind:value="selectedModel.value.IdModele">
+                    <input id="AnneeProduction" name="annee_production" class="form-control border form-control-plaintext mb-0 form-control-sm" type="number" required="" data-msg-required="Ce champ est nécessaire">
+                    <input id="UserCreaAcc" name="user_crea" class="form-control border form-control-plaintext mb-0 form-control-sm" type="hidden" dmx-bind:value="connectedUser.data.matricule" required="" data-msg-required="Ce champ est nécessaire">
+                    <input id="ModelIDAcc" name="modele_id" class="form-control border form-control-plaintext mb-0 form-control-sm" type="hidden" dmx-bind:value="selectedModel.value.id_modele">
+                    <input id="codeAccessoire" name="code_tsp" class="form-control border form-control-plaintext mb-0 form-control-sm" type="hidden" dmx-bind:value="selectedModel.value.ref_court">
                   </div>
                   <div class="form-group">
                     <label for="modelName" class="form-label">Date d'achat</label>
-                    <input id="DateAchat" name="DateAchat" class="form-control form-control-sm" is="dmx-date-picker" applylabel="Enregistrer" cancellabel="Annuler" format="DD-MM-YYYY">
+                    <input id="DateAchat" name="date_achat" class="form-control form-control-sm" is="dmx-date-picker" applylabel="Enregistrer" cancellabel="Annuler" format="DD-MM-YYYY" required="" data-msg-required="Ce champ est nécessaire">
                   </div>
                   <div class="form-group mb-3">
                     <label for="modelName" class="form-label">Numéro de serie</label>
-                    <input id="NumSerie" name="NumSerie" class="form-control border form-control-plaintext mb-0 form-control-sm" />
+                    <input id="NumSerie" name="num_serie" class="form-control border form-control-plaintext mb-0 form-control-sm">
                   </div>
                 </div>
                 <div class="d-flex flex-column justify-content-start">
                   <div class="form-group mb-3">
-                    <label for="modelName" class="form-label">Nom</label>
-                    <input id="NomModelAcc" name="NomModel" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="selectedModel.value.Nom" readonly="true">
-                    <input id="DescriptionAcc" name="Description" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="selectedModel.value.Description" readonly="true">
+                    <input id="NomModelAcc1" name="nom" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="selectedModel.value.nom" type="hidden">
+                    <input id="DescriptionAcc" name="description" class="form-control border form-control-plaintext mb-0 form-control-sm" dmx-bind:value="selectedModel.value.description" type="hidden">
                   </div>
                   <div class="form-group mb-3">
                     <label for="modelName" class="form-label">Quantite</label>
-                    <input id="quantiteAdd" name="Quantite" class="form-control border form-control-plaintext mb-0 form-control-sm" type="number">
+                    <input id="quantiteAdd" name="quantite" class="form-control border form-control-plaintext mb-0 form-control-sm" type="number" dmx-bind:value="1">
                   </div>
                 </div>
               </div>
@@ -105,7 +137,7 @@
 
             <div class="col-10">
               <div class="d-flex justify-content-around">
-                <button id="submit" class="btn btn-primary btn-sm" type="submit" dmx-bind:disabled="quantiteAdd.value&lt;1" dmx-on:click="loading.setValue(true)">
+                <button id="submit" class="btn btn-primary btn-sm" type="submit" dmx-bind:disabled="quantiteAdd.value&lt;1">
                   Enregistrer
                 </button>
 
@@ -122,7 +154,7 @@
 </div>
 
 <div class="modal" id="newModel" is="dmx-bs5-modal" tabindex="-1">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title heading-text">
@@ -182,7 +214,7 @@
   </div>
 </div>
 <div class="modal" id="editModelModal" is="dmx-bs5-modal" tabindex="-1">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title heading-text">
@@ -350,7 +382,7 @@
                 <button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModelModal" dmx-show="selectedModel.value">
                   Modifier&nbsp;<i class="fa fa-pencil"></i>
                 </button>
-                <button id="btn6" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAccessoryModel" dmx-show="selectedModel.value">
+                <button id="btn6" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAccessoryModel" dmx-show="selectedModel.value.nbr_appareils==0">
                   Supprimer&nbsp;<i class="fa fa-trash-o"></i>
                 </button>
               </div>
@@ -446,6 +478,8 @@
             <div class="col-12" dmx-show="selectedAccessory.value">
               <div class="card">
                 <div class="card-body">
+                  <button id="deleteAcc" class="btn btn-danger" dmx-show="getOneAccessoire.data.query[0].tsp==null" data-bs-toggle="modal" data-bs-target="#deleteAccessoryy"><i class="fa fa-trash-o"></i>
+                    Supprimer</button>
                   <div class="d-flex justify-content-between flex-wrap">
                     <dl>
                       <dt>Numero de serie</dt>
@@ -488,7 +522,7 @@
                   </div>
                   <div class="row" dmx-hide="getOneAccessoire.data.query[0].tsp">
                     <div class="col text-end">
-                      <button id="btn5" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#affectAccessoryModal" dmx-on:click="AffectedTsp.load({})">
+                      <button id="btn5" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#affectAccessoryModal" dmx-on:click="getAffectedTsp.load({},true)">
                         Affecté&nbsp;<i class="fa fa-plus"></i>
                       </button>
                       <div class="d-flex flex-column align-items-center">

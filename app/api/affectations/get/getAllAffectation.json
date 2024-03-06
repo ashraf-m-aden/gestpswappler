@@ -1,0 +1,248 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select aff.id_affect,aff.date_crea as affdatecrea,user.nom as affectedby, tsp.nom as tspnom,tsp.*,emp.*,sim.* from affectation_appareil_mobiles aff \nleft join tsp on tsp.id_tsp=aff.tsp_id \nleft join sim_mobile sim on sim.id_sim=aff.sim_mobile_id \nleft join employe emp on emp.matricule=aff.employe_id\nleft join employe user on user.matricule=aff.user_crea",
+          "params": []
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "id_affect",
+          "type": "number"
+        },
+        {
+          "name": "affdatecrea",
+          "type": "datetime"
+        },
+        {
+          "name": "affectedby",
+          "type": "text"
+        },
+        {
+          "name": "tspnom",
+          "type": "text"
+        },
+        {
+          "name": "id_tsp",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "code_tsp",
+          "type": "text"
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "releveur",
+          "type": "number"
+        },
+        {
+          "name": "syns_path",
+          "type": "text"
+        },
+        {
+          "name": "archive_path",
+          "type": "text"
+        },
+        {
+          "name": "syns_path_win7",
+          "type": "text"
+        },
+        {
+          "name": "pin",
+          "type": "text"
+        },
+        {
+          "name": "puk",
+          "type": "text"
+        },
+        {
+          "name": "num_tel",
+          "type": "number"
+        },
+        {
+          "name": "modele_id",
+          "type": "number"
+        },
+        {
+          "name": "equipe_id",
+          "type": "number"
+        },
+        {
+          "name": "sect_emp",
+          "type": "number"
+        },
+        {
+          "name": "num_serie",
+          "type": "text"
+        },
+        {
+          "name": "date_achat",
+          "type": "datetime"
+        },
+        {
+          "name": "annee_production",
+          "type": "number"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "matricule",
+          "type": "number"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "id_client",
+          "type": "number"
+        },
+        {
+          "name": "a_init",
+          "type": "text"
+        },
+        {
+          "name": "id_machine",
+          "type": "number"
+        },
+        {
+          "name": "poste_mobile",
+          "type": "text"
+        },
+        {
+          "name": "connecte",
+          "type": "text"
+        },
+        {
+          "name": "poste_encours",
+          "type": "number"
+        },
+        {
+          "name": "dern_conn",
+          "type": "datetime"
+        },
+        {
+          "name": "dern_deconn",
+          "type": "datetime"
+        },
+        {
+          "name": "mess",
+          "type": "text"
+        },
+        {
+          "name": "date_mess",
+          "type": "datetime"
+        },
+        {
+          "name": "mess_lu",
+          "type": "text"
+        },
+        {
+          "name": "inst_vers",
+          "type": "number"
+        },
+        {
+          "name": "inst_urgence",
+          "type": "text"
+        },
+        {
+          "name": "statut",
+          "type": "number"
+        },
+        {
+          "name": "droit_au_quota",
+          "type": "text"
+        },
+        {
+          "name": "equipe",
+          "type": "text"
+        },
+        {
+          "name": "app_version",
+          "type": "text"
+        },
+        {
+          "name": "date_visite",
+          "type": "datetime"
+        },
+        {
+          "name": "person_visite",
+          "type": "text"
+        },
+        {
+          "name": "user_tsptest",
+          "type": "text"
+        },
+        {
+          "name": "motpasse",
+          "type": "text"
+        },
+        {
+          "name": "password_salt",
+          "type": "text"
+        },
+        {
+          "name": "password_hash",
+          "type": "text"
+        },
+        {
+          "name": "id_sim",
+          "type": "number"
+        },
+        {
+          "name": "num_tel",
+          "type": "number"
+        },
+        {
+          "name": "pin",
+          "type": "text"
+        },
+        {
+          "name": "puk",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

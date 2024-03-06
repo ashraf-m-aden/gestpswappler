@@ -1,0 +1,20 @@
+{
+  "name": "getMaxId",
+  "module": "dbupdater",
+  "action": "custom",
+  "options": {
+    "connection": "edbdev",
+    "sql": {
+      "query": "select (MAX(id_affect)+1) as max from accessoire_affectations",
+      "params": []
+    }
+  },
+  "output": true,
+  "meta": [
+    {
+      "name": "max",
+      "type": "number"
+    }
+  ],
+  "type": "dbcustom_query"
+}

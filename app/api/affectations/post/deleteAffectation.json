@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "id_affect"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "delete",
+      "module": "dbupdater",
+      "action": "delete",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "delete",
+          "table": "tsptest.affectation_appareil_mobiles",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "id_affect",
+                "field": "id_affect",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_GET.id_affect}}",
+                "data": {
+                  "column": "id_affect"
+                },
+                "operation": "="
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          },
+          "returning": "id_affect",
+          "query": "delete from \"tsptest\".\"affectation_appareil_mobiles\" where \"id_affect\" = ? returning \"id_affect\"",
+          "params": [
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P1",
+              "value": "{{$_GET.id_affect}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

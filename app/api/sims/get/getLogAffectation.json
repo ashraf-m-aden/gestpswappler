@@ -3,32 +3,32 @@
     "$_GET": [
       {
         "type": "text",
-        "name": "idtsp"
-      },
-      {
-        "type": "text",
         "name": "sort"
       },
       {
         "type": "text",
         "name": "dir"
+      },
+      {
+        "type": "text",
+        "name": "id_sim"
       }
     ]
   },
   "exec": {
     "steps": {
-      "name": "getLogAffectation",
+      "name": "query",
       "module": "dbupdater",
       "action": "custom",
       "options": {
         "connection": "edbdev",
         "sql": {
-          "query": "select logg.*,emp.nom,emp.matricule,sim.id_sim,sim.num_tel,user.nom as affectedBy,user.matricule as user_mat from log_affectation_appareil_mobiles as logg \n join employe as emp on emp.matricule = logg.employe_id\n join employe as user on user.matricule = logg.user_crea\nleft join tsptest.sim_mobile as sim on sim.id_sim = logg.sim_id\nwhere logg.tsp_id = ? ORDER BY logg.date_crea DESC",
+          "query": "select logg.*,emp.nom,emp.matricule,sim.id_sim,sim.num_tel,user.nom as affectedBy,user.matricule as user_mat,tsp.nom as tspnom from log_affectation_appareil_mobiles as logg \n left join employe as emp on emp.matricule = logg.employe_id\n left join employe as user on user.matricule = logg.user_crea\nleft join sim_mobile as sim on sim.id_sim = logg.sim_id\nleft join tsp on tsp.id_tsp=logg.tsp_id\nwhere logg.sim_id = ?",
           "params": [
             {
               "name": "?",
-              "value": "{{$_GET.idtsp}}",
-              "test": "396"
+              "value": "{{$_GET.id_sim}}",
+              "test": "2"
             }
           ]
         }
@@ -86,6 +86,10 @@
         {
           "name": "user_mat",
           "type": "number"
+        },
+        {
+          "name": "tspnom",
+          "type": "text"
         }
       ],
       "type": "dbcustom_query"

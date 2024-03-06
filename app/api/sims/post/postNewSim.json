@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ],
+    "$_POST": [
+      {
+        "type": "number",
+        "name": "num_tel"
+      },
+      {
+        "type": "text",
+        "name": "pin"
+      },
+      {
+        "type": "text",
+        "name": "puk"
+      },
+      {
+        "type": "number",
+        "name": "user_crea"
+      },
+      {
+        "type": "number",
+        "name": "id_sim"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "query",
+        "module": "dbupdater",
+        "action": "custom",
+        "options": {
+          "connection": "edbdev",
+          "sql": {
+            "query": "select (MAX(id_sim)+1) as max from sim_mobile",
+            "params": []
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "name": "max",
+            "type": "number"
+          }
+        ],
+        "type": "dbcustom_query"
+      },
+      {
+        "name": "insert",
+        "module": "dbupdater",
+        "action": "insert",
+        "options": {
+          "connection": "edbdev",
+          "sql": {
+            "type": "insert",
+            "values": [
+              {
+                "table": "tsptest.sim_mobile",
+                "column": "num_tel",
+                "type": "number",
+                "value": "{{$_POST.num_tel}}"
+              },
+              {
+                "table": "tsptest.sim_mobile",
+                "column": "pin",
+                "type": "text",
+                "value": "{{$_POST.pin}}"
+              },
+              {
+                "table": "tsptest.sim_mobile",
+                "column": "puk",
+                "type": "text",
+                "value": "{{$_POST.puk}}"
+              },
+              {
+                "table": "tsptest.sim_mobile",
+                "column": "user_crea",
+                "type": "number",
+                "value": "{{$_POST.user_crea}}"
+              },
+              {
+                "table": "tsptest.sim_mobile",
+                "column": "id_sim",
+                "type": "number",
+                "value": "{{query[0].max}}"
+              }
+            ],
+            "table": "tsptest.sim_mobile",
+            "returning": "id_sim",
+            "query": "insert into \"tsptest\".\"sim_mobile\" (\"id_sim\", \"num_tel\", \"pin\", \"puk\", \"user_crea\") values (?, ?, ?, ?, ?) returning \"id_sim\"",
+            "params": [
+              {
+                "name": ":P1",
+                "type": "expression",
+                "value": "{{$_POST.num_tel}}",
+                "test": ""
+              },
+              {
+                "name": ":P2",
+                "type": "expression",
+                "value": "{{$_POST.pin}}",
+                "test": ""
+              },
+              {
+                "name": ":P3",
+                "type": "expression",
+                "value": "{{$_POST.puk}}",
+                "test": ""
+              },
+              {
+                "name": ":P4",
+                "type": "expression",
+                "value": "{{$_POST.user_crea}}",
+                "test": ""
+              },
+              {
+                "name": ":P5",
+                "type": "expression",
+                "value": "{{query[0].max}}",
+                "test": ""
+              }
+            ]
+          }
+        },
+        "meta": [
+          {
+            "name": "identity",
+            "type": "text"
+          },
+          {
+            "name": "affected",
+            "type": "number"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ],
+    "$_POST": [
+      {
+        "type": "number",
+        "name": "sim_mobile_id"
+      },
+      {
+        "type": "number",
+        "name": "id_affect"
+      },
+      {
+        "type": "number",
+        "name": "user_crea"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "updateAffect",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "update affectation_appareil_mobiles set sim_mobile_id = :p1 , id_affect = :p2 , user_crea = :p3 where id_affect = :p2 returning *",
+          "params": [
+            {
+              "name": ":p1",
+              "value": "{{$_POST.sim_mobile_id}}",
+              "test": "2"
+            },
+            {
+              "name": ":p2",
+              "value": "{{$_POST.id_affect}}",
+              "test": "2"
+            },
+            {
+              "name": ":p3",
+              "value": "{{$_POST.user_crea}}",
+              "test": "47698"
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "id_affect",
+          "type": "number"
+        },
+        {
+          "name": "sim_mobile_id",
+          "type": "number"
+        },
+        {
+          "name": "employe_id",
+          "type": "number"
+        },
+        {
+          "name": "tsp_id",
+          "type": "number"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "employe_section",
+          "type": "number"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

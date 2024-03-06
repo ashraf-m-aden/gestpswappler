@@ -13,24 +13,51 @@
   },
   "exec": {
     "steps": {
-      "name": "getAllTsp",
+      "name": "query",
       "module": "dbupdater",
       "action": "custom",
       "options": {
         "connection": "edbdev",
         "sql": {
-          "query": "select tsp.id_tsp,tsp.nom,tsp.code_tsp,tsp.description,tsp.date_crea,tsp.modele_id,tsp.num_serie,tsp.date_achat,tsp.annee_production,tsp.user_crea, m.nom,m.date_crea,m.user_crea,m.description  as mdescription from tsp join modele_tsp m   on m.id_modele =tsp.modele_id  where m.type_appareil = ?\t  ORDER by id_tsp desc\n",
+          "query": "select sim.*, tsp.nom as tspnom,tsp.id_tsp,emp.nom,emp.matricule, empp.nom as affectedBy,af.date_crea afdatecrea from sim_mobile sim  \nleft join affectation_appareil_mobiles af on af.sim_mobile_id=sim.id_sim \nleft join tsp on tsp.id_tsp=af.tsp_id\nleft join employe emp on emp.matricule=af.employe_id\nleft join employe empp on empp.matricule=af.user_crea",
           "params": [
             {
               "name": "?",
-              "value": "tsp",
-              "test": "tsp"
+              "value": ""
             }
           ]
         }
       },
       "output": true,
       "meta": [
+        {
+          "name": "id_sim",
+          "type": "number"
+        },
+        {
+          "name": "num_tel",
+          "type": "number"
+        },
+        {
+          "name": "pin",
+          "type": "text"
+        },
+        {
+          "name": "puk",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "tspnom",
+          "type": "text"
+        },
         {
           "name": "id_tsp",
           "type": "number"
@@ -40,52 +67,16 @@
           "type": "text"
         },
         {
-          "name": "code_tsp",
+          "name": "matricule",
+          "type": "number"
+        },
+        {
+          "name": "affectedby",
           "type": "text"
         },
         {
-          "name": "description",
-          "type": "text"
-        },
-        {
-          "name": "date_crea",
+          "name": "afdatecrea",
           "type": "datetime"
-        },
-        {
-          "name": "modele_id",
-          "type": "number"
-        },
-        {
-          "name": "num_serie",
-          "type": "text"
-        },
-        {
-          "name": "date_achat",
-          "type": "datetime"
-        },
-        {
-          "name": "annee_production",
-          "type": "number"
-        },
-        {
-          "name": "user_crea",
-          "type": "number"
-        },
-        {
-          "name": "nom",
-          "type": "text"
-        },
-        {
-          "name": "date_crea",
-          "type": "datetime"
-        },
-        {
-          "name": "user_crea",
-          "type": "number"
-        },
-        {
-          "name": "mdescription",
-          "type": "text"
         }
       ],
       "type": "dbcustom_query"

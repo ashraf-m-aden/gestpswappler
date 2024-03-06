@@ -1,9 +1,16 @@
-<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="allsim" appConnect="local" bootstrap5="local" components="{dmxBootstrap5TableGenerator:{},dmxBrowser:{},dmxBootstrap5Modal:{},dmxTyped:{},dmxStateManagement:{},dmxDataTraversal:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Navigation:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxDatePicker:{}}" moment_2="cdn" -->
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="allsim" appConnect="local" bootstrap5="local" components="{dmxBootstrap5TableGenerator:{},dmxBrowser:{},dmxBootstrap5Modal:{},dmxTyped:{},dmxStateManagement:{},dmxDataTraversal:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Navigation:{},dmxNotifications:{},dmxPreloader:{},dmxScheduler:{},dmxDatePicker:{},dmxValidator:{},dmxFormatter:{}}" moment_2="cdn" -->
+
+<dmx-serverconnect id="getMaxIdLog" url="/api/agents/get/getMaxLogId"></dmx-serverconnect>
+<dmx-serverconnect id="postLogAffectationAppareils" url="/api/agents/post/postLogAffectationAppareil" noload="true" dmx-param:user_crea="connectedUser.data.matricule" dmx-param:employe_id="affecterUserModal.serverconnectform1.inp_employe_id.value" dmx-param:tsp_id="selectedTsp.value.id_tsp" dmx-param:deleted="'N'" dmx-param:id_log="getLogAffectationMax.data.maxIdLogAffect[0].max" dmx-param:sim_id="affecterUserModal.serverconnectform1.simId.selectedValue"></dmx-serverconnect>
+<dmx-serverconnect id="deleteSim" url="/api/sims/post/deleteSim" noload="true" dmx-on:success="notifies1.success('Carte sim supprimée avec succés');getAllSim.load({},true)" dmx-on:error="notifies1.danger(lastError.response.message)"></dmx-serverconnect>
+<dmx-serverconnect id="getAffectedAgent" url="/api/agents/get/getAffectedAgentWithoutSim"></dmx-serverconnect>
+<dmx-serverconnect id="getLogSim" url="/api/sims/get/getLogAffectation"></dmx-serverconnect>
+<dmx-serverconnect id="getAllSim" url="/api/sims/get/getAllSim"></dmx-serverconnect>
 <div class="modal" id="newSim" is="dmx-bs5-modal" tabindex="-1">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <form method="post" is="dmx-api-form" id="postNewSim" action="http://localhost:5243/api/simMobile" post-data="json" dmx-on:success="notifies1.success('Nouvelle sim enregistrée');sims.load({});newSim.toggle();simNonAffecteList.load({})" dmx-on:error="notifies1.danger('Cette sim existe deja');loading.setValue(false)" dmx-header:authorization="connectedUser.data.token">
+        <form method="post" is="dmx-serverconnect-form" id="postNewSim" action="/api/sims/post/postNewSim" post-data="json" dmx-on:success="notifies1.success('Nouvelle sim enregistrée');getAllSim.load({});newSim.toggle()" dmx-on:error="notifies1.danger('Cette sim existe deja')" dmx-header:authorization="connectedUser.data.token">
           <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-7 col-md-5 text-center">
               <div class="fdb-box fdb-touch">
@@ -14,11 +21,11 @@
                 </div>
                 <div class="row mt-4">
                   <div class="col">
-                    <input id="connectedUserData" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule " />
+                    <input id="connectedUserData" name="user_crea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule ">
                     <input id="DateCrea" name="DateCrea" type="hidden" class="form-control" dmx-bind:value="DateCreaValue.datetime" />
                     <div class="form-group mb-3">
                       <label for="input1" class="form-label" id="numsimlabel">Numero de la nouvelle sim</label>
-                      <input id="NumTel" name="NumTel" class="form-control" type="number" />
+                      <input id="NumTel" name="num_tel" class="form-control" type="number">
                     </div>
                   </div>
                 </div>
@@ -26,7 +33,7 @@
                   <div class="col">
                     <div class="form-group mb-3">
                       <label for="selectModel" class="form-label" id="pinsimlabel">Code Pin</label>
-                      <input id="Pin" name="Pin" class="form-control" type="number" />
+                      <input id="Pin" name="pin" class="form-control" type="number">
                     </div>
                   </div>
                 </div>
@@ -34,7 +41,7 @@
                   <div class="col">
                     <div class="form-group mb-3">
                       <label for="selectEquipe" class="form-label" id="puklabel">Code Puk</label>
-                      <input id="Puk" name="Puk" class="form-control" type="number" />
+                      <input id="Puk" name="puk" class="form-control" type="number">
                     </div>
                   </div>
                 </div>
@@ -59,11 +66,35 @@
     </div>
   </div>
 </div>
+<div class="modal" id="deleteSim" is="dmx-bs5-modal" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Etes vous sûr de vouloir supprimer cette carte sim?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p dmx-show="selectedModel.value.nombre_appareils&gt;0" class="text-danger">Vous ne pouvez pas supprimer ce model, des appareils y sont affectés.</p>
+        <dl>
+          <dt>Numero</dt>
+          <dd>{{selectedSim.value.num_tel}}</dd>
+        </dl>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" dmx-on:click="deleteSim.load({id_sim: selectedSim.value.id_sim})" dmx-class:disabled="selectedSim.value.tspnom!=null">
+          Supprimer<button type="button" class="btn btn-warning" data-bs-dismiss="modal">
+            Annuler
+          </button>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="modal" id="editSim" is="dmx-bs5-modal" tabindex="-1">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <form method="post" is="dmx-api-form" id="postNewSim1" action="http://localhost:5243/api/simMobile/update" post-data="json" dmx-on:success="notifies1.success('Nouvelle sim enregistrée');scheduler1.start();newSim.toggle()" dmx-on:error="notifies1.danger('Cette sim existe deja');scheduler1.start();loading.setValue(false)" dmx-on:start="loading.setValue(true)" dmx-header:authorization="connectedUser.data.token">
+        <form method="post" is="dmx-serverconnect-form" id="editSimForm" action="/api/sims/post/postEditSim" post-data="json" dmx-on:success="getAllSim.load({});notifies1.success('Sim modifiée avec succés');editSim.toggle()" dmx-on:error="notifies1.danger(lastError.response.message)" dmx-header:authorization="connectedUser.data.token">
           <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-7 col-md-5 text-center">
               <div class="fdb-box fdb-touch">
@@ -75,9 +106,10 @@
                 <div class="row mt-4">
                   <div class="col">
                     <input id="connectedUserData1" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule ">
+                    <input id="idSimEdit" name="id_sim" type="hidden" class="form-control" dmx-bind:value="selectedSim.value.id_sim">
                     <div class="form-group mb-3">
-                      <label for="input1" class="form-label" id="numsimlabel1">Numero de la nouvelle sim</label>
-                      <input id="NumTel1" name="NumTel" class="form-control" type="number" dmx-bind:value="selectedSim.value.NumTel">
+                      <label for="input1" class="form-label" id="numsimlabel1">Numero de la carte sim</label>
+                      <input id="NumTel1" name="num_tel" class="form-control" type="number" dmx-bind:value="selectedSim.value.num_tel" required="" data-msg-required="Ce champ est nécessaire">
                     </div>
                   </div>
                 </div>
@@ -85,7 +117,7 @@
                   <div class="col">
                     <div class="form-group mb-3">
                       <label for="selectModel" class="form-label" id="pinsimlabel1">Code Pin</label>
-                      <input id="Pin1" name="Pin" class="form-control" type="number" dmx-bind:value="selectedSim.value.Pin">
+                      <input id="Pin1" name="pin" class="form-control" type="number" dmx-bind:value="selectedSim.value.pin" required="" data-msg-required="Ce champ est nécessaire">
                     </div>
                   </div>
                 </div>
@@ -93,7 +125,7 @@
                   <div class="col">
                     <div class="form-group mb-3">
                       <label for="selectEquipe" class="form-label" id="puklabel1">Code Puk</label>
-                      <input id="Puk1" name="Puk" class="form-control" type="number" dmx-bind:value="selectedSim.value.Puk">
+                      <input id="Puk1" name="puk" class="form-control" type="number" dmx-bind:value="selectedSim.value.puk" required="" data-msg-required="Ce champ est nécessaire">
                     </div>
                   </div>
                 </div>
@@ -130,19 +162,19 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title heading-text">
-          Affecter un agent à l'appareil: {{ selectedTsp.value.Nom }}
-        </h5>
+        <h5 class="modal-title heading-text">Affecter la carte sim à un agent:</h5>
       </div>
       <div class="modal-body">
-        <form is="dmx-api-form" id="affectationForm" method="post" action="http://localhost:5243/api/affectationAm" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('L\'appareil a été affecté avec succés');tsp.load({});selectedTsp.setValue(tsp.data.where(`IdTsp`, selectedTsp.value, '=='));affecterUserModal.toggle()" dmx-on:error="notifies1.danger(lastError.response)">
-          <input id="IdTspAffect" name="IdTsp" type="hidden" class="form-control" dmx-bind:value="selectedTsp.value.IdTsp" />
-          <input id="UserCreaAffect" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" />
+        <form is="dmx-serverconnect-form" id="affectationForm" method="post" action="/api/sims/post/postaffectSim" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('La carte sim a été affecté avec succés');postLogAffectationAppareils.load({user_crea: connectedUser.data.matricule, employe_id: affectationForm.data[0].updateAffect.employe_id, tsp_id: affectationForm.data.updateAffect[0].tsp_id, deleted: 'N', id_log: getMaxIdLog.data.maxIdLogAffect[0].max, sim_id: selectedSim.value.id_sim});getAllSim.load({},true);affecterUserModal.toggle();getMaxIdLog.load({})" dmx-on:error="notifies1.danger(lastError.response.message)">
+          <input id="idSimAffect" name="sim_mobile_id" type="hidden" class="form-control" dmx-bind:value="selectedSim.value.id_sim">
+          <input id="UserCreaAffect" name="user_crea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule">
 
           <div class="form-group mb-3 row">
             <label for="select2" class="col-sm-2 col-form-label">Agent</label>
             <div class="col-sm-10">
-              <select id="select2" class="form-select form-select-sm" dmx-bind:options="getEmployeByIdSection.data" optiontext="Nom" optionvalue="Matricule" name="IdEmploye"></select>
+              <select id="select2" class="form-select form-select-sm" dmx-bind:options="getAffectedAgent.data.query" optiontext="nom" optionvalue="id_affect" name="id_affect" required="" data-msg-required="Ce champ est nécessaire">
+                <option selected="" value=""></option>
+              </select>
             </div>
           </div>
           <div class="d-flex justify-content-around">
@@ -196,13 +228,9 @@
 <dmx-datetime id="DateCreaValue"></dmx-datetime>
 <dmx-value id="ActualAffectation" dmx-bind:value="selectedSim.value.logAffectationList.first()"></dmx-value>
 <dmx-value id="selectedSim"></dmx-value>
-<dmx-data-view id="searchData" dmx-bind:data="sims.data.where(`NumTel`, form2.recherche.value, 'contains')" dmx-bind:page="tsp.paging.pages" dmx-bind:pagesize="10" sortdir="desc"></dmx-data-view>
-<dmx-data-view id="logDataView" dmx-bind:page="tsp.paging.pages" dmx-bind:pagesize="10" sortdir="desc" dmx-bind:data="selectedSim.value.logAffectationList" pageSize="5"></dmx-data-view>
+<dmx-data-view id="searchData" dmx-bind:data="getAllSim.data.query.where(`num_tel`, form2.recherche.value, 'contains')" dmx-bind:page="tsp.paging.pages" dmx-bind:pagesize="10" sortdir="desc"></dmx-data-view>
+<dmx-data-view id="logDataView" dmx-bind:page="tsp.paging.pages" dmx-bind:pagesize="10" sortdir="desc" dmx-bind:data="getLogSim.data.query" pagesize="5"></dmx-data-view>
 
-<dmx-api-datasource id="getEmployeByIdSection" is="dmx-fetch" url="http://localhost:5243/api/employe/nonAffecte" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
-<dmx-api-datasource id="simNonAffecteList" is="dmx-fetch" url="http://localhost:5243/api/simMobile/simNonAffecte" dmx-header:authorization="connectedUser.data.token" dmx-on:start="loadingSim.setValue(true)" dmx-on:done="loadingSim.setValue(false)" noload="true"></dmx-api-datasource>
-<dmx-api-datasource id="sims" is="dmx-fetch" url="http://localhost:5243/api/simMobile/loadEdit" dmx-on:unauthorized="browser1.goto('/auth/login',true)" dmx-header:authorization="connectedUser.data.token" dmx-on:done="loadingData.setValue(false)"></dmx-api-datasource>
-<dmx-api-datasource id="employeNonAffecteList" is="dmx-fetch" dmx-header:authorization="connectedUser.data.token" dmx-bind:url="'http://localhost:5243/api/employe/nonAffecte/'+sectionId.value" dmx-on:start="loadingEmp.setValue(true)" dmx-on:done="loadingEmp.setValue(false)" noload="true"></dmx-api-datasource>
 
 <div class="container-fluid">
   <div class="row ps-0 pe-0 app-row">
@@ -217,7 +245,7 @@
           </div>
         </form>
       </div>
-      <button id="btn2" class="btn disabled" dmx-show="sims.state.executing">
+      <button id="btn2" class="btn disabled" dmx-show="getAllSim.state.executing">
         <span class="spinner-border spinner-border-sm" role="status"></span>chargement...
       </button>
 
@@ -231,9 +259,9 @@
               </tr>
             </thead>
             <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="searchData.data" id="tableRepeat2">
-              <tr dmx-on:click="selectedSim.setValue($value);ActualAffectation.setValue($value.logAffectationList[0])">
-                <td dmx-text="IdSim"></td>
-                <td dmx-text="NumTel"></td>
+              <tr dmx-on:click="selectedSim.setValue($value);getLogSim.load({id_sim: id_sim});getActualAff.load({id_sim: id_sim})">
+                <td dmx-text="id_sim"></td>
+                <td dmx-text="num_tel"></td>
               </tr>
             </tbody>
           </table>
@@ -267,8 +295,9 @@
             <div class="card-body">
               <div class="d-flex mb-1 justify-content-between flex-row align-items-start">
 
-                <h5 class="heading-text">Details de la carte sim</h5><button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editSim">
+                <h5 class="heading-text">Details de la carte sim</h5><button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editSim" dmx-show="selectedSim.value">
                   Modifier <i class="fa fa-pencil"></i></button>
+                <button id="btn7" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#editSim" dmx-show="selectedSim.value">Supprimer<br><i class="fa fa-trash-o"></i></button>
                 <!-- <button id="btn3" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editTspModal" dmx-on:click="listModelTsp.load({});nomNouveauAppareil.load({})">
                   Modifier&nbsp;<i class="fa fa-pencil"></i>
                 </button> -->
@@ -280,17 +309,11 @@
 
                 <dl>
                   <dt>Numéro</dt>
-                  <dd>{{ selectedSim.value.NumTel }}</dd>
+                  <dd>{{ selectedSim.value.num_tel }}</dd>
                   <dt>Pin</dt>
-                  <dd>{{ selectedSim.value.Pin }}</dd>
+                  <dd>{{ selectedSim.value.pin }}</dd>
                   <dt>Puk</dt>
-                  <dd>{{ selectedSim.value.Puk }}</dd>
-                </dl>
-                <dl>
-                  <dt>Date d'achat</dt>
-                  <dd>{{selectedSim.value.DateAchat}}</dd>
-                  <dt>Date de mise en service</dt>
-                  <dd>XXXXX</dd>
+                  <dd>{{ selectedSim.value.puk }}</dd>
                 </dl>
               </div>
               <div class="d-flex justify-content-center" dmx-hide="selectedSim.value">
@@ -303,24 +326,24 @@
           <div class="card app-col">
             <div class="card-body">
               <h5 class="heading-text">Agent</h5>
-              <div class="d-flex justify-content-between flex-row" style="" dmx-show="selectedSim.value&amp;&amp;selectedSim.value.affectation!=null">
+              <div class="d-flex justify-content-between flex-row" style="" dmx-show="selectedSim.value&amp;&amp;selectedSim.value.id_tsp!=null">
                 <i class="fa fa-user"></i>
                 <dl>
                   <dt>Nom</dt>
-                  <dd>{{ selectedSim.value.affectation.Employe.Nom }}</dd>
+                  <dd>{{ selectedSim.value.nom }}</dd>
                   <dt>Date d'affectation</dt>
-                  <dd>{{ selectedSim.value.affectation.DateCreation }}</dd>
+                  <dd>{{selectedSim.value.afdatecrea.formatDate('dd-MM-yyyy')}}</dd>
                   <dt>Nom de l'appareil</dt>
-                  <dd>{{ selectedSim.value.affectation.Tsp.Nom }}</dd>
+                  <dd>{{ selectedSim.value.tspnom }}</dd>
                 </dl>
                 <dl>
                   <dt>Affecté par</dt>
-                  <dd>{{ selectedSim.value.affectation.UserCrea.Nom }}</dd>
+                  <dd>{{ selectedSim.value.affectedby }}</dd>
                 </dl>
               </div>
-              <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-show="selectedSim.value&amp;&amp;selectedSim.value.affectation==null||ActualAffectation.value.Deleted=='O'">
+              <div class="d-flex flex-column justify-content-center align-items-center" style="" dmx-show="selectedSim.value&amp;&amp;selectedSim.value.id_tsp==null">
                 <i class="fa fa-user-times fa-2x"></i>
-                <small class="text-muted">Aucun agent n'est affecté à cet appareil</small><button id="btn4" class="btn btn-sm btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#affecterUserModal">
+                <small class="text-muted">Aucun agent n'est affecté à cette carte sim</small><button id="btn4" class="btn btn-sm btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#affecterUserModal">
                   Affecter <i class="fa fa-plus"></i>
                 </button>
               </div>
@@ -357,11 +380,11 @@
                         </thead>
                         <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="logDataView.data" id="tableRepeat4">
                           <tr>
-                            <td dmx-text="EmployeName"></td>
-                            <td dmx-text="TspName"></td>
-                            <td dmx-text="DateCrea"></td>
-                            <td dmx-text="affectedBy"></td>
-                            <td dmx-text="Deleted"></td>
+                            <td dmx-text="nom"></td>
+                            <td dmx-text="tspnom"></td>
+                            <td dmx-text="date_crea.formatDate('dd-MM-yyyy')"></td>
+                            <td dmx-text="affectedby"></td>
+                            <td dmx-text="deleted"></td>
                           </tr>
                         </tbody>
                       </table>

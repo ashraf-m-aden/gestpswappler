@@ -3,23 +3,11 @@
     "$_GET": [
       {
         "type": "text",
-        "name": "offset"
-      },
-      {
-        "type": "text",
-        "name": "limit"
-      },
-      {
-        "type": "text",
         "name": "sort"
       },
       {
         "type": "text",
         "name": "dir"
-      },
-      {
-        "type": "text",
-        "name": "idmodel"
       }
     ]
   },
@@ -31,14 +19,8 @@
       "options": {
         "connection": "edbdev",
         "sql": {
-          "query": "select * from tsp where tsp.modele_id = ? ORDER by id_tsp desc",
-          "params": [
-            {
-              "name": ":P1",
-              "value": "{{$_GET.idmodel}}",
-              "test": "6"
-            }
-          ]
+          "query": "select * from tsp  where tsp.id_tsp not in (select tsp_id from  affectation_appareil_mobiles) ",
+          "params": []
         }
       },
       "output": true,

@@ -1,0 +1,138 @@
+{
+  "meta": {
+    "options": {
+      "linkedFile": "/views/views/affectations/affectationTsp.ejs",
+      "linkedForm": "editaffectationForm"
+    },
+    "$_POST": [
+      {
+        "type": "number",
+        "name": "sim_mobile_id"
+      },
+      {
+        "type": "number",
+        "name": "employe_id"
+      },
+      {
+        "type": "number",
+        "name": "tsp_id"
+      },
+      {
+        "type": "number",
+        "name": "user_crea"
+      },
+      {
+        "type": "number",
+        "name": "id_affect"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "update",
+      "module": "dbupdater",
+      "action": "update",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "update",
+          "values": [
+            {
+              "table": "tsptest.affectation_appareil_mobiles",
+              "column": "sim_mobile_id",
+              "type": "number",
+              "value": "{{$_POST.sim_mobile_id}}"
+            },
+            {
+              "table": "tsptest.affectation_appareil_mobiles",
+              "column": "employe_id",
+              "type": "number",
+              "value": "{{$_POST.employe_id}}"
+            },
+            {
+              "table": "tsptest.affectation_appareil_mobiles",
+              "column": "tsp_id",
+              "type": "number",
+              "value": "{{$_POST.tsp_id}}"
+            },
+            {
+              "table": "tsptest.affectation_appareil_mobiles",
+              "column": "user_crea",
+              "type": "number",
+              "value": "{{$_POST.user_crea}}"
+            },
+            {
+              "table": "tsptest.affectation_appareil_mobiles",
+              "column": "id_affect",
+              "type": "number",
+              "value": "{{$_POST.id_affect}}"
+            }
+          ],
+          "table": "tsptest.affectation_appareil_mobiles",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "id_affect",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_POST.id_affect}}",
+                "data": {
+                  "column": "id_affect"
+                },
+                "operation": "="
+              }
+            ]
+          },
+          "returning": "id_affect",
+          "query": "update \"tsptest\".\"affectation_appareil_mobiles\" set \"sim_mobile_id\" = ?, \"employe_id\" = ?, \"tsp_id\" = ?, \"user_crea\" = ?, \"id_affect\" = ? where \"id_affect\" = ? returning \"id_affect\"",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.sim_mobile_id}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.employe_id}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.tsp_id}}",
+              "test": ""
+            },
+            {
+              "name": ":P4",
+              "type": "expression",
+              "value": "{{$_POST.user_crea}}",
+              "test": ""
+            },
+            {
+              "name": ":P5",
+              "type": "expression",
+              "value": "{{$_POST.id_affect}}",
+              "test": ""
+            },
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P6",
+              "value": "{{$_POST.id_affect}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "number",
+        "name": "id_tsp"
+      },
+      {
+        "type": "number",
+        "name": "id_employe"
+      },
+      {
+        "type": "number",
+        "name": "user_crea"
+      },
+      {
+        "type": "number",
+        "name": "id_accessoire"
+      },
+      {
+        "type": "number",
+        "name": "id_affect"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "insert",
+      "module": "dbupdater",
+      "action": "insert",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "insert",
+          "values": [
+            {
+              "table": "tsptest.accessoire_affectations",
+              "column": "id_tsp",
+              "type": "number",
+              "value": "{{$_POST.id_tsp}}",
+              "recid": 1
+            },
+            {
+              "table": "tsptest.accessoire_affectations",
+              "column": "id_employe",
+              "type": "number",
+              "value": "{{$_POST.id_employe}}",
+              "recid": 2
+            },
+            {
+              "table": "tsptest.accessoire_affectations",
+              "column": "user_crea",
+              "type": "number",
+              "value": "{{$_POST.user_crea}}",
+              "recid": 3
+            },
+            {
+              "table": "tsptest.accessoire_affectations",
+              "column": "id_accessoire",
+              "type": "number",
+              "value": "{{$_POST.id_accessoire}}",
+              "recid": 4
+            },
+            {
+              "table": "tsptest.accessoire_affectations",
+              "column": "id_affect",
+              "type": "number",
+              "value": "{{$_POST.id_affect}}",
+              "recid": 5
+            }
+          ],
+          "table": "tsptest.accessoire_affectations",
+          "returning": "id_affect",
+          "query": "insert into \"tsptest\".\"accessoire_affectations\" (\"id_accessoire\", \"id_affect\", \"id_employe\", \"id_tsp\", \"user_crea\") values (?, ?, ?, ?, ?) returning \"id_affect\"",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.id_tsp}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.id_employe}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.user_crea}}",
+              "test": ""
+            },
+            {
+              "name": ":P4",
+              "type": "expression",
+              "value": "{{$_POST.id_accessoire}}",
+              "test": ""
+            },
+            {
+              "name": ":P5",
+              "type": "expression",
+              "value": "{{$_POST.id_affect}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "identity",
+          "type": "text"
+        },
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

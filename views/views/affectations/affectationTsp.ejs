@@ -1,10 +1,16 @@
 <!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="affectationTsp" appconnect="local" bootstrap5="local" components="{dmxStateManagement:{},dmxBootstrap5TableGenerator:{},dmxBootstrap5Modal:{},dmxBrowser:{},dmxNotifications:{},dmxScheduler:{},dmxBootstrap5Offcanvas:{},dmxDataTraversal:{},dmxBootstrap5PagingGenerator:{},dmxBootstrap5Navigation:{},dmxFormatter:{}}" -->
+<dmx-serverconnect id="deleteAffectation" url="/api/affectations/post/deleteAffectation" noload="true" dmx-on:success="notifies1.success('Affectation supprimée');postLogAffectationAppareils.load({user_crea: connectedUser.data.matricule, employe_id: selectedAffectation.value.matricule, tsp_id: selectedAffectation.value.id_tsp, deleted: 'O', sim_id: selectedAffectation.value.id_sim, id_log: getMaxIdLog.data.maxIdLogAffect[0].max!=null?getMaxIdLog.data.maxIdLogAffect[0].max:1},true);getNonAffecte.load({});getAllAffectation.load({});getAvailableSim.load({});deleteModal.toggle();getMaxIdLog.load({})"></dmx-serverconnect>
+<dmx-serverconnect id="getMaxIdLog" url="/api/agents/get/getMaxLogId"></dmx-serverconnect>
+<dmx-serverconnect id="postLogAffectationAppareils" url="/api/agents/post/postLogAffectationAppareil" noload="true" dmx-param:user_crea="" dmx-param:employe_id="" dmx-param:tsp_id="" dmx-param:deleted="" dmx-param:id_log="" dmx-param:sim_id=""></dmx-serverconnect>
+<dmx-serverconnect id="getAvailableSim" url="/api/sims/get/getAvailableSims"></dmx-serverconnect>
+<dmx-serverconnect id="getNonAffecte" url="/api/tsp/get/getNonAffecte"></dmx-serverconnect>
+<dmx-serverconnect id="getAllAffectation" url="/api/affectations/get/getAllAffectation"></dmx-serverconnect>
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
 
 
 
 
-<dmx-data-view id="dataViewAffectation" dmx-bind:data="affecationList.data.where(`Employe.Nom.capitalize()`, form2.recherche.value.capitalize(), 'contains')" dmx-bind:page="affecationList.paging.pages" dmx-bind:pagesize="10"></dmx-data-view>
+<dmx-data-view id="dataViewAffectation" dmx-bind:data="getAllAffectation.data.query" dmx-bind:page="affecationList.paging.pages" dmx-bind:pagesize="10"></dmx-data-view>
 
 
 
@@ -112,13 +118,13 @@
       </div>
       <div class="modal-body">
         <!-- Wappler include jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="editAffectation" appConnect="local" bootstrap5="local" -->
-        <form id="affectationForm" method="post" is="dmx-api-form" action="http://localhost:5243/api/affectationAM/updateAffectation" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Affectation modifiée');scheduler1.start();editModal.toggle();affecationList.load({});tspNonAffectList.load({});simNonAffecteList.load({});selectedAffectation.setValue(null)" dmx-on:error="notifies1.danger(lastError.message)" post-data="json">
+        <form id="editaffectationForm" method="post" is="dmx-serverconnect-form" action="/api/affectations/post/postEditAffectation" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Affectation modifiée');postLogAffectationAppareils.load({user_crea: connectedUser.data.matricule, employe_id: EmployeId.value, tsp_id: TspSelect.value, deleted: 'N', id_log: getMaxIdLog.data.maxIdLogAffect[0].max!=null?getMaxIdLog.data.maxIdLogAffect[0].max:1, sim_id: simSelect.value},true);selectedAffectation.setValue(null);getAvailableSim.load({},true);getNonAffecte.load({},true);editModal.toggle();getAllAffectation.load({},true);getMaxIdLog.load({})" dmx-on:error="notifies1.danger(lastError.message)" post-data="json">
           <div class="row">
             <div class="col-12">
 
-              <input id="UserCrea" name="UserCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" />
-              <input id="IdAffect" name="IdAffect" type="hidden" class="form-control" dmx-bind:value="selectedAffectation.value.IdAffect" />
-              <input id="EmployeId" name="EmployeId" type="hidden" class="form-control" dmx-bind:value="selectedAffectation.value.Employe.Matricule" />
+              <input id="UserCrea" name="user_crea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule">
+              <input id="IdAffect" name="id_affect" type="hidden" class="form-control" dmx-bind:value="selectedAffectation.value.id_affect">
+              <input id="EmployeId" name="employe_id" type="hidden" class="form-control" dmx-bind:value="selectedAffectation.value.matricule">
               <p class="text-h3 w-100">
                 Veuillez attribuer à l'agent un appareil et une carte sim:
               </p>
@@ -127,8 +133,8 @@
               <div class="form-group mb-3 row">
                 <label for="input1" class="col-sm-2 col-form-label">Modifier l'appareil</label>
                 <div class="col-sm-10">
-                  <select id="TspSelect" class="form-select" dmx-bind:options="tspNonAffectList.data" optiontext="Nom" optionvalue="IdTsp" name="TspId">
-                    <option dmx-bind:value="selectedAffectation.value.Tsp.IdTsp">{{ selectedAffectation.value.Tsp.Nom }}</option>
+                  <select id="TspSelect" class="form-select" dmx-bind:options="getNonAffecte.data.query" optiontext="nom" optionvalue="id_tsp" name="tsp_id" dmx-bind:value="selectedAffectation.value.id_tsp">
+                    <option selected="" dmx-bind:value="{{ selectedAffectation.value.id_tsp }}">{{ selectedAffectation.value.tspnom }}</option>
                     <option value="">Enlever l'appareil</option>
                   </select>
                 </div>
@@ -136,10 +142,8 @@
               <div class="form-group mb-3 row">
                 <label for="input1" class="col-sm-2 col-form-label">Modifier la carte sim</label>
                 <div class="col-sm-10">
-                  <select id="simSelect" class="form-select mb-5" dmx-bind:options="simNonAffecteList.data" optiontext="NumTel" optionvalue="IdSim" name="SimMobileId">
-                    <option selected="" value="null">
-                      {{ selectedAffectation.value.SimMobile.NumTel }}
-                    </option>
+                  <select id="simSelect" class="form-select mb-5" dmx-bind:options="getAvailableSim.data.getAvailableSim" optiontext="num_tel" optionvalue="id_sim" name="sim_mobile_id">
+                    <option selected="" dmx-bind:value="{{ selectedAffectation.value.id_sim }}">{{ selectedAffectation.value.num_tel }}</option>
                     <option value="">Enlever la carte sim</option>
                   </select>
                 </div>
@@ -175,15 +179,12 @@
       </div>
       <div class="modal-footer">
         <form is="dmx-api-form" id="apiform1" method="post" dmx-bind:action="'http://localhost:5243/api/affectationAM/deleteAffectation/'+selectedAffectation.value.IdAffect" dmx-on:success="affecationList.load({});employeNonAffecteList.load({});tspNonAffectList.load({});simNonAffecteList.load({});newAfffId.load({});notifies1.success('Affectation supprimée');deleteModal.hide()" dmx-on:error="notifies1.warning(lastError.response+lastError.message+lastError.status)" dmx-header:authorization="connectedUser.data.token" post-data="json">
-          <button type="submit" class="btn btn-danger" dmx-hide="loadingEdit.value" dmx-on:click="loadingEdit.setValue(true);loadingList.setValue(true)">
+          <button type="submit" class="btn btn-danger" dmx-on:click="deleteAffectation.load({id_affect: selectedAffectation.value.id_affect},true)">
             Supprimer
-          </button>
+            <span class="spinner-border spinner-border-sm" role="status" dmx-show="deleteAffectation.state.executing"></span></button>
         </form>
-        <button id="deleteloading" class="btn" dmx-show="apiform1.state.executing">
-          <span class="spinner-border spinner-border-sm" role="status"></span>
-        </button>
 
-        <button type="button" data-bs-dismiss="modal" class="btn btn-info" dmx-hide="loadingEdit.value">
+        <button type="button" data-bs-dismiss="modal" class="btn btn-info">
           Annuler
         </button>
       </div>
@@ -196,16 +197,6 @@
 <div is="dmx-browser" id="browser1"></div>
 <dmx-value id="selectedAffectation"></dmx-value>
 <dmx-value id="sectionId" dmx-bind:value="0"></dmx-value>
-<dmx-api-datasource id="availableAccessories" is="dmx-fetch" url="http://localhost:5243/api/accessoire/availableAccessories" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
-<dmx-api-action id="updateAffectation" noload="true" method="post" url="http://localhost:5243/api/accessoire/affectationAccessoire" dmx-data:ids="selectedAccessories.items" dmx-header:authorization="connectedUser.data.token" dmx-data:idtsp="selectedAffectation.value.Tsp.IdTsp" dmx-data:idemploye="selectedAffectation.value.Employe.Matricule" dmx-data:usercrea="connectedUser.data.matricule" dmx-data:datecrea="date.datetime" dmx-on:success="notifies1.success('Affectation des accessoires mise à jours');existingAccessories.load({});availableAccessories.load({});editAccessoire.input1.select(false)" dmx-on:error="notifies1.danger(lastError.message)"></dmx-api-action>
-<dmx-api-action id="deleteApi" noload="true" method="delete" data-type="json" dmx-data:id="selectedAffectation.value.IdAffect" dmx-on:success="affecationList.load({});tspNonAffectList.load({});simNonAffecteList.load({});selectedAffectation.setValue(null);affecationList.load({});loadingEdit.setValue(false);deleteModal.hide()" dmx-bind:url="'http://localhost:5243/api/affectationAM/'+selectedAffectation.value.IdAffect" dmx-header:authorization="connectedUser.data.token" dmx-on:done="affecationList.load({});newAfffId.load({});simNonAffecteList.load({});tspNonAffectList.load({});employeNonAffecteList.load({});deleteModal.hide();loadingEdit.setValue(false);notifies1.info(lastError.status+lastError.message)"></dmx-api-action>
-<dmx-api-datasource id="existingAccessories" is="dmx-fetch" url="http://localhost:5243/api/accessoire/affectationByIdTsp" dmx-header:authorization="connectedUser.data.token" dmx-param:id="selectedAffectation.value.Tsp.IdTsp"></dmx-api-datasource>
-<dmx-api-datasource id="newAfffId" is="dmx-fetch"></dmx-api-datasource>
-<dmx-api-datasource id="sectionsList" is="dmx-fetch" url="http://localhost:5243/api/tableValeur/newAffectation"></dmx-api-datasource>
-<dmx-api-datasource id="simNonAffecteList" is="dmx-fetch" url="http://localhost:5243/api/simMobile/simNonAffecte" dmx-header:authorization="connectedUser.data.token" dmx-on:start="loadingSim.setValue(true)" dmx-on:done="loadingSim.setValue(false)"></dmx-api-datasource>
-<dmx-api-datasource id="tspNonAffectList" is="dmx-fetch" url="http://localhost:5243/api/tsp/nonAffecte/all" dmx-header:authorization="connectedUser.data.token" dmx-on:start="loadingTsp.setValue(true)" dmx-on:done="loadingTsp.setValue(false)"></dmx-api-datasource>
-<dmx-api-datasource id="employeNonAffecteList" is="dmx-fetch" dmx-header:authorization="connectedUser.data.token" dmx-on:start="loadingEmp.setValue(true)" dmx-on:done="loadingEmp.setValue(false)" dmx-param:section="sectionId.value" url="http://localhost:5243/api/employe/nonAffecte"></dmx-api-datasource>
-<dmx-api-datasource id="affecationList" is="dmx-fetch" url="http://localhost:5243/api/affectationAM/firstLoad" dmx-header:authorization="connectedUser.data.token" dmx-on:unauthorized="browser1.goto('/auth/login');connectedUser.removeAll()" dmx-on:success="loadingList.setValue(false)" dmx-on:error="notifies1.warning('Une erreur est survenue, veuillez rafraichir la page');loadingList.setValue(false)"></dmx-api-datasource>
 
 <meta name="ac:route" content="/views/affectations/affectationTsp" />
 
@@ -241,8 +232,8 @@
               </thead>
               <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="dataViewAffectation.data" id="tableRepeat1">
                 <tr dmx-class:clicked="selectedAffectation.value.IdAffect==IdAffect" dmx-on:click="selectedAffectation.setValue($value)">
-                  <td>{{IdAffect}}</td>
-                  <td>{{Employe.Nom}}</td>
+                  <td>{{id_affect}}</td>
+                  <td>{{nom}}</td>
                 </tr>
               </tbody>
             </table>
@@ -263,7 +254,7 @@
             <li class="page-item" dmx-class:disabled="dataViewAffectation.page == dataViewAffectation.pages" aria-label="Last">
               <a href="javascript:void(0)" class="page-link" dmx-on:click="dataViewAffectation.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
             </li>
-          </ul><button id="addAffect" class="btn btn-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#newAffect">Ajouter
+          </ul><button id="addAffect" class="btn btn-primary btn-sm w-100 visually-hidden" data-bs-toggle="modal" data-bs-target="#newAffect">Ajouter
             <i class="fa fa-plus"></i>
           </button>
         </div>
@@ -288,25 +279,25 @@
               <div class="card">
                 <div class="card-body">
                   <div class="d-flex flex-row justify-content-between mb-1">
-                    <h5 class="heading-text">Details de l'agent</h5>
+                    <h5 class="heading-text"><i class="fa fa-user"></i>Details de l'agent</h5>
                   </div>
-                  <div class="d-flex justify-content-around align-items-center" dmx-hide="!selectedAffectation.value">
-                    <i class="fa fa-user fa-4x"></i>
+                  <div class="d-flex align-items-center justify-content-start" dmx-hide="!selectedAffectation.value">
+
                     <dl>
                       <dt>Nom</dt>
-                      <dd>{{selectedAffectation.value.Employe.Nom}}</dd>
+                      <dd>{{selectedAffectation.value.nom}}</dd>
 
 
 
                       <dt>Matricule</dt>
-                      <dd>{{selectedAffectation.value.Employe.Matricule}}</dd>
+                      <dd>{{selectedAffectation.value.matricule}}</dd>
                       <dt>Equipe</dt>
-                      <dd>{{selectedAffectation.value.Employe.Equipe}}</dd>
+                      <dd>{{selectedAffectation.value.equipe}}</dd>
                       <dt>Date d'affectation</dt>
 
-                      <dd>{{selectedAffectation.value.DateCreation}}</dd>
+                      <dd>{{selectedAffectation.value.affdatecrea}}</dd>
                       <dt>Affecté par</dt>
-                      <dd>{{selectedAffectation.value.UserCrea.Nom}}</dd>
+                      <dd>{{selectedAffectation.value.affectedby}}</dd>
 
                     </dl>
                   </div>
@@ -320,40 +311,33 @@
               <div class="card app-col">
                 <div class="card-body">
                   <div class="d-flex flex-row justify-content-between mb-1">
-                    <h5 class="heading-text">Details de l'appareil</h5>
+                    <h5 class="heading-text"><i class="fa fa-mobile"></i>Details de l'appareil</h5>
+
                   </div>
                   <div class="d-flex justify-content-center" dmx-hide="selectedAffectation.value">
                     <small class="text-muted">Aucune donnée</small>
                   </div>
-                  <div class="d-flex flex-row align-items-start justify-content-around" style="" dmx-hide="!selectedAffectation.value.Tsp">
+                  <div class="d-flex flex-row align-items-start justify-content-around" style="" dmx-hide="!selectedAffectation.value.tspnom">
                     <div class="d-flex flex-column align-items-center justify-content-start">
                       <h6>{{ selectedAffectation.value.ModelTsp.Nom }}</h6>
-                      <a><img class="img-fluid app-img" dmx-bind:src="selectedAffectation.value.ModelTsp.Img?'data:image/jpeg;base64,'+selectedAffectation.value.ModelTsp.Img:'/assets/mobile.png'" width="100"></a>
+                      <a> <img dmx-bind:src="'/assets/images/'+selectedAffectation.value.modele_id+'.jpg'" class="img-fluid app-img" width="150"></a>
                     </div>
 
                     <dl>
                       <dt>Nom</dt>
-                      <dd>{{ selectedAffectation.value.Tsp.Nom }}</dd>
+                      <dd>{{ selectedAffectation.value.tspnom }}</dd>
                       <dt>Identifiant</dt>
-                      <dd>{{ selectedAffectation.value.Tsp.IdTsp }}</dd>
+                      <dd>{{ selectedAffectation.value.id_tsp }}</dd>
                       <dt>Description</dt>
-                      <dd>{{ selectedAffectation.value.Tsp.Description }}</dd>
+                      <dd>{{ selectedAffectation.value.description }}</dd>
                     </dl>
                     <dl>
                       <dt>Numéro de Serie</dt>
-                      <dd>{{ selectedAffectation.value.Tsp.NumSerie }}</dd>
+                      <dd>{{ selectedAffectation.value.num_serie }}</dd>
                       <dt>Année de production</dt>
-                      <dd>{{ selectedAffectation.value.Tsp.CodeTsp }}</dd>
+                      <dd>{{ selectedAffectation.value.annee_production }}</dd>
                       <dt>Date d'achat</dt>
-                      <dd>{{ selectedAffectation.value.Tsp.Description }}</dd>
-                    </dl>
-                    <dl>
-                      <dt>Date de mise en service</dt>
-                      <dd>{{ selectedAffectation.value.Tsp.NumSerie }}</dd>
-                      <dt>Agent actuelle</dt>
-                      <dd>{{ selectedAffectation.value.Tsp.CodeTsp }}</dd>
-                      <dt>Date d'achat</dt>
-                      <dd>{{ selectedAffectation.value.Tsp.Description }}</dd>
+                      <dd>{{ selectedAffectation.value.date_achat }}</dd>
                     </dl>
                   </div>
 
@@ -364,30 +348,22 @@
               <div class="card app-col">
                 <div class="card-body">
                   <div class="d-flex flex-row justify-content-between mb-1">
-                    <h5 class="heading-text">Details de la carte sim</h5>
+                    <h5 class="heading-text"><i class="fa fa-address-card"></i>Details de la carte sim</h5>
+
 
                   </div>
-                  <div class="d-flex justify-content-between flex-row" style="" dmx-hide="!selectedAffectation.value">
-                    <div class="d-flex flex-column align-items-center justify-content-around">
-                      <a><img class="img-fluid app-img" src="/assets/sim-card.png"></a>
-                    </div>
+                  <div class="d-flex justify-content-between flex-row" style="" dmx-show="selectedAffectation.value.id_sim!=null">
 
                     <dl>
                       <dt>Numéro</dt>
-                      <dd>{{ selectedAffectation.value.SimMobile.NumTel }}</dd>
+                      <dd>{{selectedAffectation.value.num_tel}}</dd>
                       <dt>Pin</dt>
-                      <dd>{{ selectedAffectation.value.SimMobile.Pin }}</dd>
+                      <dd>{{ selectedAffectation.value.pin }}</dd>
                       <dt>Puk</dt>
-                      <dd>{{ selectedAffectation.value.SimMobile.Puk }}</dd>
-                    </dl>
-                    <dl>
-                      <dt>Date d'achat</dt>
-                      <dd>{{selectedAffectation.value.SimMobile.DateAchat}}</dd>
-                      <dt>Date de mise en service</dt>
-                      <dd>XXXXX</dd>
+                      <dd>{{ selectedAffectation.value.puk }}</dd>
                     </dl>
                   </div>
-                  <div class="d-flex justify-content-center" dmx-hide="selectedAffectation.value">
+                  <div class="d-flex justify-content-center" dmx-show="selectedAffectation.value.id_sim==null">
                     <small class="text-muted">Aucune donnée</small>
                   </div>
                 </div>
